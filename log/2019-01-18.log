@@ -1,0 +1,16 @@
+2019-01-18 14:16:12,909 - 192.168.1.122 - ASINGH   [INFO] --> [RegSmart] RegSmart Started
+2019-01-18 14:16:39,239 - 192.168.1.122 - ASINGH   [INFO] --> [RegSmart] RegSmart Started
+2019-01-18 14:16:39,248 - 192.168.1.122 - ASINGH   [ERROR] --> [RegSmart] An error occurred
+NoneType: None
+2019-01-18 14:18:29,239 - 192.168.1.122 - ASINGH   [INFO] --> [RegSmart] RegSmart Started
+2019-01-18 14:18:29,240 - 192.168.1.122 - ASINGH   [ERROR] --> [RegSmart] An error occurred
+NoneType: None
+2019-01-18 14:21:25,655 - 192.168.1.122 - Avinash  [INFO] --> [RegSmart] RegSmart Started
+2019-01-18 14:21:25,655 - 192.168.1.122 - Avinash  [ERROR] --> [RegSmart] An error occurred
+NoneType: None
+2019-01-18 14:23:22,493 - 192.168.1.122 - Avinash  [INFO] --> [RegSmart] RegSmart Started
+2019-01-18 14:23:22,493 - 192.168.1.122 - Avinash  [ERROR] --> [RegSmart] An error occurred
+NoneType: None
+2019-01-18 14:23:23,276 - 192.168.1.122 - Avinash  [INFO] --> [RegSmart] RegSmart Started
+2019-01-18 14:23:23,277 - 192.168.1.122 - Avinash  [ERROR] --> [RegSmart] An error occurred
+NoneType: None

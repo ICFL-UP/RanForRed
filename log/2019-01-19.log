@@ -1,0 +1,256 @@
+2019-01-19 19:38:22,431 - 192.168.1.122 - Avinash  [INFO] --> W2RC Started
+2019-01-19 19:38:22,437 - 192.168.1.122 - Avinash  [DEBUG] --> ['WHITELIST', 'FAILED', 'BLACKLIST', 'SEEN']
+2019-01-19 19:38:22,437 - 192.168.1.122 - Avinash  [DEBUG] --> ['977d221d44b1d3fa82a5c0b0f5f6fbd9', '26f910ede6f0b79f1cb30f7dd3b96cba', '57dcc90d201e5f5e1c028afd6be43e5e', '9166456dcf543b6561ac973ac2169731']
+2019-01-19 19:38:22,437 - 192.168.1.122 - Avinash  [INFO] --> Successfully loaded databases
+2019-01-19 19:38:23,276 - 192.168.1.122 - Avinash  [INFO] --> W2RC Started
+2019-01-19 19:38:23,288 - 192.168.1.122 - Avinash  [DEBUG] --> ['WHITELIST', 'FAILED', 'BLACKLIST', 'SEEN']
+2019-01-19 19:38:23,289 - 192.168.1.122 - Avinash  [DEBUG] --> ['977d221d44b1d3fa82a5c0b0f5f6fbd9', '26f910ede6f0b79f1cb30f7dd3b96cba', '57dcc90d201e5f5e1c028afd6be43e5e', '9166456dcf543b6561ac973ac2169731']
+2019-01-19 19:38:23,289 - 192.168.1.122 - Avinash  [INFO] --> Successfully loaded databases
+2019-01-19 19:38:23,307 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:23,308 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:23,366 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,352 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,471 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,499 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,508 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,525 - 192.168.1.122 - Avinash  [DEBUG] --> {'pid': 13696, 'name': 'filezilla.exe', 'hash': 3715882122185763731, 'time': datetime.datetime(2019, 1, 19, 19, 38, 24, 525131)}
+2019-01-19 19:38:24,525 - 192.168.1.122 - Avinash  [DEBUG] --> ['C:\\Program Files\\FileZilla FTP Client\\filezilla.exe']
+2019-01-19 19:38:24,526 - 192.168.1.122 - Avinash  [INFO] --> Sending to cuckoo
+2019-01-19 19:38:24,526 - 192.168.1.122 - Avinash  [DEBUG] --> {'files': [('files', <_io.BufferedReader name='C:\\Program Files\\FileZilla FTP Client\\filezilla.exe'>)], 'args': []}
+2019-01-19 19:38:24,526 - 192.168.1.122 - Avinash  [INFO] --> 
+
+
+Suspended -> filezilla.exe [3715882122185763731]
+2019-01-19 19:38:24,526 - 192.168.1.122 - Avinash  [INFO] --> Sending data to cuckoo analysis machine
+2019-01-19 19:38:24,549 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,559 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,560 - 192.168.1.122 - Avinash  [DEBUG] --> {'pid': 15156, 'name': 'fzsftp.exe', 'hash': 3717876658710719131, 'time': datetime.datetime(2019, 1, 19, 19, 38, 24, 560039)}
+2019-01-19 19:38:24,561 - 192.168.1.122 - Avinash  [DEBUG] --> ['C:\\Program Files\\FileZilla FTP Client\\fzsftp.exe', '-v']
+2019-01-19 19:38:24,562 - 192.168.1.122 - Avinash  [INFO] --> Sending to cuckoo
+2019-01-19 19:38:24,563 - 192.168.1.122 - Avinash  [DEBUG] --> {'files': [('files', <_io.BufferedReader name='C:\\Program Files\\FileZilla FTP Client\\fzsftp.exe'>)], 'args': ['-v']}
+2019-01-19 19:38:24,598 - 192.168.1.122 - Avinash  [DEBUG] --> {'pid': 16536, 'name': 'jucheck.exe', 'hash': 3694226438028747506, 'time': datetime.datetime(2019, 1, 19, 19, 38, 24, 597956)}
+2019-01-19 19:38:24,611 - 192.168.1.122 - Avinash  [INFO] --> 
+
+
+Suspended -> fzsftp.exe [3717876658710719131]
+2019-01-19 19:38:24,611 - 192.168.1.122 - Avinash  [DEBUG] --> ['C:\\Program Files (x86)\\Common Files\\Java\\Java Update\\jucheck.exe', '-auto', '-scheduled']
+2019-01-19 19:38:24,611 - 192.168.1.122 - Avinash  [INFO] --> Sending data to cuckoo analysis machine
+2019-01-19 19:38:24,612 - 192.168.1.122 - Avinash  [INFO] --> Sending to cuckoo
+2019-01-19 19:38:24,613 - 192.168.1.122 - Avinash  [DEBUG] --> {'files': [('files', <_io.BufferedReader name='C:\\Program Files (x86)\\Common Files\\Java\\Java Update\\jucheck.exe'>)], 'args': ['-auto', '-scheduled']}
+2019-01-19 19:38:24,614 - 192.168.1.122 - Avinash  [INFO] --> 
+
+
+Suspended -> jucheck.exe [3694226438028747506]
+2019-01-19 19:38:24,628 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,637 - 192.168.1.122 - Avinash  [INFO] --> Sending data to cuckoo analysis machine
+2019-01-19 19:38:24,646 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,656 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,691 - 192.168.1.122 - Avinash  [DEBUG] --> {'pid': 18612, 'name': 'OpenWith.exe', 'hash': 3696712517180579456, 'time': datetime.datetime(2019, 1, 19, 19, 38, 24, 691721)}
+2019-01-19 19:38:24,702 - 192.168.1.122 - Avinash  [DEBUG] --> ['C:\\WINDOWS\\system32\\OpenWith.exe', '-Embedding']
+2019-01-19 19:38:24,702 - 192.168.1.122 - Avinash  [INFO] --> Sending to cuckoo
+2019-01-19 19:38:24,702 - 192.168.1.122 - Avinash  [DEBUG] --> {'files': [('files', <_io.BufferedReader name='C:\\WINDOWS\\system32\\OpenWith.exe'>)], 'args': ['-Embedding']}
+2019-01-19 19:38:24,702 - 192.168.1.122 - Avinash  [INFO] --> 
+
+
+Suspended -> OpenWith.exe [3696712517180579456]
+2019-01-19 19:38:24,703 - 192.168.1.122 - Avinash  [INFO] --> Sending data to cuckoo analysis machine
+2019-01-19 19:38:24,715 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,734 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,743 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,753 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,762 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,771 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,779 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:24,787 - 192.168.1.122 - Avinash  [INFO] --> Trying to add entry to failed list
+2019-01-19 19:38:45,628 - 192.168.1.122 - Avinash  [ERROR] --> ERROR!!! 	 Analysis machine is not online
+2019-01-19 19:38:45,628 - 192.168.1.122 - Avinash  [ERROR] --> Resume the process at your own risk.
+2019-01-19 19:38:45,647 - 192.168.1.122 - Avinash  [ERROR] --> ERROR!!! 	 Analysis machine is not online
+2019-01-19 19:38:45,647 - 192.168.1.122 - Avinash  [ERROR] --> Resume the process at your own risk.
+2019-01-19 19:38:45,723 - 192.168.1.122 - Avinash  [ERROR] --> ERROR!!! 	 Analysis machine is not online
+2019-01-19 19:38:45,723 - 192.168.1.122 - Avinash  [ERROR] --> Resume the process at your own risk.
+2019-01-19 19:38:45,741 - 192.168.1.122 - Avinash  [ERROR] --> ERROR!!! 	 Analysis machine is not online
+2019-01-19 19:38:45,741 - 192.168.1.122 - Avinash  [ERROR] --> Resume the process at your own risk.
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> MicrosoftEdgeCP.exe [3721964159670759331]
+INFO:__main__:Sending data to cuckoo analysis machine
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> MicrosoftEdge.exe [3691559193401337006]
+INFO:__main__:Sending data to cuckoo analysis machine
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> browser_broker.exe [3691896717799570231]
+INFO:__main__:Sending data to cuckoo analysis machine
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+ERROR:__main__:Resume the process at your own risk.
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> NvOAWrapperCache.exe [3716643912257731631]
+INFO:__main__:Sending data to cuckoo analysis machine
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> runnerw64.exe [3714601722216931056]
+INFO:__main__:Sending data to cuckoo analysis machine
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+INFO:__main__:Trying to add entry to failed list
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+INFO:__main__:Trying to add entry to failed list, SearchProtocolHost.exe
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> Taskmgr.exe [3722138473828292481]
+INFO:__main__:Sending data to cuckoo analysis machine
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> Taskmgr.exe [3722138473828292481]
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+INFO:__main__:Sending data to cuckoo analysis machine
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+INFO:__main__:Trying to add entry to failed list, SearchProtocolHost.exe
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Trying to add entry to failed list, SearchProtocolHost.exe
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Trying to add entry to failed list, SearchProtocolHost.exe
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+INFO:__main__:Trying to add entry to failed list, WmiPrvSE.exe
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+INFO:__main__:Sending to cuckoo
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> gitkraken.exe [3694200588859190281]
+INFO:__main__:
+
+
+Suspended -> gitkraken.exe [3694200588859190281]
+INFO:__main__:Sending to cuckoo
+INFO:__main__:Sending data to cuckoo analysis machine
+INFO:__main__:Sending to cuckoo
+INFO:__main__:Sending data to cuckoo analysis machine
+INFO:__main__:
+
+
+Suspended -> Update.exe [3692646754917098581]
+INFO:__main__:Sending data to cuckoo analysis machine
+INFO:__main__:
+
+
+Suspended -> gitkraken.exe [3694200588859190281]
+INFO:__main__:Sending data to cuckoo analysis machine
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:Resume the process at your own risk.

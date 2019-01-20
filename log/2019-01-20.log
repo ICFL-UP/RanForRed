@@ -1,0 +1,105 @@
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Trying to add entry to failed list, dllhost.exe
+INFO:__main__:Trying to add entry to failed list, conhost.exe
+INFO:__main__:Trying to add entry to failed list, openvpn-nordvpn.exe
+INFO:__main__:Trying to add entry to failed list, WmiPrvSE.exe
+INFO:__main__:Trying to add entry to failed list, SearchProtocolHost.exe
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Trying to add entry to failed list, DropboxUpdate.exe
+ERROR:__main__:
+Traceback (most recent call last):
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 636, in wrapper
+    return fun(self, *args, **kwargs)
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 702, in exe
+    return py2_strencode(convert_dos_path(cext.proc_exe(self.pid)))
+PermissionError: [WinError 5] Access is denied
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\DigiForS\venv\lib\site-packages\psutil\__init__.py", line 646, in exe
+    exe = self._proc.exe()
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 639, in wrapper
+    raise AccessDenied(self.pid, self._name)
+psutil._exceptions.AccessDenied: psutil.AccessDenied (pid=16828, name='DropboxUpdate.exe')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 636, in wrapper
+    return fun(self, *args, **kwargs)
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 706, in cmdline
+    ret = cext.proc_cmdline(self.pid)
+PermissionError: [WinError 5] Access is denied
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:/UP_2017_CS_M_Y1/DF-Research/M/Tool/W2RC/w2rc.py", line 299, in monitor
+    if p.exe() not in SEEN_DB:
+  File "F:\DigiForS\venv\lib\site-packages\psutil\__init__.py", line 648, in exe
+    return guess_it(fallback=err)
+  File "F:\DigiForS\venv\lib\site-packages\psutil\__init__.py", line 630, in guess_it
+    cmdline = self.cmdline()
+  File "F:\DigiForS\venv\lib\site-packages\psutil\__init__.py", line 663, in cmdline
+    return self._proc.cmdline()
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 639, in wrapper
+    raise AccessDenied(self.pid, self._name)
+psutil._exceptions.AccessDenied: psutil.AccessDenied (pid=16828, name='DropboxUpdate.exe')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 636, in wrapper
+    return fun(self, *args, **kwargs)
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 706, in cmdline
+    ret = cext.proc_cmdline(self.pid)
+PermissionError: [WinError 5] Access is denied
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:/UP_2017_CS_M_Y1/DF-Research/M/Tool/W2RC/w2rc.py", line 328, in monitor
+    log.info(p.cmdline(), extra=CONFIG)
+  File "F:\DigiForS\venv\lib\site-packages\psutil\__init__.py", line 663, in cmdline
+    return self._proc.cmdline()
+  File "F:\DigiForS\venv\lib\site-packages\psutil\_pswindows.py", line 639, in wrapper
+    raise AccessDenied(self.pid, self._name)
+psutil._exceptions.AccessDenied: psutil.AccessDenied (pid=16828, name='DropboxUpdate.exe')
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Shutting down the monitor. Please wait...
+INFO:__main__:W2RC Started
+INFO:__main__:W2RC Started
+INFO:__main__:Successfully loaded databases
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+INFO:__main__:Trying to add entry to failed list, SearchProtocolHost.exe
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+INFO:__main__:Sending to cuckoo
+INFO:__main__:
+
+
+Suspended -> HP.Smart.exe [3710364155411459481]
+INFO:__main__:Sending to cuckoo
+INFO:__main__:Sending data to cuckoo analysis machine
+INFO:__main__:
+
+
+Suspended -> HP.Smart.exe [3710364155411459481]
+INFO:__main__:Sending data to cuckoo analysis machine
+INFO:__main__:Trying to add entry to failed list, svchost.exe
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+ERROR:__main__:ERROR!!! 	 Analysis machine is not online
+INFO:__main__:Trying to add entry to failed list, SearchProtocolHost.exe
+ERROR:__main__:Resume the process at your own risk.
+ERROR:__main__:Resume the process at your own risk.
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.1.124:8090
