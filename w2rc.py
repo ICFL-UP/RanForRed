@@ -61,6 +61,7 @@ log.info('W2RC Started', extra=CONFIG)
 
 
 def welcome():
+
     print("\n\n=======================================================\n")
     print("\t  ██╗    ██╗██████╗ ██████╗  ██████╗")
     print("\t  ██║    ██║╚════██╗██╔══██╗██╔════╝")
@@ -70,7 +71,7 @@ def welcome():
     print("\t   ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝")
     print("\n\t  Windows Registry and RAM Collector\n\t\t\t\t     -BY AVINASH SINGH")
     print("\n=======================================================\n")
-    print("\nMonitor now running press <CTRL> C  to stop monitoring.")
+    print("\nMonitor now running press <CTRL> C twice to stop monitoring safely.\n\n")
 
     # log.error('[RegSmart] An error occurred', exc_info=True, extra=CONFIG)
 
@@ -119,7 +120,7 @@ def gen_safe_db():
     for ps in procList:
         try:
             p = psutil.Process(ps)
-            entry = {'pid': ps, 'name': p.name(), 'hash': p.__hash__(), 'time': datetime.datetime.now()}
+            entry = {'pid': ps, 'name': p.name(), 'hash': p.__hash__(), 'time': datetime.datetime.now(), 'exe': p.exe()}
             WHITELIST_DB.append(entry)
         except Exception as e:
             failed += 1
@@ -285,40 +286,45 @@ def monitor():
     while True:
         for p in psutil.process_iter():
             try:
+                if not any(d['name'] == p.name() for d in FAILED_DB):
+                    entry = {'pid': p.pid, 'name': p.name(), 'hash': p.__hash__(), 'time': datetime.datetime.now(),
+                             'exe': p.exe()}
 
-                entry = {'pid': p.pid, 'name': p.name(), 'hash': p.__hash__(), 'time': datetime.datetime.now()}
+                    if any(d['hash'] == entry['hash'] for d in BLACKLIST_DB) or \
+                            any(d['exe'] == entry['exe'] for d in BLACKLIST_DB):
+                        log.warning("DANGER !!!!!! " + p.name() +
+                                    " has been blacklisted and the process has been killed.",  extra=CONFIG)
+                        p.suspend()
+                        # p.kill()
+                        break
 
-                if any(d['hash'] == entry['hash'] for d in BLACKLIST_DB):
-                    log.warning("DANGER !!!!!! " + p.name() + " has been blacklisted and "
-                                                                  "the process has been killed.",  extra=CONFIG)
-                    p.suspend()
-                    # p.kill()
+                    if not any(d['hash'] == entry['hash'] for d in WHITELIST_DB) or not \
+                            any(d['exe'] == entry['exe'] for d in WHITELIST_DB):
+                        if not any(d['hash'] == entry['hash'] for d in FAILED_DB) or not \
+                                any(d['exe'] == entry['exe'] for d in FAILED_DB):
+                            if p.exe() not in SEEN_DB:
+                                if p.exe() not in BLACKLIST_DB:
+                                    log.debug(entry, extra=CONFIG)
+                                    log.debug(p.cmdline(), extra=CONFIG)
 
-                if not any(d['hash'] == entry['hash'] for d in WHITELIST_DB):
-                    if not any(d['hash'] == entry['hash'] for d in FAILED_DB):
-                        if p.exe() not in SEEN_DB:
-                            if p.exe() not in BLACKLIST_DB:
-                                log.debug(entry, extra=CONFIG)
-                                log.debug(p.cmdline(), extra=CONFIG)
+                                    data = {}
+                                    cmdline = p.cmdline()
+                                    files = []
+                                    for c in cmdline:
+                                        if "\\" in c:
+                                            try:
+                                                files.append(("files", open(c, "rb")))
+                                            except Exception:
+                                                continue
+                                    data['files'] = files
+                                    data['args'] = cmdline[1:]
+                                    # if p.name() == "WINWORD.EXE" or p.name() == "sublime_text.exe":
+                                    log.info("Sending to cuckoo", extra=CONFIG)
 
-                                data = {}
-                                cmdline = p.cmdline()
-                                files = []
-                                for c in cmdline:
-                                    if "\\" in c:
-                                        try:
-                                            files.append(("files", open(c, "rb")))
-                                        except Exception:
-                                            continue
-                                data['files'] = files
-                                data['args'] = cmdline[1:]
-                                # if p.name() == "WINWORD.EXE" or p.name() == "sublime_text.exe":
-                                log.info("Sending to cuckoo", extra=CONFIG)
-
-                                path_list.append(p.exe())
-                                SEEN_DB.append(p.exe())
-                                update_state()
-                                threading.Thread(target=send_cuckoo, args=(p, data,)).start()
+                                    path_list.append(p.exe())
+                                    SEEN_DB.append(p.exe())
+                                    update_state()
+                                    threading.Thread(target=send_cuckoo, args=(p, data,)).start()
 
             except Exception as e:
                 try:
@@ -332,6 +338,9 @@ def monitor():
 
 
 def send_cuckoo(proc, data):
+    root = tkinter.Tk()
+    root.withdraw()
+
     log.debug(data, extra=CONFIG)
     # proc.suspend()
     log.info("\n\n\nSuspended -> " + proc.name() + " [" + str(proc.__hash__()) + "]", extra=CONFIG)
@@ -353,7 +362,8 @@ def send_cuckoo(proc, data):
 
     try:
         r = requests.post(IP+"/tasks/create/submit", files=data['files'],
-                      headers=HEADERS, data={"timeout": 15, "owner": OWNER_ID, "options": {"arguments": data["args"]}})
+                      headers=HEADERS, data={"timeout": 15, "owner": OWNER_ID, "unique": True,
+                                             "options": {"arguments": data["args"]}})
     except Exception as e:
         log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
         log.error("Resume the process at your own risk.", extra=CONFIG)
@@ -502,25 +512,29 @@ def execute():
         print('[+] W2RC is running with administrative privileges!')
 
     welcome()
+
     load_safe_db()
+    # gen_safe_db()
 
+    # gen_safe_db()
+    # print_db(BLACKLIST_DB_PATH, BLACKLIST_DB)
+    # load_safe_db()
+    # rm_safe_db()
+    # add_safe_process(4872)
+    # print_safe_db()
+    # rm_safe_process(1020)
+    # print_safe_db()
+
+    # t = threading.Thread(target=monitor)
+    # t.setDaemon(True)
+    # t.start()
+    signal.signal(signal.SIGINT, safe_quit)
     while True:
-        # gen_safe_db()
-        # print_db(BLACKLIST_DB_PATH, BLACKLIST_DB)
-        # load_safe_db()
-        # rm_safe_db()
-        # add_safe_process(4872)
-        # print_safe_db()
-        # rm_safe_process(1020)
-        # print_safe_db()
-        t = threading.Thread(target=monitor)
-        t.setDaemon(True)
-        t.start()
-
-        signal.signal(signal.SIGINT, safe_quit)
+        monitor()
 
 
 if __name__ == '__main__':
+    os.system('mode 55,40')
     execute()
 
 
