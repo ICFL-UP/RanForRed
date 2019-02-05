@@ -5,7 +5,8 @@ import psutil
 import datetime
 import subprocess
 import time
-
+import signal
+import sys
 
 dblist = ["WHITELIST", "BLACKLIST", "SEEN", "FAILED"]
 
@@ -125,7 +126,8 @@ def welcome():
     print("\t  ██║███╗██║██╔═══╝ ██╔══██╗██║")
     print("\t  ╚███╔███╔╝███████╗██║  ██║╚██████╗")
     print("\t   ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝")
-    print("\n\t  Windows Registry and RAM Collector\n\t\t\t\t     -BY AVINASH SINGH")
+    print("\n\t  Windows Registry and RAM Collector\n\tDatabase Manager\n"
+          "\t\t\t     -BY AVINASH SINGH")
     print("\n=======================================================\n")
     print("\nDatabase management system.\n\n")
     options()
@@ -140,9 +142,15 @@ def options():
     print(str(i)+") Quit")
 
 
+def safe_quit(sig, frame):
+    print("\n\nExisting the database manager ...")
+    sys.exit(0)
+
+
 def execute():
     try:
         welcome()
+        signal.signal(signal.SIGINT, safe_quit)
         while True:
             choice = int(input("\n\nPlease enter a number: "))
             if 0 < choice < len(dblist)+1:
@@ -175,6 +183,9 @@ if __name__ == '__main__':
     from ctypes.wintypes import SMALL_RECT
     STDOUT = -11
     hdl = windll.kernel32.GetStdHandle(STDOUT)
-    rect = SMALL_RECT(0, 50, 65, 80)  # (left, top, right, bottom)
+    rect = SMALL_RECT(0, 50, 65, 90)  # (left, top, right, bottom)
     windll.kernel32.SetConsoleWindowInfo(hdl, True, byref(rect))
+    windll.kernel32.SetConsoleCursorPosition(hdl, 0)
+    print("W2RC database manager starting ...")
+
     execute()

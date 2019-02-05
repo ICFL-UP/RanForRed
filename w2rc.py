@@ -534,7 +534,14 @@ def execute():
 
 
 if __name__ == '__main__':
-    os.system('mode 55,40')
+    # os.system('mode 55,40')
+    from ctypes import windll, byref
+    from ctypes.wintypes import SMALL_RECT
+    STDOUT = -11
+    hdl = windll.kernel32.GetStdHandle(STDOUT)
+    rect = SMALL_RECT(0, 50, 65, 90)  # (left, top, right, bottom)
+    windll.kernel32.SetConsoleWindowInfo(hdl, True, byref(rect))
+    windll.kernel32.SetConsoleCursorPosition(hdl, 0)
     execute()
 
 
