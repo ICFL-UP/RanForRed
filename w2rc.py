@@ -19,9 +19,8 @@ import getpass
 
 import threading
 import time
-import struct
-import multiprocessing
-
+from tkinter import *
+from tkinter import ttk
 
 
 # Winlogbear
@@ -60,19 +59,21 @@ log.setLevel(logging.INFO)
 log = logging.LoggerAdapter(log, CONFIG)
 
 log.info('W2RC Started', extra=CONFIG)
+w2rc = ""
 
 
 def welcome():
-
-    print("\n\n=======================================================\n")
-    print("\t  ██╗    ██╗██████╗ ██████╗  ██████╗")
-    print("\t  ██║    ██║╚════██╗██╔══██╗██╔════╝")
-    print("\t  ██║ █╗ ██║ █████╔╝██████╔╝██║")
-    print("\t  ██║███╗██║██╔═══╝ ██╔══██╗██║")
-    print("\t  ╚███╔███╔╝███████╗██║  ██║╚██████╗")
-    print("\t   ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝")
-    print("\n\t  Windows Registry and RAM Collector\n\t\t\t\t     -BY AVINASH SINGH")
-    print("\n=======================================================\n")
+    global w2rc
+    w2rc = "\n\n=======================================================\n" + \
+            "\t  ██╗    ██╗██████╗ ██████╗  ██████╗\n" + \
+            "\t  ██║    ██║╚════██╗██╔══██╗██╔════╝\n" + \
+            "\t  ██║ █╗ ██║ █████╔╝██████╔╝██║\n" + \
+            "\t  ██║███╗██║██╔═══╝ ██╔══██╗██║\n" + \
+            "\t  ╚███╔███╔╝███████╗██║  ██║╚██████╗\n" + \
+            "\t   ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝\n" + \
+            "\n\t  Windows Registry and RAM Collector\n\t\t\t\t     -BY AVINASH SINGH" + \
+            "\n=======================================================\n"
+    print(w2rc)
     print("\nMonitor now running press <CTRL> C twice to stop monitoring safely.\n\n")
 
     # log.error('[RegSmart] An error occurred', exc_info=True, extra=CONFIG)
@@ -343,7 +344,8 @@ def send_cuckoo(proc, data):
     global SEEN_DB, WHITELIST_DB, BLACKLIST_DB
     log.debug(data, extra=CONFIG)
 
-    messagebox.showinfo("W3RC", "We are currently analysing " + proc.name() + " please wait. We will not take long")
+    # messagebox.showinfo("W3RC", "We are currently analysing " + proc.name() + " please wait. We will not take long")
+    log.info("")
     proc.suspend()
 
     log.info("\n\n\nSuspended -> " + proc.name() + " [" + str(proc.__hash__()) + "]", extra=CONFIG)
@@ -425,7 +427,7 @@ def send_cuckoo(proc, data):
             x = 0
             p = {"reg": 0, "reps": 0, "kd": 0, "kr": 0, "kq": 0, "kc": 0, "ko": 0, "regtime": 0.0,
                  "nf": 0, "deltac": 0.0, "ckl": 0.0, "N": x, "DM": 0.0, "AM": 0.0, "RM": 0.0, "EM": 0.0, "CAT": 0.0,
-                 "pes": 0, "Npes": 0}
+                 "pes": 0, "Npes": 0, "CATN": 4.0}
             tmpr = 0
             tmpa = 0
 
@@ -500,7 +502,7 @@ def send_cuckoo(proc, data):
                                 p["pes"] += s["entropy"]
                                 p["EM"] = p["pes"] / p["Npes"]
                         p["CAT"] = float(p["EM"])+float(p["DM"])+float(p["AM"])+float(p["RM"])
-                        p["CAT"] = (p["CAT"] / 4.0)
+                        p["CAT"] = (p["CAT"] / p["CATN"])
             except Exception:
                 log.error("Failed to calculate CAT", extra=CONFIG)
                 log.error("Resume the process at your own risk.", extra=CONFIG)
@@ -568,17 +570,104 @@ def execute():
 
 
 if __name__ == '__main__':
-    # os.system('mode 55,40')
-    root = tkinter.Tk()
-    root.withdraw()
-    from ctypes import windll, byref
-    from ctypes.wintypes import SMALL_RECT
-    STDOUT = -11
-    hdl = windll.kernel32.GetStdHandle(STDOUT)
-    rect = SMALL_RECT(0, 50, 65, 180)  # (left, top, right, bottom)
-    windll.kernel32.SetConsoleWindowInfo(hdl, True, byref(rect))
-    windll.kernel32.SetConsoleCursorPosition(hdl, 0)
-    execute()
+    welcome()
+
+    main = Tk()
+    main.title('W2RC - Windows Registry and RAM collector')
+    main.geometry('465x500')
+    rows = 0
+    main_frame = Frame(main, width=600, height=200, bg="white")
+    main_frame.grid(row=0, column=0, sticky="nsew")
+
+    photo = PhotoImage(file="data/logo.png")
+    photo.zoom(80, 80)
+    label = Label(main_frame, image=photo, bg="white")
+    label.image = photo
+    label.grid(row=0, column=0, columnspan=3, sticky="nesw")
+    # Label(main_frame, text="W2RC", font="Algerian 14 bold").grid(row=0, column=0, sticky="nesw")
+
+    Label(main_frame, text="Enter Analysis Machine IP: ",  font="Arial 10 bold")\
+        .grid(row=1, column=0, sticky="w")
+    ip = Entry(main_frame, text="192.168.1.120:8090", bd=3)
+    ip.grid(row=1, column=1, sticky="w", ipadx=10)
+    ip.insert(0, "192.168.1.120:8090")
+
+    # image = PhotoImage(file="data/img/system.png", height=50, width=50)
+    # image.zoom(50, 50)
+    b = Button(main_frame, text="Start / Stop Monitoring",  command=monitor)
+    b.grid(row=1, column=2, sticky="nsew")
+
+    while rows < 50:
+        main.rowconfigure(rows, weight=1)
+        main.columnconfigure(rows, weight=1)
+        rows += 1
+
+    # Defines and places the notebook widget
+
+    nb = ttk.Notebook(main)
+    nb.grid(row=2, column=0, columnspan=50, rowspan=49, sticky='NESW')
+
+    # Monitor
+    mon = ttk.Frame(nb)
+    nb.add(mon, text='Monitor')
+    txt_frm = Frame(mon, width=450, height=200)
+    txt_frm.grid(row=0, column=1, sticky="nsew")
+    txt_frm.grid_propagate(False)
+    txt_frm.grid_rowconfigure(0, weight=1)
+    txt_frm.grid_columnconfigure(0, weight=1)
+    tv = ttk.Treeview(txt_frm)
+    tv['columns'] = ('NAME', 'TASK', 'STATUS')
+    tv.heading("#0", text='PID')
+    tv.column('#0', minwidth=10, width=50, stretch=False)
+    tv.heading('NAME', text='Name')
+    tv.column('NAME', minwidth=10, width=250, stretch=False)
+    tv.heading('TASK', text='Task ID')
+    tv.column('TASK', minwidth=10, width=50, stretch=False)
+    tv.heading('STATUS', text='Status')
+    tv.column('STATUS', minwidth=10, width=100, stretch=False)
+
+    tv.grid(row=0, column=0, sticky="nsew")
+    scrollb = Scrollbar(txt_frm, command=tv.yview)
+    scrollb.grid(row=0, column=1, sticky='nsew')
+    tv['yscrollcommand'] = scrollb.set
+    scrollbx = Scrollbar(txt_frm, command=tv.xview, orient=HORIZONTAL)
+    scrollbx.grid(row=1, column=0, sticky='nsew')
+    tv['xscrollcommand'] = scrollbx.set
+    tv.tag_configure('submitted', background='yellow')
+    tv.tag_configure('success', background='green')
+    tv.tag_configure('failed', background='red')
+
+    ps = [1, 1]
+    for i in range(0, len(ps)):
+        tv.insert('', 'end', text=1213, values=("p.exe", 24, "Submitted"), tags=('submitted', 'simple'))
+
+    # Seen
+    seen = ttk.Frame(nb)
+    nb.add(seen, text='Seen List')
+
+    # Whitelist
+    whitelist = ttk.Frame(nb)
+    nb.add(whitelist, text='Whitelist')
+
+    # Blacklist
+    blacklist = ttk.Frame(nb)
+    nb.add(blacklist, text='Blacklist')
+
+    # Failed
+    failed = ttk.Frame(nb)
+    nb.add(failed, text='Failed List')
+
+    main.mainloop()
+    # root = tkinter.Tk()
+    # root.withdraw()
+    # from ctypes import windll, byref
+    # from ctypes.wintypes import SMALL_RECT
+    # STDOUT = -11
+    # hdl = windll.kernel32.GetStdHandle(STDOUT)
+    # rect = SMALL_RECT(0, 50, 65, 180)  # (left, top, right, bottom)
+    # windll.kernel32.SetConsoleWindowInfo(hdl, True, byref(rect))
+    # windll.kernel32.SetConsoleCursorPosition(hdl, 0)
+    # execute()
 
 
 
