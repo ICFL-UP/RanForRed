@@ -23,6 +23,7 @@ import struct
 import multiprocessing
 
 
+
 # Winlogbear
 CMD                   = r"C:\Windows\System32\cmd.exe"
 FOD_HELPER            = r'C:\Windows\System32\fodhelper.exe'
@@ -40,7 +41,8 @@ BLACKLIST_DB_PATH     = r'F:\UP_2017_CS_M_Y1\DF-Research\M\Tool\W2RC\blacklist.h
 BLACKLIST_DB          = []
 OWNER_ID              = "ASINGH"
 HEADERS               = {"Authorization": "Bearer S4MPL3"}
-IP                    = "http://192.168.1.124:8090"
+# IP                    = "http://192.168.1.127:8090"
+IP                    = "http://192.168.137.181:8090"
 CONFIG                = {"user": getpass.getuser(), "ip": "192.168.1.122"}
 
 date = dt.datetime.now()
@@ -320,9 +322,9 @@ def monitor():
                                     data['args'] = cmdline[1:]
                                     # if p.name() == "WINWORD.EXE" or p.name() == "sublime_text.exe":
                                     log.info("Sending to cuckoo", extra=CONFIG)
-
                                     path_list.append(p.exe())
                                     SEEN_DB.append(p.exe())
+
                                     update_state()
                                     threading.Thread(target=send_cuckoo, args=(p, data,)).start()
 
@@ -338,11 +340,12 @@ def monitor():
 
 
 def send_cuckoo(proc, data):
-    root = tkinter.Tk()
-    root.withdraw()
-
+    global SEEN_DB, WHITELIST_DB, BLACKLIST_DB
     log.debug(data, extra=CONFIG)
-    # proc.suspend()
+
+    messagebox.showinfo("W3RC", "We are currently analysing " + proc.name() + " please wait. We will not take long")
+    proc.suspend()
+
     log.info("\n\n\nSuspended -> " + proc.name() + " [" + str(proc.__hash__()) + "]", extra=CONFIG)
     log.info("Sending data to cuckoo analysis machine", extra=CONFIG)
 
@@ -381,6 +384,8 @@ def send_cuckoo(proc, data):
     task_id = r.json()["task_ids"][0]
     log.debug(r.json(), extra=CONFIG)
 
+    log.info(proc.name() + " job started with task ID: " + str(task_id))
+
     poll = True
     while poll:
         r = requests.get(IP+"/tasks/report/" + str(task_id))
@@ -388,10 +393,34 @@ def send_cuckoo(proc, data):
             time.sleep(5)
         else:
             poll = False
+            d = json.loads(r.content.decode('utf-8'))
             cklfil = ["crypt", "kernel", "wow", "shell", "advapi", "msvc"]
-            static = r.json()["static"]
-            data = r.json()["behavior"]["processes"]
-            summary = r.json()["behavior"]
+
+            if "static" not in d.keys():
+                log.error("Failed to perform analysis", extra=CONFIG)
+                log.error("Resume the process at your own risk.", extra=CONFIG)
+                res = messagebox.askokcancel("W2RC",
+                                             "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
+                print(res)
+                if not res:
+                    proc.resume()
+                    log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+                break
+
+            if "behaviour" not in d.keys():
+                log.error("Failed to calculate CAT", extra=CONFIG)
+                log.error("Resume the process at your own risk.", extra=CONFIG)
+                res = messagebox.askokcancel("W2RC",
+                                             "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
+                print(res)
+                if not res:
+                    proc.resume()
+                    log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+                break
+
+            static = d["static"]
+            data = d["behavior"]["processes"]
+            summary = d["behavior"]
 
             x = 0
             p = {"reg": 0, "reps": 0, "kd": 0, "kr": 0, "kq": 0, "kc": 0, "ko": 0, "regtime": 0.0,
@@ -475,18 +504,23 @@ def send_cuckoo(proc, data):
             except Exception:
                 log.error("Failed to calculate CAT", extra=CONFIG)
                 log.error("Resume the process at your own risk.", extra=CONFIG)
-                if input(
-                        "Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
+                # if input(
+                #         "Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
+                #     proc.resume()
+                #     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+                res = messagebox.askokcancel("W2RC",
+                                             "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
+                if not res:
                     proc.resume()
                     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
 
-            log.info(p["CAT"], extra=CONFIG)
+            log.info(proc.name() + " = CAT = [" + str(p["CAT"]) + "]", extra=CONFIG)
             log.debug(p, extra=CONFIG)
             if p["CAT"] > 50:
-                global BLACKLIST_DB
                 BLACKLIST_DB.append(proc.exe())
-                update_state()
-    # proc.resume()
+
+
+    proc.resume()
     log.info("Resumed -> " + proc.name(), extra=CONFIG)
 
 
@@ -535,11 +569,13 @@ def execute():
 
 if __name__ == '__main__':
     # os.system('mode 55,40')
+    root = tkinter.Tk()
+    root.withdraw()
     from ctypes import windll, byref
     from ctypes.wintypes import SMALL_RECT
     STDOUT = -11
     hdl = windll.kernel32.GetStdHandle(STDOUT)
-    rect = SMALL_RECT(0, 50, 65, 90)  # (left, top, right, bottom)
+    rect = SMALL_RECT(0, 50, 65, 180)  # (left, top, right, bottom)
     windll.kernel32.SetConsoleWindowInfo(hdl, True, byref(rect))
     windll.kernel32.SetConsoleCursorPosition(hdl, 0)
     execute()
