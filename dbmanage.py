@@ -7,6 +7,7 @@ import subprocess
 import time
 import signal
 import sys
+import ctypes
 
 dblist = ["WHITELIST", "BLACKLIST", "SEEN", "FAILED"]
 
@@ -17,6 +18,17 @@ def md5(fname):
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
+
+
+def is_running_as_admin():
+    '''
+    Checks if the script is running with administrative privileges.
+    Returns True if is running as admin, False otherwise.
+    '''
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
 
 
 def view_db(name):
@@ -52,7 +64,7 @@ def add_db(name):
         if choice == 1:
             ps = int(input("Please enter a PID: "))
             p = psutil.Process(ps)
-            entry = {'pid': ps, 'name': p.name(), 'hash': p.__hash__(), 'time': datetime.datetime.now(), 'exe': p.exe()}
+            entry = {'pid': ps, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()), 'exe': p.exe()}
             db = []
             if os.path.exists(name) and os.path.getsize(name) > 0:
                 with open(name, 'rb') as f:
@@ -73,7 +85,7 @@ def add_db(name):
                 sp = subprocess.Popen(path)
                 time.sleep(10)
                 p = psutil.Process(sp.pid)
-                entry = {'pid': sp.pid, 'name': p.name(), 'hash': p.__hash__(), 'time': datetime.datetime.now(),
+                entry = {'pid': sp.pid, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()),
                          'exe': p.exe()}
                 db = []
                 if os.path.exists(name) and os.path.getsize(name) > 0:
@@ -118,7 +130,36 @@ def rm_db(name):
             print("MD5 HASH: " + md5(name))
 
 
+def gen_db(name):
+    procList = psutil.pids()
+    failed = 0
+    db = []
+    failed_db = []
+    for ps in procList:
+        try:
+            p = psutil.Process(ps)
+            entry = {'pid': ps, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()),
+                     'exe': p.exe()}
+            db.append(entry)
+            print("\rAdding " + p.name(), end="                \t\t\t\t\t\t\t            ")
+        except Exception as e:
+            p = psutil.Process(ps)
+            failed_db.append({'pid': p.pid, 'name': p.name(), 'time': str(datetime.datetime.now())})
+            failed += 1
+    with open(name, 'wb') as f:
+        pickle.dump(db, f, pickle.HIGHEST_PROTOCOL)
+    with open("FAILED.DB", 'wb') as f:
+        pickle.dump(failed_db, f, pickle.HIGHEST_PROTOCOL)
+
+    print("\n\nTotal: " + str(len(db)))
+    print("MD5 HASH: " + md5(name))
+    print("Failed to add " + str(failed) + " entries. These can be seen in the FAILED database.")
+
+
 def welcome():
+    if not is_running_as_admin():
+        print("Please run as Administrator...\nExiting ....")
+        sys.exit(1)
     print("\n\n=======================================================\n")
     print("\t  ██╗    ██╗██████╗ ██████╗  ██████╗")
     print("\t  ██║    ██║╚════██╗██╔══██╗██╔════╝")
@@ -157,15 +198,19 @@ def execute():
                 print("1) View")
                 print("2) Add")
                 print("3) Delete")
+                if choice == 1:
+                    print("4) Generate Whitelist from running processes")
                 action = int(input("\n\nPlease enter a number: "))
 
-                if 0 < action < 4:
+                if 0 < action < 5:
                     if action == 1:
-                        view_db(dblist[choice-1]+".hash")
+                        view_db(dblist[choice-1]+".db")
                     elif action == 2:
-                        add_db(dblist[choice-1]+".hash")
+                        add_db(dblist[choice-1]+".db")
                     elif action == 3:
-                        rm_db(dblist[choice-1]+".hash")
+                        rm_db(dblist[choice-1]+".db")
+                    elif action == 4:
+                        gen_db(dblist[choice-1]+".db")
                     else:
                         print("Invalid option selected, please try again.")
             elif choice == len(dblist)+1:
@@ -179,6 +224,7 @@ def execute():
 
 
 if __name__ == '__main__':
+    os.system('cls' if os.name == 'nt' else 'clear')
     from ctypes import windll, byref
     from ctypes.wintypes import SMALL_RECT
     STDOUT = -11
