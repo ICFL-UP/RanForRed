@@ -204,6 +204,11 @@ def load_safe_db():
     log.info("Successfully loaded databases", extra=CONFIG)
 
 
+def refresh_db():
+    load_safe_db()
+    update_state()
+
+
 def update_state():
     global BLACKLIST_DB, SEEN_DB, FAILED_DB, HASHLIST
 
@@ -216,10 +221,53 @@ def update_state():
     with open(WHITELIST_DB_PATH, 'wb') as f:
         pickle.dump(WHITELIST_DB, f, pickle.HIGHEST_PROTOCOL)
 
+
+    for c in failed_tv.get_children():
+        failed_tv.delete(c)
+    i = 0
+    for d in FAILED_DB:
+        i += 1
+        failed_tv.insert('', 'end', i, text=i, values=(d["name"], d["time"]),
+                         tags=('failed', 'simple'))
+
+
+    for c in whitelist_tv.get_children():
+        whitelist_tv.delete(c)
+    i = 0
+    for d in WHITELIST_DB:
+        i += 1
+        whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
+                            tags=('success', 'simple'))
+
+
+    for c in seen_tv.get_children():
+        seen_tv.delete(c)
+    i = 0
+    for d in SEEN_DB:
+        i += 1
+        seen_tv.insert('', 'end', i, text=i,
+                       values=(d["exe"], d["CAT"] if "CAT" in d.keys() else "N/A", d["time"], d["md5"]),
+                       tags=('success', 'simple'))
+
+
+    for c in blacklist_tv.get_children():
+        blacklist_tv.delete(c)
+    i = 0
+    for d in BLACKLIST_DB:
+        i += 1
+        blacklist_tv.insert('', 'end', i, text=i,
+                            values=(d["exe"], d['CAT'] if 'CAT' in d.keys() else "N/A", d["time"], d["md5"]),
+                            tags=('black', 'simple'))
+
     HASHLIST["BLACKLIST"].set(md5(BLACKLIST_DB_PATH))
     HASHLIST["WHITELIST"].set(md5(WHITELIST_DB_PATH))
     HASHLIST["SEEN"].set(md5(SEEN_DB_PATH))
     HASHLIST["FAILED"].set(md5(FAILED_DB_PATH))
+    mon_tv.yview_moveto(1)
+    blacklist_tv.yview_moveto(1)
+    whitelist_tv.yview_moveto(1)
+    seen_tv.yview_moveto(1)
+    failed_tv.yview_moveto(1)
 
 
 def monitor():
@@ -235,10 +283,10 @@ def monitor():
         for p in psutil.process_iter():
             try:
                 if not any(d['name'] == p.name() for d in FAILED_DB):
-                    entry = {'pid': p.pid, 'name': p.name(), 'hash': p.__hash__(), 'time': datetime.datetime.now(),
-                             'exe': p.exe()}
+                    entry = {'pid': p.pid, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()),
+                         'exe': p.exe()}
 
-                    if any(d['hash'] == entry['hash'] for d in BLACKLIST_DB) or \
+                    if any(d['md5'] == entry['md5'] for d in BLACKLIST_DB) or \
                             any(d['exe'] == entry['exe'] for d in BLACKLIST_DB):
                         log.warning("DANGER !!!!!! " + p.name() +
                                     " has been blacklisted and the process has been killed.",  extra=CONFIG)
@@ -246,9 +294,9 @@ def monitor():
                         # p.kill()
                         break
 
-                    if not any(d['hash'] == entry['hash'] for d in WHITELIST_DB) or not \
+                    if not any(d['md5'] == entry['md5'] for d in WHITELIST_DB) or not \
                             any(d['exe'] == entry['exe'] for d in WHITELIST_DB):
-                        if not any(d['hash'] == entry['hash'] for d in FAILED_DB) or not \
+                        if not any(d['name'] == entry['name'] for d in FAILED_DB) or not \
                                 any(d['exe'] == entry['exe'] for d in FAILED_DB):
                             if p.exe() not in SEEN_DB:
                                 if p.exe() not in BLACKLIST_DB:
@@ -269,10 +317,12 @@ def monitor():
                                     # if p.name() == "WINWORD.EXE" or p.name() == "sublime_text.exe":
                                     log.info("Sending to cuckoo", extra=CONFIG)
                                     path_list.append(p.exe())
-                                    entry = {'pid': ps, 'name': p.name(), 'md5': md5(p.exe()),
+                                    entry = {'pid': p.pid, 'name': p.name(), 'md5': md5(p.exe()),
                                              'time': str(datetime.datetime.now()),
                                              'exe': p.exe()}
                                     SEEN_DB.append(entry)
+                                    mon_tv.insert('', 'end', entry['pid'], text=entry['pid'], values=(entry['name'], entry['time'], "N/A", "Submitted"),
+                                                  tags=('submitted', 'simple'))
 
                                     update_state()
                                     threading.Thread(target=send_cuckoo, args=(p, data,)).start()
@@ -282,10 +332,32 @@ def monitor():
                     FAILED_DB.append({'pid': p.pid, 'name': p.name(), 'time': str(datetime.datetime.now())})
                     failed += 1
                     log.info("Trying to add entry to failed list, " + p.name(), extra=CONFIG)
+                    # failed_tv.insert('', 'end', i, text=i, values=(p.name(), str(datetime.datetime.now())),
+                    #                  tags=('failed', 'simple'))
+                    update_state()
 
                 except Exception as e:
                     log.error("",  exc_info=True, extra=CONFIG)
                     continue
+
+
+def check_online():
+    IP = ip.get()
+
+    try:
+        r = requests.head(IP + "/cuckoo/status")
+        if r.status_code != 200:
+            log.error("ERROR!!! \t Analysis machine is not configured properly", extra=CONFIG)
+            messagebox.showerror('W2RC', "Analysis machine is not configured properly")
+        elif r.status_code == 200:
+            messagebox.showinfo('W2RC', "Monitor started successfully.")
+            t.start()
+            mon_btn.config(state="disabled")
+    except Exception as e:
+        log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
+        messagebox.showerror('W2RC', "Analysis machine is not online. Monitoring will not continue.")
+
+    t.start()
 
 
 def send_cuckoo(proc, data):
@@ -299,19 +371,19 @@ def send_cuckoo(proc, data):
     log.info("\n\n\nSuspended -> " + proc.name() + " [" + str(proc.__hash__()) + "]", extra=CONFIG)
     log.info("Sending data to cuckoo analysis machine", extra=CONFIG)
 
-    try:
-        r = requests.head(IP + "/cuckoo/status")
-        if r.status_code != 200:
-            log.error("ERROR!!! \t Analysis machine is not configured properly", extra=CONFIG)
-    except Exception as e:
-        log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
-        log.error("Resume the process at your own risk.", extra=CONFIG)
-        # if input("Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
-        res = messagebox.askokcancel("W2RC", "Analysis will not continue.\n Do you want to leave "+proc.name()+" process suspended ?")
-        print(res)
-        if not res:
-            proc.resume()
-            log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+    # try:
+    #     r = requests.head(IP + "/cuckoo/status")
+    #     if r.status_code != 200:
+    #         log.error("ERROR!!! \t Analysis machine is not configured properly", extra=CONFIG)
+    # except Exception as e:
+    #     log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
+    #     log.error("Resume the process at your own risk.", extra=CONFIG)
+    #     # if input("Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
+    #     res = messagebox.askokcancel("W2RC", "Analysis will not continue.\n Do you want to leave "+proc.name()+" process suspended ?")
+    #     print(res)
+    #     if not res:
+    #         proc.resume()
+    #         log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
 
     try:
         r = requests.post(IP+"/tasks/create/submit", files=data['files'],
@@ -320,16 +392,25 @@ def send_cuckoo(proc, data):
     except Exception as e:
         log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
         log.error("Resume the process at your own risk.", extra=CONFIG)
-        if input("Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
+        res = messagebox.askyesno('W2RC', "Analysis machine is not online. Do you want to leave process "+proc.name()+" suspended.")
+        if not res:
             proc.resume()
             log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+
+        mon_tv.delete(proc.pid)
+        return
 
     if r.status_code != 200:
         log.error("FAILED to send to cuckoo for analysis", extra=CONFIG)
         log.error("Resume the process at your own risk.", extra=CONFIG)
-        if input("Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
+        res = messagebox.askyesno('W2RC',
+                                  "Analysis machine is not online. Resume at own risk. \n"
+                                  "Do you want to leave process " + proc.name() + " suspended.")
+        if not res:
             proc.resume()
             log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+
+        return
 
     task_id = r.json()["task_ids"][0]
     log.debug(r.json(), extra=CONFIG)
@@ -463,10 +544,11 @@ def send_cuckoo(proc, data):
                 if not res:
                     proc.resume()
                     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+                mon_tv.delete(proc.pid)
 
             log.info(proc.name() + " = CAT = [" + str(p["CAT"]) + "]", extra=CONFIG)
             log.debug(p, extra=CONFIG)
-            entry = {'pid': ps, 'name': proc.name(), 'md5': md5(proc.exe()), 'time': str(datetime.datetime.now()),
+            entry = {'pid': proc.pid, 'name': proc.name(), 'md5': md5(proc.exe()), 'time': str(datetime.datetime.now()),
                      'exe': proc.exe(), "CAT": p["CAT"]}
             if p["CAT"] > 50:
                 BLACKLIST_DB.append(entry)
@@ -474,7 +556,7 @@ def send_cuckoo(proc, data):
             for d in SEEN_DB:
                 for k, v in d.items():
                     if k == "pid":
-                        if v == ps:
+                        if v == proc.pid:
                             d['CAT'] = p["CAT"]
     proc.resume()
     log.info("Resumed -> " + proc.name(), extra=CONFIG)
@@ -489,13 +571,17 @@ def remove_failed():
         FAILED_DB.pop(int(s)-1-tmp)
         tmp += 1
     update_state()
-    for c in failed_tv.get_children():
-        failed_tv.delete(c)
-    i = 0
-    for d in FAILED_DB:
-        i += 1
-        failed_tv.insert('', 'end', i, text=i, values=(d["name"], d["time"]),
-                         tags=('failed', 'simple'))
+
+
+def remove_seen():
+    # global failed_tv
+    selected = seen_tv.selection()
+    print(selected)
+    tmp = 0
+    for s in selected:
+        SEEN_DB.pop(int(s)-1-tmp)
+        tmp += 1
+    update_state()
 
 
 def whitelist_gui():
@@ -517,13 +603,16 @@ def whitelist_gui():
     Label(add_gui, font="Arial 16 bold", fg="black", bg="cyan",
           text="Add executable: ") \
         .grid(row=1, column=0, columnspan=1, sticky="nsew")
-    image = PhotoImage(file="data/exe.png", height=30, width=30)
+    image = PhotoImage(file="data/exe.png", height=50, width=50)
     image.zoom(50, 50)
-    b = Button(add_gui, image=image, compound=TOP, command=add_whitelist_path)
+    b = Button(add_gui, image=image, compound=TOP, text="Browse", command=add_whitelist_path)
     b.image = image
-    b.grid(row=1, column=1, columnspan=3, sticky="news")
+    b.grid(row=1, column=1, columnspan=3, rowspan=2, sticky="news")
 
-    Button(add_gui, compound=TOP, text="Browse", command=add_whitelist_path).grid(row=1, column=1, columnspan=3)
+    Label(add_gui, font="Arial 10 bold", fg="black", bg="cyan",
+          text="Note: This will run the executable and collect information. \n"
+               "The executable will be run for about 10 seconds before it will be terminated.") \
+        .grid(row=2, column=0, columnspan=1, sticky="nsew")
 
 
 def add_whitelist_path():
@@ -547,14 +636,14 @@ def add_whitelist_path():
                                 tags=('success', 'simple'))
         messagebox.showinfo('W2RC', 'Successfully added ' + p.name())
     except Exception:
-        messagebox.showerror('W2RC', 'Failed to add process with ID: ' + whitelist_pid.get())
+        messagebox.showerror('W2RC', 'Failed to add executable. ')
 
 
 def add_whitelist_pid():
     try:
         if int(whitelist_pid.get()) > 0:
             p = psutil.Process(int(whitelist_pid.get()))
-            entry = {'pid': ps, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()), 'exe': p.exe()}
+            entry = {'pid': p.pid, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()), 'exe': p.exe()}
             WHITELIST_DB.append(entry)
             update_state()
             for c in whitelist_tv.get_children():
@@ -578,13 +667,6 @@ def remove_whitelist():
         WHITELIST_DB.pop(int(s) - 1 - tmp)
         tmp += 1
     update_state()
-    for c in whitelist_tv.get_children():
-        whitelist_tv.delete(c)
-    i = 0
-    for d in WHITELIST_DB:
-        i += 1
-        whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
-                            tags=('success', 'simple'))
 
 
 def safe_quit(sig, frame):
@@ -636,7 +718,7 @@ if __name__ == '__main__':
 
     main = Tk()
     main.title('W2RC - Windows Registry and RAM collector')
-    main.geometry('465x550')
+    main.geometry('465x590')
     main.iconbitmap("data/icon.ico")
     rows = 0
     main_frame = Frame(main, width=600, height=200, bg="white")
@@ -657,10 +739,10 @@ if __name__ == '__main__':
     ip.grid(row=1, column=1, sticky="w", ipadx=10)
     ip.insert(0, "192.168.1.120:8090")
 
-    # image = PhotoImage(file="data/img/system.png", height=50, width=50)
+    # image = PhotoImage(file="data/system.png", height=50, width=50)
     # image.zoom(50, 50)
-    b = Button(main_frame, text="Start / Stop Monitoring",  command=monitor)
-    b.grid(row=1, column=2, sticky="nsew")
+    mon_btn = Button(main_frame, text="Start / Stop Monitoring",  command=check_online)
+    mon_btn.grid(row=1, column=2, sticky="nsew")
 
     while rows < 50:
         main.rowconfigure(rows, weight=1)
@@ -669,8 +751,16 @@ if __name__ == '__main__':
 
     # Defines and places the notebook widget
 
+    image = PhotoImage(file="data/refresh.png", height=50, width=50)
+    image.zoom(50, 50)
+    b = Button(main, image=image, bg='grey', compound=LEFT, text="Reload databases", command=refresh_db)
+    b.image = image
+    b.grid(row=51, columnspan=50, sticky="nsew")
+
+
     nb = ttk.Notebook(main)
     nb.grid(row=2, column=0, columnspan=50, rowspan=49, sticky='NESW')
+
 
     # Monitor GUI
     mon = ttk.Frame(nb)
@@ -681,11 +771,13 @@ if __name__ == '__main__':
     txt_frm.grid_rowconfigure(0, weight=1)
     txt_frm.grid_columnconfigure(0, weight=1)
     mon_tv = ttk.Treeview(txt_frm)
-    mon_tv['columns'] = ('NAME', 'TASK', 'STATUS')
+    mon_tv['columns'] = ('NAME', 'TIME', 'TASK', 'STATUS')
     mon_tv.heading("#0", text='PID')
     mon_tv.column('#0', minwidth=10, width=50, stretch=False)
     mon_tv.heading('NAME', text='Name')
-    mon_tv.column('NAME', minwidth=10, width=240, stretch=False)
+    mon_tv.column('NAME', minwidth=10, width=220, stretch=False)
+    mon_tv.heading('TIME', text='Timestamp')
+    mon_tv.column('TIME', minwidth=10, width=140, stretch=False)
     mon_tv.heading('TASK', text='Task ID')
     mon_tv.column('TASK', minwidth=10, width=50, stretch=False)
     mon_tv.heading('STATUS', text='Status')
@@ -702,9 +794,7 @@ if __name__ == '__main__':
     mon_tv.tag_configure('success', background='green')
     mon_tv.tag_configure('failed', background='red')
 
-    ps = [1, 1]
-    for i in range(0, len(ps)):
-        mon_tv.insert('', 'end', i, text=1213, values=("p.exe", 24, "Submitted"), tags=('submitted', 'simple'))
+
     # ==================================================================================================
 
     # Seen
@@ -747,8 +837,13 @@ if __name__ == '__main__':
     options = Frame(seen, width=550, height=200)
     options.grid(row=1, column=1, sticky="news")
     Label(options, text="MD5 HASH: ").grid(row=0, column=0)
-    Entry(options, textvariable=HASHLIST['SEEN'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=100,
+    Entry(options, textvariable=HASHLIST['SEEN'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=80,
                                                                                       sticky="news")
+    image = PhotoImage(file="data/remove.png", height=30, width=30)
+    image.zoom(50, 50)
+    b = Button(options, text="Remove Selected", image=image, compound=TOP, command=remove_seen)
+    b.image = image
+    b.grid(row=0, column=2, sticky="nsew")
     # =========================================================================================================
 
     # Whitelist
@@ -890,8 +985,13 @@ if __name__ == '__main__':
 
     # =========================================================================================================
 
-
-
+    t = threading.Thread(target=monitor, args=())
+    t.daemon = True
+    mon_tv.yview_moveto(1)
+    blacklist_tv.yview_moveto(1)
+    whitelist_tv.yview_moveto(1)
+    seen_tv.yview_moveto(1)
+    failed_tv.yview_moveto(1)
 
     main.mainloop()
     # root = tkinter.Tk()
