@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import messagebox
+from tkinter import simpledialog
 import tkinter.filedialog as fd
 import signal
 import subprocess
@@ -17,6 +18,7 @@ import datetime as dt
 import json
 import requests
 import getpass
+import socket
 
 import threading
 import time
@@ -42,23 +44,33 @@ BLACKLIST_DB          = []
 OWNER_ID              = "ASINGH"
 HEADERS               = {"Authorization": "Bearer S4MPL3"}
 # IP                    = "http://192.168.1.127:8090"
-IP                    = "http://192.168.137.181:8090"
-CONFIG                = {"user": getpass.getuser(), "ip": "192.168.1.122"}
+IP                    = "137.215.38.240:8090"
+CONFIG                = {"user": getpass.getuser() + " ("+socket.gethostname() + ")",
+                         "ip": (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2]
+                                  if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),
+                                              s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET,
+                                                             socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]}
+
 
 
 date = dt.datetime.now()
 logfile = str(date)[0:10]
-logging.basicConfig(filename=CWD+'log\\' + logfile + '.log', level=logging.DEBUG)
+# logging.basicConfig(filename=CWD+'log\\' + logfile + '.log', level=logging.NOTSET)
 
 log = logging.getLogger(__name__)
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
+fh = logging.FileHandler(CWD+'log\\' + logfile + '.log')
+fh.setLevel(logging.NOTSET)
 formatter = logging.Formatter('%(asctime)s - %(ip)s - %(user)-8s [%(levelname)s] --> %(message)s',
                               datefmt='%d/%m/%Y %I:%M:%S')
 handler.setFormatter(formatter)
+fh.setFormatter(formatter)
 log.addHandler(handler)
+log.addHandler(fh)
 log.setLevel(logging.INFO)
 log = logging.LoggerAdapter(log, CONFIG)
+
 
 log.info('W2RC Started', extra=CONFIG)
 w2rc = ""
@@ -207,6 +219,7 @@ def load_safe_db():
 def refresh_db():
     load_safe_db()
     update_state()
+    messagebox.showinfo('W2RC', 'Successfully reloaded all databases.')
 
 
 def update_state():
@@ -278,74 +291,102 @@ def monitor():
     global FAILED_DB
     global SEEN_DB
     global BLACKLIST_DB
-
+    log.info("Monitoring has been started: " + IP, extra=CONFIG)
     while True:
         for p in psutil.process_iter():
-            try:
-                if not any(d['name'] == p.name() for d in FAILED_DB):
-                    entry = {'pid': p.pid, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()),
-                         'exe': p.exe()}
+            # if p.pid == os.getpid():
+                # log.info('W2RC', 'W2RC is not whitelisted, ignoring checking W2RC', extra=CONFIG)
+            if p.pid != os.getpid():
+                try:
 
-                    if any(d['md5'] == entry['md5'] for d in BLACKLIST_DB) or \
-                            any(d['exe'] == entry['exe'] for d in BLACKLIST_DB):
+                    entry = {'pid': p.pid, 'name': p.name(), 'md5': "", 'time': str(datetime.datetime.now()),
+                         'exe': ""}
+
+                    try:
+                        # log.info('W2RC', 'Quickly computing md5 for {}'.format(entry['name']), extra=CONFIG)
+                        p.suspend()
+                        entry['md5'] = md5(p.exe())
+
+                    except Exception:
+                        p.resume()
+                        pass
+
+                    if any(d['md5'] == entry['md5'] for d in BLACKLIST_DB):
                         log.warning("DANGER !!!!!! " + p.name() +
                                     " has been blacklisted and the process has been killed.",  extra=CONFIG)
+
                         p.suspend()
-                        # p.kill()
-                        break
+                        p.kill()
+                        messagebox.showerror('W2RC ALERT', 'Suspicious executable ' + entry['name'] +
+                                             ' that is blacklisted has been detected and killed.')
+                        return
+                    p.resume()
+                    if not any(d['name'] == p.name() for d in FAILED_DB):
+                        entry['md5'] = md5(p.exe())
+                        entry['exe'] = p.exe()
 
-                    if not any(d['md5'] == entry['md5'] for d in WHITELIST_DB) or not \
-                            any(d['exe'] == entry['exe'] for d in WHITELIST_DB):
-                        if not any(d['name'] == entry['name'] for d in FAILED_DB) or not \
-                                any(d['exe'] == entry['exe'] for d in FAILED_DB):
-                            if p.exe() not in SEEN_DB:
-                                if p.exe() not in BLACKLIST_DB:
-                                    log.debug(entry, extra=CONFIG)
-                                    log.debug(p.cmdline(), extra=CONFIG)
+                        if not any(d['md5'] == entry['md5'] for d in WHITELIST_DB) or not \
+                                any(d['exe'] == entry['exe'] for d in WHITELIST_DB):
+                            if not any(d['name'] == entry['name'] for d in FAILED_DB) or not \
+                                    any(d['exe'] == entry['exe'] for d in FAILED_DB):
+                                if p.exe() not in SEEN_DB:
+                                    if p.exe() not in BLACKLIST_DB:
+                                        log.debug(entry, extra=CONFIG)
+                                        log.debug(p.cmdline(), extra=CONFIG)
 
-                                    data = {}
-                                    cmdline = p.cmdline()
-                                    files = []
-                                    for c in cmdline:
-                                        if "\\" in c:
-                                            try:
-                                                files.append(("files", open(c, "rb")))
-                                            except Exception:
-                                                continue
-                                    data['files'] = files
-                                    data['args'] = cmdline[1:]
-                                    # if p.name() == "WINWORD.EXE" or p.name() == "sublime_text.exe":
-                                    log.info("Sending to cuckoo", extra=CONFIG)
-                                    path_list.append(p.exe())
-                                    entry = {'pid': p.pid, 'name': p.name(), 'md5': md5(p.exe()),
-                                             'time': str(datetime.datetime.now()),
-                                             'exe': p.exe()}
-                                    SEEN_DB.append(entry)
-                                    mon_tv.insert('', 'end', entry['pid'], text=entry['pid'], values=(entry['name'], entry['time'], "N/A", "Submitted"),
-                                                  tags=('submitted', 'simple'))
+                                        data = {}
+                                        cmdline = p.cmdline()
+                                        files = []
+                                        for c in cmdline:
+                                            if "\\" in c:
+                                                try:
+                                                    files.append(("files", open(c, "rb")))
+                                                except Exception:
+                                                    continue
+                                        data['files'] = files
+                                        data['args'] = cmdline[1:]
+                                        # if p.name() == "WINWORD.EXE" or p.name() == "sublime_text.exe":
+                                        log.info("Sending to cuckoo", extra=CONFIG)
+                                        path_list.append(p.exe())
+                                        entry = {'pid': p.pid, 'name': p.name(), 'md5': md5(p.exe()),
+                                                 'time': str(datetime.datetime.now()),
+                                                 'exe': p.exe()}
+                                        SEEN_DB.append(entry)
+                                        mon_tv.insert('', 'end', entry['pid'], text=entry['pid'], values=(entry['name'], entry['time'], "N/A", "Submitted"),
+                                                      tags=('submitted', 'simple'))
 
-                                    update_state()
-                                    threading.Thread(target=send_cuckoo, args=(p, data,)).start()
-
-            except Exception as e:
-                try:
-                    FAILED_DB.append({'pid': p.pid, 'name': p.name(), 'time': str(datetime.datetime.now())})
-                    failed += 1
-                    log.info("Trying to add entry to failed list, " + p.name(), extra=CONFIG)
-                    # failed_tv.insert('', 'end', i, text=i, values=(p.name(), str(datetime.datetime.now())),
-                    #                  tags=('failed', 'simple'))
-                    update_state()
+                                        update_state()
+                                        cuckoo = threading.Thread(target=send_cuckoo, args=(p, data, entry,))
+                                        cuckoo.daemon = True
+                                        cuckoo.start()
 
                 except Exception as e:
-                    log.error("",  exc_info=True, extra=CONFIG)
-                    continue
+                    try:
+
+                        if not any(d['name'] == p.name() for d in FAILED_DB):
+                            FAILED_DB.append({'pid': p.pid, 'name': p.name(), 'time': str(datetime.datetime.now())})
+                            failed += 1
+                            log.info("Trying to add entry to failed list, " + p.name(), extra=CONFIG)
+                            # failed_tv.insert('', 'end', i, text=i, values=(p.name(), str(datetime.datetime.now())),
+                            #                  tags=('failed', 'simple'))
+                            update_state()
+                            print(e)
+
+                    except Exception as e:
+                        log.error("Error at Monitor",  exc_info=True, extra=CONFIG)
+                        continue
 
 
 def check_online():
+    global IP
     IP = ip.get()
-
+    print(IP)
+    if "http" not in IP:
+        IP = "http://"+IP
+    log.info('Checking if ' + IP + " analysis machine is online.", extra=CONFIG)
+    messagebox.showinfo('W2RC', 'Trying to see if ' + IP + " analysis machine is online. This should take a few seconds.")
     try:
-        r = requests.head(IP + "/cuckoo/status")
+        r = requests.get(IP + "/cuckoo/status", stream=True, timeout=2)
         if r.status_code != 200:
             log.error("ERROR!!! \t Analysis machine is not configured properly", extra=CONFIG)
             messagebox.showerror('W2RC', "Analysis machine is not configured properly")
@@ -357,33 +398,20 @@ def check_online():
         log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
         messagebox.showerror('W2RC', "Analysis machine is not online. Monitoring will not continue.")
 
-    t.start()
+    # t.start()
 
 
-def send_cuckoo(proc, data):
+def send_cuckoo(proc, data, entry):
     global SEEN_DB, WHITELIST_DB, BLACKLIST_DB
     log.debug(data, extra=CONFIG)
 
-    # messagebox.showinfo("W3RC", "We are currently analysing " + proc.name() + " please wait. We will not take long")
-    log.info("")
+    messagebox.showinfo("W3RC", "We are currently analysing " + proc.name() + " please wait. We will not take long")
+
     proc.suspend()
 
     log.info("\n\n\nSuspended -> " + proc.name() + " [" + str(proc.__hash__()) + "]", extra=CONFIG)
     log.info("Sending data to cuckoo analysis machine", extra=CONFIG)
 
-    # try:
-    #     r = requests.head(IP + "/cuckoo/status")
-    #     if r.status_code != 200:
-    #         log.error("ERROR!!! \t Analysis machine is not configured properly", extra=CONFIG)
-    # except Exception as e:
-    #     log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
-    #     log.error("Resume the process at your own risk.", extra=CONFIG)
-    #     # if input("Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
-    #     res = messagebox.askokcancel("W2RC", "Analysis will not continue.\n Do you want to leave "+proc.name()+" process suspended ?")
-    #     print(res)
-    #     if not res:
-    #         proc.resume()
-    #         log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
 
     try:
         r = requests.post(IP+"/tasks/create/submit", files=data['files'],
@@ -391,7 +419,7 @@ def send_cuckoo(proc, data):
                                              "options": {"arguments": data["args"]}})
     except Exception as e:
         log.error("ERROR!!! \t Analysis machine is not online", extra=CONFIG)
-        log.error("Resume the process at your own risk.", extra=CONFIG)
+        log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
         res = messagebox.askyesno('W2RC', "Analysis machine is not online. Do you want to leave process "+proc.name()+" suspended.")
         if not res:
             proc.resume()
@@ -401,7 +429,7 @@ def send_cuckoo(proc, data):
         return
 
     if r.status_code != 200:
-        log.error("FAILED to send to cuckoo for analysis", extra=CONFIG)
+        log.error("FAILED to send to cuckoo for analysis: "  + proc.name(), extra=CONFIG)
         log.error("Resume the process at your own risk.", extra=CONFIG)
         res = messagebox.askyesno('W2RC',
                                   "Analysis machine is not online. Resume at own risk. \n"
@@ -414,8 +442,9 @@ def send_cuckoo(proc, data):
 
     task_id = r.json()["task_ids"][0]
     log.debug(r.json(), extra=CONFIG)
+    mon_tv.set(proc.pid, 'TASK', task_id)
 
-    log.info(proc.name() + " job started with task ID: " + str(task_id))
+    log.info(proc.name() + " job started with task ID: " + str(task_id), extra=CONFIG)
 
     poll = True
     while poll:
@@ -429,21 +458,26 @@ def send_cuckoo(proc, data):
 
             if "static" not in d.keys():
                 log.error("Failed to perform analysis", extra=CONFIG)
-                log.error("Resume the process at your own risk.", extra=CONFIG)
-                res = messagebox.askokcancel("W2RC",
-                                             "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
-                print(res)
+                log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
+                res = messagebox.askyesno("W2RC",
+                                     "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
+
                 if not res:
                     proc.resume()
                     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+                log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
+                SEEN_DB.remove(entry)
+                mon_tv.delete(proc.pid)
                 break
 
             if "behaviour" not in d.keys():
-                log.error("Failed to calculate CAT", extra=CONFIG)
-                log.error("Resume the process at your own risk.", extra=CONFIG)
-                res = messagebox.askokcancel("W2RC",
-                                             "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
-                print(res)
+                log.error("Failed to calculate CAT: " + proc.name(), extra=CONFIG)
+                log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
+                res = messagebox.askyesno("W2RC",
+                                     "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
+                log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
+                SEEN_DB.remove(entry)
+                mon_tv.delete(proc.pid)
                 if not res:
                     proc.resume()
                     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
@@ -533,18 +567,16 @@ def send_cuckoo(proc, data):
                         p["CAT"] = float(p["EM"])+float(p["DM"])+float(p["AM"])+float(p["RM"])
                         p["CAT"] = (p["CAT"] / p["CATN"])
             except Exception:
-                log.error("Failed to calculate CAT", extra=CONFIG)
-                log.error("Resume the process at your own risk.", extra=CONFIG)
-                # if input(
-                #         "Analysis will not continue, Do you want to leave the process suspended ? (Y/N)").lower() == "N":
-                #     proc.resume()
-                #     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
-                res = messagebox.askokcancel("W2RC",
-                                             "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
+                log.error("Failed to calculate CAT: " + proc.name(), extra=CONFIG)
+                log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
+                res = messagebox.askyesno("W2RC",
+                                     "Analysis failed.\n Do you want to leave " + proc.name() + " process suspended ?")
                 if not res:
                     proc.resume()
                     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
                 mon_tv.delete(proc.pid)
+                log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
+                SEEN_DB.remove(entry)
 
             log.info(proc.name() + " = CAT = [" + str(p["CAT"]) + "]", extra=CONFIG)
             log.debug(p, extra=CONFIG)
@@ -552,6 +584,11 @@ def send_cuckoo(proc, data):
                      'exe': proc.exe(), "CAT": p["CAT"]}
             if p["CAT"] > 50:
                 BLACKLIST_DB.append(entry)
+                log.info("BLACKLIST: " + str(entry), extra=CONFIG)
+                messagebox.showerror('W2RC ALERT', 'ALERT!!! Suspicious executable '+entry['name'] +
+                                     ' found and blacklisted.')
+                proc.kill()
+                break
 
             for d in SEEN_DB:
                 for k, v in d.items():
@@ -568,6 +605,7 @@ def remove_failed():
     print(selected)
     tmp = 0
     for s in selected:
+        log.info("Removed from FAILED_DB: " + str(FAILED_DB[int(s)-1-tmp]), extra=CONFIG)
         FAILED_DB.pop(int(s)-1-tmp)
         tmp += 1
     update_state()
@@ -579,6 +617,7 @@ def remove_seen():
     print(selected)
     tmp = 0
     for s in selected:
+        log.info("Removed from SEEN_DB: " + str(SEEN_DB[int(s) - 1 - tmp]), extra=CONFIG)
         SEEN_DB.pop(int(s)-1-tmp)
         tmp += 1
     update_state()
@@ -625,15 +664,16 @@ def add_whitelist_path():
         entry = {'pid': sp.pid, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()),
                  'exe': p.exe()}
         WHITELIST_DB.append(entry)
+        log.info("Whitelist Path Add: " + str(entry), extra=CONFIG)
         update_state()
-
-        for c in whitelist_tv.get_children():
-            whitelist_tv.delete(c)
-        i = 0
-        for d in WHITELIST_DB:
-            i += 1
-            whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
-                                tags=('success', 'simple'))
+        #
+        # for c in whitelist_tv.get_children():
+        #     whitelist_tv.delete(c)
+        # i = 0
+        # for d in WHITELIST_DB:
+        #     i += 1
+        #     whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
+        #                         tags=('success', 'simple'))
         messagebox.showinfo('W2RC', 'Successfully added ' + p.name())
     except Exception:
         messagebox.showerror('W2RC', 'Failed to add executable. ')
@@ -645,14 +685,15 @@ def add_whitelist_pid():
             p = psutil.Process(int(whitelist_pid.get()))
             entry = {'pid': p.pid, 'name': p.name(), 'md5': md5(p.exe()), 'time': str(datetime.datetime.now()), 'exe': p.exe()}
             WHITELIST_DB.append(entry)
+            log.info("Whitelist PID Add: " + str(entry), extra=CONFIG)
             update_state()
-            for c in whitelist_tv.get_children():
-                whitelist_tv.delete(c)
-            i = 0
-            for d in WHITELIST_DB:
-                i += 1
-                whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
-                                    tags=('success', 'simple'))
+            # for c in whitelist_tv.get_children():
+            #     whitelist_tv.delete(c)
+            # i = 0
+            # for d in WHITELIST_DB:
+            #     i += 1
+            #     whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
+            #                         tags=('success', 'simple'))
             messagebox.showinfo('W2RC', 'Successfully added ' + p.name())
             whitelist_pid.set("")
     except Exception:
@@ -664,15 +705,18 @@ def remove_whitelist():
     print(selected)
     tmp = 0
     for s in selected:
+        log.info("Removed from WHITELIST_DB: " + str(WHITELIST_DB[int(s) - 1 - tmp]), extra=CONFIG)
         WHITELIST_DB.pop(int(s) - 1 - tmp)
         tmp += 1
     update_state()
 
 
-def safe_quit(sig, frame):
-    log.info("Shutting down the monitor. Please wait...", extra=CONFIG)
-    update_state()
-    sys.exit(0)
+def safe_quit():
+    if messagebox.askyesno('W2RC', 'Are you sure you want to quit?'):
+        log.info("Shutting down the monitor. Please wait...", extra=CONFIG)
+        update_state()
+        main.destroy()
+        sys.exit(0)
 
 
 def execute():
@@ -720,6 +764,16 @@ if __name__ == '__main__':
     main.title('W2RC - Windows Registry and RAM collector')
     main.geometry('465x590')
     main.iconbitmap("data/icon.ico")
+
+    # Get User
+    # answer = simpledialog.askstring("W2RC", "What is your full name?",
+    #                                 parent=main)
+    # if answer is not None:
+    #     print("Your first name is ", answer)
+    #     CONFIG[""]
+    # else:
+    #     print("You don't have a first name?")
+
     rows = 0
     main_frame = Frame(main, width=600, height=200, bg="white")
     main_frame.grid(row=0, column=0, sticky="nsew")
@@ -737,11 +791,11 @@ if __name__ == '__main__':
         .grid(row=1, column=0, sticky="w")
     ip = Entry(main_frame, text="192.168.1.120:8090", bd=3)
     ip.grid(row=1, column=1, sticky="w", ipadx=10)
-    ip.insert(0, "192.168.1.120:8090")
+    ip.insert(0, IP)
 
     # image = PhotoImage(file="data/system.png", height=50, width=50)
     # image.zoom(50, 50)
-    mon_btn = Button(main_frame, text="Start / Stop Monitoring",  command=check_online)
+    mon_btn = Button(main_frame, text="Start Monitoring",  command=check_online)
     mon_btn.grid(row=1, column=2, sticky="nsew")
 
     while rows < 50:
@@ -773,11 +827,11 @@ if __name__ == '__main__':
     mon_tv = ttk.Treeview(txt_frm)
     mon_tv['columns'] = ('NAME', 'TIME', 'TASK', 'STATUS')
     mon_tv.heading("#0", text='PID')
-    mon_tv.column('#0', minwidth=10, width=50, stretch=False)
+    mon_tv.column('#0', minwidth=10, width=60, stretch=True)
     mon_tv.heading('NAME', text='Name')
-    mon_tv.column('NAME', minwidth=10, width=220, stretch=False)
+    mon_tv.column('NAME', minwidth=10, width=200, stretch=False)
     mon_tv.heading('TIME', text='Timestamp')
-    mon_tv.column('TIME', minwidth=10, width=140, stretch=False)
+    mon_tv.column('TIME', minwidth=10, width=120, stretch=False)
     mon_tv.heading('TASK', text='Task ID')
     mon_tv.column('TASK', minwidth=10, width=50, stretch=False)
     mon_tv.heading('STATUS', text='Status')
@@ -993,6 +1047,7 @@ if __name__ == '__main__':
     seen_tv.yview_moveto(1)
     failed_tv.yview_moveto(1)
 
+    main.protocol("WM_DELETE_WINDOW", safe_quit)
     main.mainloop()
     # root = tkinter.Tk()
     # root.withdraw()
