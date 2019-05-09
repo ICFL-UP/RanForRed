@@ -9,7 +9,7 @@ import signal
 import sys
 import ctypes
 
-dblist = ["WHITELIST", "BLACKLIST", "SEEN", "FAILED"]
+dblist = ["db\WHITELIST", "db\BLACKLIST", "db\SEEN", "db\FAILED"]
 
 
 def md5(fname):

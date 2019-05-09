@@ -1,0 +1,4781 @@
+{
+    "info": {
+        "added": 1554908965.62753, 
+        "started": 1554908966.561158, 
+        "duration": 18, 
+        "ended": 1554908984.795117, 
+        "owner": "Avinash", 
+        "score": 0.4, 
+        "id": 137, 
+        "category": "file", 
+        "git": {
+            "head": "c41c7c5cb09416b7cfc6159811792679e20762f2", 
+            "fetch_head": "c41c7c5cb09416b7cfc6159811792679e20762f2"
+        }, 
+        "monitor": "e071e63a66e831163a40abc45109fdf71fee829e", 
+        "package": "exe", 
+        "route": "none", 
+        "custom": "", 
+        "machine": {
+            "status": "stopped", 
+            "name": "cuckoo1", 
+            "label": "Win 7 Clone", 
+            "manager": "VirtualBox", 
+            "started_on": "2019-04-10 15:09:27", 
+            "shutdown_on": "2019-04-10 15:09:43"
+        }, 
+        "platform": "windows", 
+        "version": "2.0.6", 
+        "options": "procmemdump=yes"
+    }, 
+    "signatures": [
+        {
+            "markcount": 1, 
+            "families": [], 
+            "description": "This executable has a PDB path", 
+            "severity": 1, 
+            "marks": [
+                {
+                    "category": "pdb_path", 
+                    "ioc": "SnippingTool.pdb", 
+                    "type": "ioc", 
+                    "description": null
+                }
+            ], 
+            "references": [], 
+            "name": "has_pdb"
+        }, 
+        {
+            "markcount": 1, 
+            "families": [], 
+            "description": "The file contains an unknown PE resource name possibly indicative of a packer", 
+            "severity": 1, 
+            "marks": [
+                {
+                    "category": "resource name", 
+                    "ioc": "MUI", 
+                    "type": "ioc", 
+                    "description": null
+                }
+            ], 
+            "references": [], 
+            "name": "pe_unknown_resource_name"
+        }
+    ], 
+    "target": {
+        "category": "file", 
+        "file": {
+            "yara": [], 
+            "sha1": "7b8268c1b847301c0b5372c2a76cce326c74991e", 
+            "name": "SnippingTool.exe", 
+            "type": "PE32+ executable (GUI) x86-64, for MS Windows", 
+            "sha256": "4e30a8c88c755944145f2bc6c935ee5107c56832772f2561229e20ceab1d10d2", 
+            "urls": [], 
+            "crc32": "3BE9AA02", 
+            "path": "/home/avinash/.cuckoo/storage/binaries/4e30a8c88c755944145f2bc6c935ee5107c56832772f2561229e20ceab1d10d2", 
+            "ssdeep": null, 
+            "size": 3292160, 
+            "sha512": "b76d2be02a22990e224dbc5aed9e5b701eac52c1376529de3e90b084cd6860b88d746cd61093e93fc932e12fbaf45b4ca342cc0d9c9dae4eafe05921d83a7397", 
+            "md5": "9012f9c6ac7f3f99ecdd37e24c9ac3bb"
+        }
+    }, 
+    "network": {
+        "tls": [], 
+        "udp": [
+            {
+                "src": "192.168.56.102", 
+                "dst": "192.168.56.255", 
+                "offset": 1068, 
+                "time": 3.079921007156372, 
+                "dport": 137, 
+                "sport": 137
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 5200, 
+                "time": 6.0853259563446045, 
+                "dport": 5355, 
+                "sport": 58437
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 5528, 
+                "time": 1.022826910018921, 
+                "dport": 5355, 
+                "sport": 58705
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 5860, 
+                "time": 4.015920877456665, 
+                "dport": 5355, 
+                "sport": 63295
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "239.255.255.250", 
+                "offset": 6192, 
+                "time": 1.078444004058838, 
+                "dport": 1900, 
+                "sport": 1900
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "239.255.255.250", 
+                "offset": 18040, 
+                "time": 3.204361915588379, 
+                "dport": 1900, 
+                "sport": 58709
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "239.255.255.250", 
+                "offset": 18804, 
+                "time": 1.0349819660186768, 
+                "dport": 3702, 
+                "sport": 63919
+            }
+        ], 
+        "dns_servers": [], 
+        "http": [], 
+        "icmp": [], 
+        "smtp": [], 
+        "tcp": [], 
+        "smtp_ex": [], 
+        "mitm": [], 
+        "hosts": [], 
+        "pcap_sha256": "50e28503f0d4793fd9be745a14dc9a7f692b011561116b4c3181844aaa19d7a7", 
+        "dns": [], 
+        "http_ex": [], 
+        "domains": [], 
+        "dead_hosts": [], 
+        "sorted_pcap_sha256": "898e20c1aaf743c470149a383df3e97629d263b8afc68d4787ebfccdfdcd7d77", 
+        "irc": [], 
+        "https_ex": []
+    }, 
+    "static": {
+        "pdb_path": "SnippingTool.pdb", 
+        "pe_imports": [
+            {
+                "imports": [
+                    {
+                        "name": "TraceMessage", 
+                        "address": "0x1400307b8"
+                    }, 
+                    {
+                        "name": "GetTraceLoggerHandle", 
+                        "address": "0x1400307c0"
+                    }, 
+                    {
+                        "name": "GetTraceEnableLevel", 
+                        "address": "0x1400307c8"
+                    }, 
+                    {
+                        "name": "GetTraceEnableFlags", 
+                        "address": "0x1400307d0"
+                    }, 
+                    {
+                        "name": "RegisterTraceGuidsW", 
+                        "address": "0x1400307d8"
+                    }, 
+                    {
+                        "name": "UnregisterTraceGuids", 
+                        "address": "0x1400307e0"
+                    }, 
+                    {
+                        "name": "TraceEvent", 
+                        "address": "0x1400307e8"
+                    }, 
+                    {
+                        "name": "EventSetInformation", 
+                        "address": "0x1400307f0"
+                    }, 
+                    {
+                        "name": "EventRegister", 
+                        "address": "0x1400307f8"
+                    }, 
+                    {
+                        "name": "EventUnregister", 
+                        "address": "0x140030800"
+                    }, 
+                    {
+                        "name": "EventWriteTransfer", 
+                        "address": "0x140030808"
+                    }
+                ], 
+                "dll": "ADVAPI32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "CreateEventExW", 
+                        "address": "0x140030978"
+                    }, 
+                    {
+                        "name": "CreateSemaphoreExW", 
+                        "address": "0x140030980"
+                    }, 
+                    {
+                        "name": "LocalFree", 
+                        "address": "0x140030988"
+                    }, 
+                    {
+                        "name": "CreateMutexExW", 
+                        "address": "0x140030990"
+                    }, 
+                    {
+                        "name": "GetCurrentProcessId", 
+                        "address": "0x140030998"
+                    }, 
+                    {
+                        "name": "OpenSemaphoreW", 
+                        "address": "0x1400309a0"
+                    }, 
+                    {
+                        "name": "WaitForSingleObject", 
+                        "address": "0x1400309a8"
+                    }, 
+                    {
+                        "name": "SetEvent", 
+                        "address": "0x1400309b0"
+                    }, 
+                    {
+                        "name": "SetLastError", 
+                        "address": "0x1400309b8"
+                    }, 
+                    {
+                        "name": "OutputDebugStringW", 
+                        "address": "0x1400309c0"
+                    }, 
+                    {
+                        "name": "IsDebuggerPresent", 
+                        "address": "0x1400309c8"
+                    }, 
+                    {
+                        "name": "DebugBreak", 
+                        "address": "0x1400309d0"
+                    }, 
+                    {
+                        "name": "GetModuleFileNameA", 
+                        "address": "0x1400309d8"
+                    }, 
+                    {
+                        "name": "GetModuleHandleExW", 
+                        "address": "0x1400309e0"
+                    }, 
+                    {
+                        "name": "HeapAlloc", 
+                        "address": "0x1400309e8"
+                    }, 
+                    {
+                        "name": "GetProcessHeap", 
+                        "address": "0x1400309f0"
+                    }, 
+                    {
+                        "name": "HeapFree", 
+                        "address": "0x1400309f8"
+                    }, 
+                    {
+                        "name": "GetCurrentThreadId", 
+                        "address": "0x140030a00"
+                    }, 
+                    {
+                        "name": "FormatMessageW", 
+                        "address": "0x140030a08"
+                    }, 
+                    {
+                        "name": "GetModuleHandleW", 
+                        "address": "0x140030a10"
+                    }, 
+                    {
+                        "name": "WaitForSingleObjectEx", 
+                        "address": "0x140030a18"
+                    }, 
+                    {
+                        "name": "ReleaseSemaphore", 
+                        "address": "0x140030a20"
+                    }, 
+                    {
+                        "name": "ReleaseMutex", 
+                        "address": "0x140030a28"
+                    }, 
+                    {
+                        "name": "lstrlenA", 
+                        "address": "0x140030a30"
+                    }, 
+                    {
+                        "name": "MultiByteToWideChar", 
+                        "address": "0x140030a38"
+                    }, 
+                    {
+                        "name": "GetLastError", 
+                        "address": "0x140030a40"
+                    }, 
+                    {
+                        "name": "GlobalAddAtomW", 
+                        "address": "0x140030a48"
+                    }, 
+                    {
+                        "name": "GlobalDeleteAtom", 
+                        "address": "0x140030a50"
+                    }, 
+                    {
+                        "name": "RaiseException", 
+                        "address": "0x140030a58"
+                    }, 
+                    {
+                        "name": "ExpandEnvironmentStringsW", 
+                        "address": "0x140030a60"
+                    }, 
+                    {
+                        "name": "LoadLibraryW", 
+                        "address": "0x140030a68"
+                    }, 
+                    {
+                        "name": "GetProcAddress", 
+                        "address": "0x140030a70"
+                    }, 
+                    {
+                        "name": "FreeLibrary", 
+                        "address": "0x140030a78"
+                    }, 
+                    {
+                        "name": "GetTempPathW", 
+                        "address": "0x140030a80"
+                    }, 
+                    {
+                        "name": "DeleteFileW", 
+                        "address": "0x140030a88"
+                    }, 
+                    {
+                        "name": "HeapSetInformation", 
+                        "address": "0x140030a90"
+                    }, 
+                    {
+                        "name": "CompareStringA", 
+                        "address": "0x140030a98"
+                    }, 
+                    {
+                        "name": "RegisterApplicationRestart", 
+                        "address": "0x140030aa0"
+                    }, 
+                    {
+                        "name": "MulDiv", 
+                        "address": "0x140030aa8"
+                    }, 
+                    {
+                        "name": "LeaveCriticalSection", 
+                        "address": "0x140030ab0"
+                    }, 
+                    {
+                        "name": "EnterCriticalSection", 
+                        "address": "0x140030ab8"
+                    }, 
+                    {
+                        "name": "SizeofResource", 
+                        "address": "0x140030ac0"
+                    }, 
+                    {
+                        "name": "LockResource", 
+                        "address": "0x140030ac8"
+                    }, 
+                    {
+                        "name": "LoadResource", 
+                        "address": "0x140030ad0"
+                    }, 
+                    {
+                        "name": "FindResourceExW", 
+                        "address": "0x140030ad8"
+                    }, 
+                    {
+                        "name": "CreateFileW", 
+                        "address": "0x140030ae0"
+                    }, 
+                    {
+                        "name": "WideCharToMultiByte", 
+                        "address": "0x140030ae8"
+                    }, 
+                    {
+                        "name": "WriteFile", 
+                        "address": "0x140030af0"
+                    }, 
+                    {
+                        "name": "CloseHandle", 
+                        "address": "0x140030af8"
+                    }, 
+                    {
+                        "name": "Sleep", 
+                        "address": "0x140030b00"
+                    }, 
+                    {
+                        "name": "GetSystemDefaultUILanguage", 
+                        "address": "0x140030b08"
+                    }, 
+                    {
+                        "name": "GetVersionExW", 
+                        "address": "0x140030b10"
+                    }, 
+                    {
+                        "name": "GlobalFree", 
+                        "address": "0x140030b18"
+                    }, 
+                    {
+                        "name": "lstrlenW", 
+                        "address": "0x140030b20"
+                    }
+                ], 
+                "dll": "KERNEL32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "CreateSolidBrush", 
+                        "address": "0x140030860"
+                    }, 
+                    {
+                        "name": "CreateDIBSection", 
+                        "address": "0x140030868"
+                    }, 
+                    {
+                        "name": "CreateCompatibleBitmap", 
+                        "address": "0x140030870"
+                    }, 
+                    {
+                        "name": "SetLayout", 
+                        "address": "0x140030878"
+                    }, 
+                    {
+                        "name": "CreatePen", 
+                        "address": "0x140030880"
+                    }, 
+                    {
+                        "name": "BitBlt", 
+                        "address": "0x140030888"
+                    }, 
+                    {
+                        "name": "PatBlt", 
+                        "address": "0x140030890"
+                    }, 
+                    {
+                        "name": "EndDoc", 
+                        "address": "0x140030898"
+                    }, 
+                    {
+                        "name": "EndPage", 
+                        "address": "0x1400308a0"
+                    }, 
+                    {
+                        "name": "CreateCompatibleDC", 
+                        "address": "0x1400308a8"
+                    }, 
+                    {
+                        "name": "StretchBlt", 
+                        "address": "0x1400308b0"
+                    }, 
+                    {
+                        "name": "DeleteDC", 
+                        "address": "0x1400308b8"
+                    }, 
+                    {
+                        "name": "StartPage", 
+                        "address": "0x1400308c0"
+                    }, 
+                    {
+                        "name": "SetStretchBltMode", 
+                        "address": "0x1400308c8"
+                    }, 
+                    {
+                        "name": "SetBrushOrgEx", 
+                        "address": "0x1400308d0"
+                    }, 
+                    {
+                        "name": "StartDocW", 
+                        "address": "0x1400308d8"
+                    }, 
+                    {
+                        "name": "FillRgn", 
+                        "address": "0x1400308e0"
+                    }, 
+                    {
+                        "name": "OffsetRgn", 
+                        "address": "0x1400308e8"
+                    }, 
+                    {
+                        "name": "CreatePolygonRgn", 
+                        "address": "0x1400308f0"
+                    }, 
+                    {
+                        "name": "GetTextMetricsW", 
+                        "address": "0x1400308f8"
+                    }, 
+                    {
+                        "name": "SelectClipRgn", 
+                        "address": "0x140030900"
+                    }, 
+                    {
+                        "name": "GetClipRgn", 
+                        "address": "0x140030908"
+                    }, 
+                    {
+                        "name": "GetLayout", 
+                        "address": "0x140030910"
+                    }, 
+                    {
+                        "name": "SetBkMode", 
+                        "address": "0x140030918"
+                    }, 
+                    {
+                        "name": "SetTextColor", 
+                        "address": "0x140030920"
+                    }, 
+                    {
+                        "name": "GetObjectW", 
+                        "address": "0x140030928"
+                    }, 
+                    {
+                        "name": "GetDeviceCaps", 
+                        "address": "0x140030930"
+                    }, 
+                    {
+                        "name": "DeleteObject", 
+                        "address": "0x140030938"
+                    }, 
+                    {
+                        "name": "SelectObject", 
+                        "address": "0x140030940"
+                    }, 
+                    {
+                        "name": "Rectangle", 
+                        "address": "0x140030948"
+                    }, 
+                    {
+                        "name": "GetStockObject", 
+                        "address": "0x140030950"
+                    }, 
+                    {
+                        "name": "CombineRgn", 
+                        "address": "0x140030958"
+                    }, 
+                    {
+                        "name": "CreateRectRgnIndirect", 
+                        "address": "0x140030960"
+                    }, 
+                    {
+                        "name": "CreateRectRgn", 
+                        "address": "0x140030968"
+                    }
+                ], 
+                "dll": "GDI32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetDesktopWindow", 
+                        "address": "0x140030c20"
+                    }, 
+                    {
+                        "name": "IsZoomed", 
+                        "address": "0x140030c28"
+                    }, 
+                    {
+                        "name": "DestroyWindow", 
+                        "address": "0x140030c30"
+                    }, 
+                    {
+                        "name": "RegisterHotKey", 
+                        "address": "0x140030c38"
+                    }, 
+                    {
+                        "name": "AdjustWindowRectExForDpi", 
+                        "address": "0x140030c40"
+                    }, 
+                    {
+                        "name": "CreateWindowExW", 
+                        "address": "0x140030c48"
+                    }, 
+                    {
+                        "name": "LoadStringW", 
+                        "address": "0x140030c50"
+                    }, 
+                    {
+                        "name": "TranslateAcceleratorW", 
+                        "address": "0x140030c58"
+                    }, 
+                    {
+                        "name": "CheckMenuRadioItem", 
+                        "address": "0x140030c60"
+                    }, 
+                    {
+                        "name": "PeekMessageW", 
+                        "address": "0x140030c68"
+                    }, 
+                    {
+                        "name": "DestroyMenu", 
+                        "address": "0x140030c70"
+                    }, 
+                    {
+                        "name": "GetWindowLongW", 
+                        "address": "0x140030c78"
+                    }, 
+                    {
+                        "name": "DestroyIcon", 
+                        "address": "0x140030c80"
+                    }, 
+                    {
+                        "name": "UnregisterHotKey", 
+                        "address": "0x140030c88"
+                    }, 
+                    {
+                        "name": "GetWindowRgnBox", 
+                        "address": "0x140030c90"
+                    }, 
+                    {
+                        "name": "OffsetRect", 
+                        "address": "0x140030c98"
+                    }, 
+                    {
+                        "name": "DrawIconEx", 
+                        "address": "0x140030ca0"
+                    }, 
+                    {
+                        "name": "CallWindowProcW", 
+                        "address": "0x140030ca8"
+                    }, 
+                    {
+                        "name": "GetIconInfo", 
+                        "address": "0x140030cb0"
+                    }, 
+                    {
+                        "name": "SetClipboardData", 
+                        "address": "0x140030cb8"
+                    }, 
+                    {
+                        "name": "GetSystemMetricsForDpi", 
+                        "address": "0x140030cc0"
+                    }, 
+                    {
+                        "name": "MonitorFromRect", 
+                        "address": "0x140030cc8"
+                    }, 
+                    {
+                        "name": "GetMonitorInfoW", 
+                        "address": "0x140030cd0"
+                    }, 
+                    {
+                        "name": "CopyRect", 
+                        "address": "0x140030cd8"
+                    }, 
+                    {
+                        "name": "EqualRect", 
+                        "address": "0x140030ce0"
+                    }, 
+                    {
+                        "name": "BeginDeferWindowPos", 
+                        "address": "0x140030ce8"
+                    }, 
+                    {
+                        "name": "DeferWindowPos", 
+                        "address": "0x140030cf0"
+                    }, 
+                    {
+                        "name": "EndDeferWindowPos", 
+                        "address": "0x140030cf8"
+                    }, 
+                    {
+                        "name": "LoadMenuW", 
+                        "address": "0x140030d00"
+                    }, 
+                    {
+                        "name": "RemoveMenu", 
+                        "address": "0x140030d08"
+                    }, 
+                    {
+                        "name": "SetFocus", 
+                        "address": "0x140030d10"
+                    }, 
+                    {
+                        "name": "SetThreadDpiAwarenessContext", 
+                        "address": "0x140030d18"
+                    }, 
+                    {
+                        "name": "GetKeyState", 
+                        "address": "0x140030d20"
+                    }, 
+                    {
+                        "name": "GetScrollInfo", 
+                        "address": "0x140030d28"
+                    }, 
+                    {
+                        "name": "CheckDlgButton", 
+                        "address": "0x140030d30"
+                    }, 
+                    {
+                        "name": "SetTimer", 
+                        "address": "0x140030d38"
+                    }, 
+                    {
+                        "name": "KillTimer", 
+                        "address": "0x140030d40"
+                    }, 
+                    {
+                        "name": "GetCursorPos", 
+                        "address": "0x140030d48"
+                    }, 
+                    {
+                        "name": "WindowFromPoint", 
+                        "address": "0x140030d50"
+                    }, 
+                    {
+                        "name": "ScreenToClient", 
+                        "address": "0x140030d58"
+                    }, 
+                    {
+                        "name": "SetCursorPos", 
+                        "address": "0x140030d60"
+                    }, 
+                    {
+                        "name": "LoadIconW", 
+                        "address": "0x140030d68"
+                    }, 
+                    {
+                        "name": "SystemParametersInfoW", 
+                        "address": "0x140030d70"
+                    }, 
+                    {
+                        "name": "GetProcessDefaultLayout", 
+                        "address": "0x140030d78"
+                    }, 
+                    {
+                        "name": "TrackPopupMenuEx", 
+                        "address": "0x140030d80"
+                    }, 
+                    {
+                        "name": "MonitorFromWindow", 
+                        "address": "0x140030d88"
+                    }, 
+                    {
+                        "name": "GetSubMenu", 
+                        "address": "0x140030d90"
+                    }, 
+                    {
+                        "name": "MapWindowPoints", 
+                        "address": "0x140030d98"
+                    }, 
+                    {
+                        "name": "LoadImageW", 
+                        "address": "0x140030da0"
+                    }, 
+                    {
+                        "name": "IsDlgButtonChecked", 
+                        "address": "0x140030da8"
+                    }, 
+                    {
+                        "name": "GetComboBoxInfo", 
+                        "address": "0x140030db0"
+                    }, 
+                    {
+                        "name": "GetClientRect", 
+                        "address": "0x140030db8"
+                    }, 
+                    {
+                        "name": "DrawFocusRect", 
+                        "address": "0x140030dc0"
+                    }, 
+                    {
+                        "name": "DrawTextW", 
+                        "address": "0x140030dc8"
+                    }, 
+                    {
+                        "name": "InflateRect", 
+                        "address": "0x140030dd0"
+                    }, 
+                    {
+                        "name": "UnregisterClassA", 
+                        "address": "0x140030dd8"
+                    }, 
+                    {
+                        "name": "EmptyClipboard", 
+                        "address": "0x140030de0"
+                    }, 
+                    {
+                        "name": "FillRect", 
+                        "address": "0x140030de8"
+                    }, 
+                    {
+                        "name": "SendMessageW", 
+                        "address": "0x140030df0"
+                    }, 
+                    {
+                        "name": "EndDialog", 
+                        "address": "0x140030df8"
+                    }, 
+                    {
+                        "name": "GetDlgItem", 
+                        "address": "0x140030e00"
+                    }, 
+                    {
+                        "name": "GetWindowRect", 
+                        "address": "0x140030e08"
+                    }, 
+                    {
+                        "name": "GetCursorInfo", 
+                        "address": "0x140030e10"
+                    }, 
+                    {
+                        "name": "SetForegroundWindow", 
+                        "address": "0x140030e18"
+                    }, 
+                    {
+                        "name": "OpenIcon", 
+                        "address": "0x140030e20"
+                    }, 
+                    {
+                        "name": "MessageBoxW", 
+                        "address": "0x140030e28"
+                    }, 
+                    {
+                        "name": "GetSysColor", 
+                        "address": "0x140030e30"
+                    }, 
+                    {
+                        "name": "OpenClipboard", 
+                        "address": "0x140030e38"
+                    }, 
+                    {
+                        "name": "CloseClipboard", 
+                        "address": "0x140030e40"
+                    }, 
+                    {
+                        "name": "SetWindowPos", 
+                        "address": "0x140030e48"
+                    }, 
+                    {
+                        "name": "PostMessageW", 
+                        "address": "0x140030e50"
+                    }, 
+                    {
+                        "name": "GetDpiForWindow", 
+                        "address": "0x140030e58"
+                    }, 
+                    {
+                        "name": "GetDpiForSystem", 
+                        "address": "0x140030e60"
+                    }, 
+                    {
+                        "name": "PostQuitMessage", 
+                        "address": "0x140030e68"
+                    }, 
+                    {
+                        "name": "DialogBoxParamW", 
+                        "address": "0x140030e70"
+                    }, 
+                    {
+                        "name": "DispatchMessageW", 
+                        "address": "0x140030e78"
+                    }, 
+                    {
+                        "name": "TranslateMessage", 
+                        "address": "0x140030e80"
+                    }, 
+                    {
+                        "name": "GetMessageW", 
+                        "address": "0x140030e88"
+                    }, 
+                    {
+                        "name": "LoadAcceleratorsW", 
+                        "address": "0x140030e90"
+                    }, 
+                    {
+                        "name": "GetParent", 
+                        "address": "0x140030e98"
+                    }, 
+                    {
+                        "name": "SetScrollInfo", 
+                        "address": "0x140030ea0"
+                    }, 
+                    {
+                        "name": "GetClassNameW", 
+                        "address": "0x140030ea8"
+                    }, 
+                    {
+                        "name": "SetRect", 
+                        "address": "0x140030eb0"
+                    }, 
+                    {
+                        "name": "LogicalToPhysicalPoint", 
+                        "address": "0x140030eb8"
+                    }, 
+                    {
+                        "name": "IsIconic", 
+                        "address": "0x140030ec0"
+                    }, 
+                    {
+                        "name": "GetWindow", 
+                        "address": "0x140030ec8"
+                    }, 
+                    {
+                        "name": "PtInRect", 
+                        "address": "0x140030ed0"
+                    }, 
+                    {
+                        "name": "DestroyCursor", 
+                        "address": "0x140030ed8"
+                    }, 
+                    {
+                        "name": "EnumDisplayMonitors", 
+                        "address": "0x140030ee0"
+                    }, 
+                    {
+                        "name": "IntersectRect", 
+                        "address": "0x140030ee8"
+                    }, 
+                    {
+                        "name": "SetPropW", 
+                        "address": "0x140030ef0"
+                    }, 
+                    {
+                        "name": "GetPropW", 
+                        "address": "0x140030ef8"
+                    }, 
+                    {
+                        "name": "InvalidateRect", 
+                        "address": "0x140030f00"
+                    }, 
+                    {
+                        "name": "UnionRect", 
+                        "address": "0x140030f08"
+                    }, 
+                    {
+                        "name": "ReleaseCapture", 
+                        "address": "0x140030f10"
+                    }, 
+                    {
+                        "name": "SetCapture", 
+                        "address": "0x140030f18"
+                    }, 
+                    {
+                        "name": "EndPaint", 
+                        "address": "0x140030f20"
+                    }, 
+                    {
+                        "name": "BeginPaint", 
+                        "address": "0x140030f28"
+                    }, 
+                    {
+                        "name": "DefWindowProcW", 
+                        "address": "0x140030f30"
+                    }, 
+                    {
+                        "name": "SetWindowLongPtrW", 
+                        "address": "0x140030f38"
+                    }, 
+                    {
+                        "name": "GetWindowLongPtrW", 
+                        "address": "0x140030f40"
+                    }, 
+                    {
+                        "name": "RegisterClassW", 
+                        "address": "0x140030f48"
+                    }, 
+                    {
+                        "name": "SetClassLongPtrW", 
+                        "address": "0x140030f50"
+                    }, 
+                    {
+                        "name": "LoadCursorW", 
+                        "address": "0x140030f58"
+                    }, 
+                    {
+                        "name": "ReleaseDC", 
+                        "address": "0x140030f60"
+                    }, 
+                    {
+                        "name": "ShowWindow", 
+                        "address": "0x140030f68"
+                    }, 
+                    {
+                        "name": "IsWindowVisible", 
+                        "address": "0x140030f70"
+                    }, 
+                    {
+                        "name": "FindWindowW", 
+                        "address": "0x140030f78"
+                    }, 
+                    {
+                        "name": "GetSystemMetrics", 
+                        "address": "0x140030f80"
+                    }, 
+                    {
+                        "name": "SetCursor", 
+                        "address": "0x140030f88"
+                    }, 
+                    {
+                        "name": "GetDC", 
+                        "address": "0x140030f90"
+                    }
+                ], 
+                "dll": "USER32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "?_Xbad_alloc@std@@YAXXZ", 
+                        "address": "0x1400313e8"
+                    }, 
+                    {
+                        "name": "?_Xlength_error@std@@YAXPEBD@Z", 
+                        "address": "0x1400313f0"
+                    }
+                ], 
+                "dll": "msvcp_win.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "wcscmp", 
+                        "address": "0x1400312a0"
+                    }, 
+                    {
+                        "name": "wcscspn", 
+                        "address": "0x1400312a8"
+                    }, 
+                    {
+                        "name": "wcsspn", 
+                        "address": "0x1400312b0"
+                    }, 
+                    {
+                        "name": "memset", 
+                        "address": "0x1400312b8"
+                    }
+                ], 
+                "dll": "api-ms-win-crt-string-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "_register_thread_local_exe_atexit_callback", 
+                        "address": "0x140031278"
+                    }, 
+                    {
+                        "name": "_initterm_e", 
+                        "address": "0x140031280"
+                    }, 
+                    {
+                        "name": "_initterm", 
+                        "address": "0x140031288"
+                    }, 
+                    {
+                        "name": "_c_exit", 
+                        "address": "0x140031290"
+                    }
+                ], 
+                "dll": "api-ms-win-crt-runtime-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "_o__get_narrow_winmain_command_line", 
+                        "address": "0x140031138"
+                    }, 
+                    {
+                        "name": "_o__initialize_narrow_environment", 
+                        "address": "0x140031140"
+                    }, 
+                    {
+                        "name": "_o__initialize_onexit_table", 
+                        "address": "0x140031148"
+                    }, 
+                    {
+                        "name": "_o__invalid_parameter_noinfo", 
+                        "address": "0x140031150"
+                    }, 
+                    {
+                        "name": "_o__invalid_parameter_noinfo_noreturn", 
+                        "address": "0x140031158"
+                    }, 
+                    {
+                        "name": "_o__cexit", 
+                        "address": "0x140031160"
+                    }, 
+                    {
+                        "name": "_o__purecall", 
+                        "address": "0x140031168"
+                    }, 
+                    {
+                        "name": "_o__recalloc", 
+                        "address": "0x140031170"
+                    }, 
+                    {
+                        "name": "_o__register_onexit_function", 
+                        "address": "0x140031178"
+                    }, 
+                    {
+                        "name": "_o__resetstkoflw", 
+                        "address": "0x140031180"
+                    }, 
+                    {
+                        "name": "_o__seh_filter_exe", 
+                        "address": "0x140031188"
+                    }, 
+                    {
+                        "name": "_o__set_app_type", 
+                        "address": "0x140031190"
+                    }, 
+                    {
+                        "name": "_o__set_fmode", 
+                        "address": "0x140031198"
+                    }, 
+                    {
+                        "name": "_o__set_new_mode", 
+                        "address": "0x1400311a0"
+                    }, 
+                    {
+                        "name": "_o__exit", 
+                        "address": "0x1400311a8"
+                    }, 
+                    {
+                        "name": "_o__wcsicmp", 
+                        "address": "0x1400311b0"
+                    }, 
+                    {
+                        "name": "_o_exit", 
+                        "address": "0x1400311b8"
+                    }, 
+                    {
+                        "name": "_o_free", 
+                        "address": "0x1400311c0"
+                    }, 
+                    {
+                        "name": "_o_malloc", 
+                        "address": "0x1400311c8"
+                    }, 
+                    {
+                        "name": "_o_terminate", 
+                        "address": "0x1400311d0"
+                    }, 
+                    {
+                        "name": "_o_wmemcpy_s", 
+                        "address": "0x1400311d8"
+                    }, 
+                    {
+                        "name": "_CxxThrowException", 
+                        "address": "0x1400311e0"
+                    }, 
+                    {
+                        "name": "_o__callnewh", 
+                        "address": "0x1400311e8"
+                    }, 
+                    {
+                        "name": "_o___stdio_common_vswprintf_s", 
+                        "address": "0x1400311f0"
+                    }, 
+                    {
+                        "name": "_o___stdio_common_vswprintf", 
+                        "address": "0x1400311f8"
+                    }, 
+                    {
+                        "name": "_o___stdio_common_vsnprintf_s", 
+                        "address": "0x140031200"
+                    }, 
+                    {
+                        "name": "_o___std_exception_destroy", 
+                        "address": "0x140031208"
+                    }, 
+                    {
+                        "name": "_o___std_exception_copy", 
+                        "address": "0x140031210"
+                    }, 
+                    {
+                        "name": "_o___p__commode", 
+                        "address": "0x140031218"
+                    }, 
+                    {
+                        "name": "_o__errno", 
+                        "address": "0x140031220"
+                    }, 
+                    {
+                        "name": "_o__configure_narrow_argv", 
+                        "address": "0x140031228"
+                    }, 
+                    {
+                        "name": "strstr", 
+                        "address": "0x140031230"
+                    }, 
+                    {
+                        "name": "memmove", 
+                        "address": "0x140031238"
+                    }, 
+                    {
+                        "name": "__C_specific_handler", 
+                        "address": "0x140031240"
+                    }, 
+                    {
+                        "name": "_o__configthreadlocale", 
+                        "address": "0x140031248"
+                    }, 
+                    {
+                        "name": "__std_terminate", 
+                        "address": "0x140031250"
+                    }, 
+                    {
+                        "name": "__CxxFrameHandler3", 
+                        "address": "0x140031258"
+                    }, 
+                    {
+                        "name": "_o__crt_atexit", 
+                        "address": "0x140031260"
+                    }, 
+                    {
+                        "name": "memcpy", 
+                        "address": "0x140031268"
+                    }
+                ], 
+                "dll": "api-ms-win-crt-private-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "EtwTraceMessage", 
+                        "address": "0x140031400"
+                    }, 
+                    {
+                        "name": "WinSqmIsOptedIn", 
+                        "address": "0x140031408"
+                    }, 
+                    {
+                        "name": "WinSqmIncrementDWORD", 
+                        "address": "0x140031410"
+                    }, 
+                    {
+                        "name": "RtlCaptureContext", 
+                        "address": "0x140031418"
+                    }, 
+                    {
+                        "name": "RtlVirtualUnwind", 
+                        "address": "0x140031420"
+                    }, 
+                    {
+                        "name": "RtlLookupFunctionEntry", 
+                        "address": "0x140031428"
+                    }
+                ], 
+                "dll": "ntdll.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GdipSetStringFormatLineAlign", 
+                        "address": "0x1400312d8"
+                    }, 
+                    {
+                        "name": "GdipSetStringFormatAlign", 
+                        "address": "0x1400312e0"
+                    }, 
+                    {
+                        "name": "GdipCreateStringFormat", 
+                        "address": "0x1400312e8"
+                    }, 
+                    {
+                        "name": "GdipCreateFontFromLogfontW", 
+                        "address": "0x1400312f0"
+                    }, 
+                    {
+                        "name": "GdipDeleteStringFormat", 
+                        "address": "0x1400312f8"
+                    }, 
+                    {
+                        "name": "GdipDeleteFont", 
+                        "address": "0x140031300"
+                    }, 
+                    {
+                        "name": "GdipDrawString", 
+                        "address": "0x140031308"
+                    }, 
+                    {
+                        "name": "GdipFillRectangle", 
+                        "address": "0x140031310"
+                    }, 
+                    {
+                        "name": "GdipCreateLineBrushFromRect", 
+                        "address": "0x140031318"
+                    }, 
+                    {
+                        "name": "GdipGetImageEncodersSize", 
+                        "address": "0x140031320"
+                    }, 
+                    {
+                        "name": "GdipGetImageEncoders", 
+                        "address": "0x140031328"
+                    }, 
+                    {
+                        "name": "GdipSetStringFormatFlags", 
+                        "address": "0x140031330"
+                    }, 
+                    {
+                        "name": "GdipCreateBitmapFromHBITMAP", 
+                        "address": "0x140031338"
+                    }, 
+                    {
+                        "name": "GdipCloneImage", 
+                        "address": "0x140031340"
+                    }, 
+                    {
+                        "name": "GdipMeasureString", 
+                        "address": "0x140031348"
+                    }, 
+                    {
+                        "name": "GdipSaveImageToFile", 
+                        "address": "0x140031350"
+                    }, 
+                    {
+                        "name": "GdipFillEllipseI", 
+                        "address": "0x140031358"
+                    }, 
+                    {
+                        "name": "GdipSetSmoothingMode", 
+                        "address": "0x140031360"
+                    }, 
+                    {
+                        "name": "GdiplusStartup", 
+                        "address": "0x140031368"
+                    }, 
+                    {
+                        "name": "GdiplusShutdown", 
+                        "address": "0x140031370"
+                    }, 
+                    {
+                        "name": "GdipDeleteGraphics", 
+                        "address": "0x140031378"
+                    }, 
+                    {
+                        "name": "GdipFillRectangleI", 
+                        "address": "0x140031380"
+                    }, 
+                    {
+                        "name": "GdipCloneBrush", 
+                        "address": "0x140031388"
+                    }, 
+                    {
+                        "name": "GdipDeleteBrush", 
+                        "address": "0x140031390"
+                    }, 
+                    {
+                        "name": "GdipCreateSolidFill", 
+                        "address": "0x140031398"
+                    }, 
+                    {
+                        "name": "GdipCreateFromHDC", 
+                        "address": "0x1400313a0"
+                    }, 
+                    {
+                        "name": "GdipFree", 
+                        "address": "0x1400313a8"
+                    }, 
+                    {
+                        "name": "GdipAlloc", 
+                        "address": "0x1400313b0"
+                    }, 
+                    {
+                        "name": "GdipCreateBitmapFromScan0", 
+                        "address": "0x1400313b8"
+                    }, 
+                    {
+                        "name": "GdipSaveImageToStream", 
+                        "address": "0x1400313c0"
+                    }, 
+                    {
+                        "name": "GdipDisposeImage", 
+                        "address": "0x1400313c8"
+                    }
+                ], 
+                "dll": "gdiplus.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "ImageList_Destroy", 
+                        "address": "0x140030818"
+                    }, 
+                    {
+                        "name": "ImageList_Create", 
+                        "address": "0x140030820"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x140030828"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x140030830"
+                    }, 
+                    {
+                        "name": "ImageList_Add", 
+                        "address": "0x140030838"
+                    }, 
+                    {
+                        "name": "InitCommonControlsEx", 
+                        "address": "0x140030840"
+                    }
+                ], 
+                "dll": "COMCTL32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "PrintDlgExW", 
+                        "address": "0x140030850"
+                    }
+                ], 
+                "dll": "COMDLG32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "PathFindExtensionW", 
+                        "address": "0x140030be0"
+                    }, 
+                    {
+                        "name": "UrlCreateFromPathW", 
+                        "address": "0x140030be8"
+                    }, 
+                    {
+                        "name": "PathRemoveExtensionW", 
+                        "address": "0x140030bf0"
+                    }, 
+                    {
+                        "name": "PathIsURLW", 
+                        "address": "0x140030bf8"
+                    }, 
+                    {
+                        "name": "StrChrW", 
+                        "address": "0x140030c00"
+                    }, 
+                    {
+                        "name": "PathFindFileNameW", 
+                        "address": "0x140030c08"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x140030c10"
+                    }
+                ], 
+                "dll": "SHLWAPI.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "ShellExecuteW", 
+                        "address": "0x140030bb8"
+                    }, 
+                    {
+                        "name": "SHCreateItemInKnownFolder", 
+                        "address": "0x140030bc0"
+                    }, 
+                    {
+                        "name": "ShellAboutW", 
+                        "address": "0x140030bc8"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x140030bd0"
+                    }
+                ], 
+                "dll": "SHELL32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "CoCreateFreeThreadedMarshaler", 
+                        "address": "0x140031438"
+                    }, 
+                    {
+                        "name": "CoInitialize", 
+                        "address": "0x140031440"
+                    }, 
+                    {
+                        "name": "CreateStreamOnHGlobal", 
+                        "address": "0x140031448"
+                    }, 
+                    {
+                        "name": "CoCreateInstance", 
+                        "address": "0x140031450"
+                    }, 
+                    {
+                        "name": "CoWaitForMultipleHandles", 
+                        "address": "0x140031458"
+                    }, 
+                    {
+                        "name": "CoUninitialize", 
+                        "address": "0x140031460"
+                    }, 
+                    {
+                        "name": "CoTaskMemFree", 
+                        "address": "0x140031468"
+                    }, 
+                    {
+                        "name": "StringFromCLSID", 
+                        "address": "0x140031470"
+                    }, 
+                    {
+                        "name": "CoCreateGuid", 
+                        "address": "0x140031478"
+                    }
+                ], 
+                "dll": "ole32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "VariantInit", 
+                        "address": "0x140030b40"
+                    }, 
+                    {
+                        "name": "VariantClear", 
+                        "address": "0x140030b48"
+                    }, 
+                    {
+                        "name": "SysAllocString", 
+                        "address": "0x140030b50"
+                    }, 
+                    {
+                        "name": "SysFreeString", 
+                        "address": "0x140030b58"
+                    }, 
+                    {
+                        "name": "SafeArrayPutElement", 
+                        "address": "0x140030b60"
+                    }, 
+                    {
+                        "name": "SafeArrayGetElement", 
+                        "address": "0x140030b68"
+                    }, 
+                    {
+                        "name": "SafeArrayGetUBound", 
+                        "address": "0x140030b70"
+                    }, 
+                    {
+                        "name": "VarBstrCat", 
+                        "address": "0x140030b78"
+                    }, 
+                    {
+                        "name": "SysAllocStringLen", 
+                        "address": "0x140030b80"
+                    }, 
+                    {
+                        "name": "SysStringLen", 
+                        "address": "0x140030b88"
+                    }
+                ], 
+                "dll": "OLEAUT32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetThemeSysFont", 
+                        "address": "0x140030fa0"
+                    }, 
+                    {
+                        "name": "GetThemeSysColor", 
+                        "address": "0x140030fa8"
+                    }
+                ], 
+                "dll": "UxTheme.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "AccessibleObjectFromWindow", 
+                        "address": "0x140030b30"
+                    }
+                ], 
+                "dll": "OLEACC.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "DwmGetWindowAttribute", 
+                        "address": "0x1400312c8"
+                    }
+                ], 
+                "dll": "dwmapi.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "DRMIsWindowProtected", 
+                        "address": "0x1400313d8"
+                    }
+                ], 
+                "dll": "msdrm.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "RoGetActivationFactory", 
+                        "address": "0x1400310f0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-winrt-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "WindowsDeleteString", 
+                        "address": "0x140031100"
+                    }, 
+                    {
+                        "name": "WindowsCreateStringReference", 
+                        "address": "0x140031108"
+                    }, 
+                    {
+                        "name": "WindowsGetStringRawBuffer", 
+                        "address": "0x140031110"
+                    }
+                ], 
+                "dll": "api-ms-win-core-winrt-string-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "PathAllocCombine", 
+                        "address": "0x140031020"
+                    }
+                ], 
+                "dll": "api-ms-win-core-path-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "RpcStringFreeW", 
+                        "address": "0x140030b98"
+                    }, 
+                    {
+                        "name": "UuidToStringW", 
+                        "address": "0x140030ba0"
+                    }, 
+                    {
+                        "name": "UuidCreate", 
+                        "address": "0x140030ba8"
+                    }
+                ], 
+                "dll": "RPCRT4.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "CreateEventW", 
+                        "address": "0x1400310a8"
+                    }, 
+                    {
+                        "name": "InitializeCriticalSectionAndSpinCount", 
+                        "address": "0x1400310b0"
+                    }, 
+                    {
+                        "name": "ResetEvent", 
+                        "address": "0x1400310b8"
+                    }, 
+                    {
+                        "name": "CreateMutexW", 
+                        "address": "0x1400310c0"
+                    }, 
+                    {
+                        "name": "InitializeCriticalSection", 
+                        "address": "0x1400310c8"
+                    }, 
+                    {
+                        "name": "DeleteCriticalSection", 
+                        "address": "0x1400310d0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-synch-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "HeapDestroy", 
+                        "address": "0x140030fd0"
+                    }, 
+                    {
+                        "name": "HeapReAlloc", 
+                        "address": "0x140030fd8"
+                    }, 
+                    {
+                        "name": "HeapSize", 
+                        "address": "0x140030fe0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-heap-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "SetUnhandledExceptionFilter", 
+                        "address": "0x140030fb8"
+                    }, 
+                    {
+                        "name": "UnhandledExceptionFilter", 
+                        "address": "0x140030fc0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-errorhandling-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetCurrentProcess", 
+                        "address": "0x140031030"
+                    }, 
+                    {
+                        "name": "GetStartupInfoW", 
+                        "address": "0x140031038"
+                    }, 
+                    {
+                        "name": "TerminateProcess", 
+                        "address": "0x140031040"
+                    }
+                ], 
+                "dll": "api-ms-win-core-processthreads-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "IsProcessorFeaturePresent", 
+                        "address": "0x140031050"
+                    }, 
+                    {
+                        "name": "GetProcessMitigationPolicy", 
+                        "address": "0x140031058"
+                    }
+                ], 
+                "dll": "api-ms-win-core-processthreads-l1-1-1.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "QueryPerformanceCounter", 
+                        "address": "0x140031068"
+                    }
+                ], 
+                "dll": "api-ms-win-core-profile-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetSystemTimeAsFileTime", 
+                        "address": "0x1400310e0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-sysinfo-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "InitializeSListHead", 
+                        "address": "0x140031000"
+                    }
+                ], 
+                "dll": "api-ms-win-core-interlocked-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "RegCloseKey", 
+                        "address": "0x140031078"
+                    }, 
+                    {
+                        "name": "RegQueryValueExW", 
+                        "address": "0x140031080"
+                    }, 
+                    {
+                        "name": "RegOpenKeyExW", 
+                        "address": "0x140031088"
+                    }, 
+                    {
+                        "name": "RegCreateKeyExW", 
+                        "address": "0x140031090"
+                    }, 
+                    {
+                        "name": "RegSetValueExW", 
+                        "address": "0x140031098"
+                    }
+                ], 
+                "dll": "api-ms-win-core-registry-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetModuleFileNameW", 
+                        "address": "0x140031010"
+                    }
+                ], 
+                "dll": "api-ms-win-core-libraryloader-l1-2-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "LocalAlloc", 
+                        "address": "0x140030ff0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-heap-l2-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "fmodf", 
+                        "address": "0x140031120"
+                    }, 
+                    {
+                        "name": "floorf", 
+                        "address": "0x140031128"
+                    }
+                ], 
+                "dll": "api-ms-win-crt-math-l1-1-0.dll"
+            }
+        ], 
+        "peid_signatures": null, 
+        "keys": [], 
+        "signature": [], 
+        "pe_timestamp": "1973-12-10 12:19:37", 
+        "pe_exports": [], 
+        "imported_dll_count": 36, 
+        "pe_imphash": "662f4df6727b2a426ce7ea098fe0c227", 
+        "pe_resources": [
+            {
+                "name": "MUI", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00328a38", 
+                "size": "0x000000f0"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "AmigaOS bitmap font", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003275a0", 
+                "size": "0x000010ac"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_BITMAP", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "dBase III DBT, version number 0, next free block index 40", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00107fc8", 
+                "size": "0x00075028"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057890", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "Targa image data - RGB 32 x 2092 x 1 +256 +1", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00328650", 
+                "size": "0x0000004c"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "Targa image data - RGB 32 x 2092 x 1 +256 +1", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00328650", 
+                "size": "0x0000004c"
+            }, 
+            {
+                "name": "RT_GROUP_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057cf8", 
+                "size": "0x0000004c"
+            }, 
+            {
+                "name": "RT_GROUP_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00057cf8", 
+                "size": "0x0000004c"
+            }, 
+            {
+                "name": "RT_VERSION", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x003286a0", 
+                "size": "0x00000398"
+            }, 
+            {
+                "name": "RT_MANIFEST", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "XML 1.0 document, ASCII text, with CRLF line terminators", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00045a70", 
+                "size": "0x000004dc"
+            }
+        ], 
+        "pe_versioninfo": [], 
+        "pe_sections": [
+            {
+                "size_of_data": "0x0002ec00", 
+                "virtual_address": "0x00001000", 
+                "entropy": 6.395699036609713, 
+                "name": ".text", 
+                "virtual_size": "0x0002eb39"
+            }, 
+            {
+                "size_of_data": "0x0000ec00", 
+                "virtual_address": "0x00030000", 
+                "entropy": 5.68166598182955, 
+                "name": ".rdata", 
+                "virtual_size": "0x0000eb12"
+            }, 
+            {
+                "size_of_data": "0x00000800", 
+                "virtual_address": "0x0003f000", 
+                "entropy": 3.0503589435123026, 
+                "name": ".data", 
+                "virtual_size": "0x000030c8"
+            }, 
+            {
+                "size_of_data": "0x00001800", 
+                "virtual_address": "0x00043000", 
+                "entropy": 5.41019767758476, 
+                "name": ".pdata", 
+                "virtual_size": "0x00001788"
+            }, 
+            {
+                "size_of_data": "0x002e3c00", 
+                "virtual_address": "0x00045000", 
+                "entropy": 3.989974649539013, 
+                "name": ".rsrc", 
+                "virtual_size": "0x002e3b28"
+            }, 
+            {
+                "size_of_data": "0x00000400", 
+                "virtual_address": "0x00329000", 
+                "entropy": 3.8289047881484666, 
+                "name": ".reloc", 
+                "virtual_size": "0x0000027c"
+            }
+        ]
+    }, 
+    "behavior": {
+        "generic": [
+            {
+                "process_path": "C:\\Windows\\System32\\lsass.exe", 
+                "process_name": "lsass.exe", 
+                "pid": 468, 
+                "summary": {}, 
+                "first_seen": 1554908966.140625, 
+                "ppid": 372
+            }
+        ], 
+        "processes": [
+            {
+                "process_path": "C:\\Windows\\System32\\lsass.exe", 
+                "calls": [], 
+                "track": false, 
+                "pid": 468, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\Windows\\system32\\lsass.exe", 
+                "modules": [
+                    {
+                        "basename": "lsass.exe", 
+                        "imgsize": 49152, 
+                        "baseaddr": "0xff6d0000", 
+                        "filepath": "C:\\Windows\\system32\\lsass.exe"
+                    }, 
+                    {
+                        "basename": "ntdll.dll", 
+                        "imgsize": 1740800, 
+                        "baseaddr": "0x771e0000", 
+                        "filepath": "C:\\Windows\\SYSTEM32\\ntdll.dll"
+                    }, 
+                    {
+                        "basename": "kernel32.dll", 
+                        "imgsize": 1175552, 
+                        "baseaddr": "0x770c0000", 
+                        "filepath": "C:\\Windows\\system32\\kernel32.dll"
+                    }, 
+                    {
+                        "basename": "KERNELBASE.dll", 
+                        "imgsize": 438272, 
+                        "baseaddr": "0x7fefd220000", 
+                        "filepath": "C:\\Windows\\system32\\KERNELBASE.dll"
+                    }, 
+                    {
+                        "basename": "msvcrt.dll", 
+                        "imgsize": 651264, 
+                        "baseaddr": "0x7fefed20000", 
+                        "filepath": "C:\\Windows\\system32\\msvcrt.dll"
+                    }, 
+                    {
+                        "basename": "RPCRT4.dll", 
+                        "imgsize": 1232896, 
+                        "baseaddr": "0x7feff3c0000", 
+                        "filepath": "C:\\Windows\\system32\\RPCRT4.dll"
+                    }, 
+                    {
+                        "basename": "SspiSrv.dll", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefcf80000", 
+                        "filepath": "C:\\Windows\\system32\\SspiSrv.dll"
+                    }, 
+                    {
+                        "basename": "lsasrv.dll", 
+                        "imgsize": 1470464, 
+                        "baseaddr": "0x7fefce00000", 
+                        "filepath": "C:\\Windows\\system32\\lsasrv.dll"
+                    }, 
+                    {
+                        "basename": "sechost.dll", 
+                        "imgsize": 126976, 
+                        "baseaddr": "0x7fefed00000", 
+                        "filepath": "C:\\Windows\\SYSTEM32\\sechost.dll"
+                    }, 
+                    {
+                        "basename": "SspiCli.dll", 
+                        "imgsize": 151552, 
+                        "baseaddr": "0x7fefcf90000", 
+                        "filepath": "C:\\Windows\\system32\\SspiCli.dll"
+                    }, 
+                    {
+                        "basename": "ADVAPI32.dll", 
+                        "imgsize": 897024, 
+                        "baseaddr": "0x7feff260000", 
+                        "filepath": "C:\\Windows\\system32\\ADVAPI32.dll"
+                    }, 
+                    {
+                        "basename": "USER32.dll", 
+                        "imgsize": 1024000, 
+                        "baseaddr": "0x76fc0000", 
+                        "filepath": "C:\\Windows\\system32\\USER32.dll"
+                    }, 
+                    {
+                        "basename": "GDI32.dll", 
+                        "imgsize": 421888, 
+                        "baseaddr": "0x7fefe7b0000", 
+                        "filepath": "C:\\Windows\\system32\\GDI32.dll"
+                    }, 
+                    {
+                        "basename": "LPK.dll", 
+                        "imgsize": 57344, 
+                        "baseaddr": "0x7fefeea0000", 
+                        "filepath": "C:\\Windows\\system32\\LPK.dll"
+                    }, 
+                    {
+                        "basename": "USP10.dll", 
+                        "imgsize": 823296, 
+                        "baseaddr": "0x7fefd950000", 
+                        "filepath": "C:\\Windows\\system32\\USP10.dll"
+                    }, 
+                    {
+                        "basename": "SAMSRV.dll", 
+                        "imgsize": 774144, 
+                        "baseaddr": "0x7fefcd10000", 
+                        "filepath": "C:\\Windows\\system32\\SAMSRV.dll"
+                    }, 
+                    {
+                        "basename": "cryptdll.dll", 
+                        "imgsize": 81920, 
+                        "baseaddr": "0x7fefcce0000", 
+                        "filepath": "C:\\Windows\\system32\\cryptdll.dll"
+                    }, 
+                    {
+                        "basename": "MSASN1.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd1d0000", 
+                        "filepath": "C:\\Windows\\system32\\MSASN1.dll"
+                    }, 
+                    {
+                        "basename": "wevtapi.dll", 
+                        "imgsize": 446464, 
+                        "baseaddr": "0x7fefcc00000", 
+                        "filepath": "C:\\Windows\\system32\\wevtapi.dll"
+                    }, 
+                    {
+                        "basename": "IMM32.DLL", 
+                        "imgsize": 188416, 
+                        "baseaddr": "0x7feff120000", 
+                        "filepath": "C:\\Windows\\system32\\IMM32.DLL"
+                    }, 
+                    {
+                        "basename": "MSCTF.dll", 
+                        "imgsize": 1085440, 
+                        "baseaddr": "0x7feff150000", 
+                        "filepath": "C:\\Windows\\system32\\MSCTF.dll"
+                    }, 
+                    {
+                        "basename": "cngaudit.dll", 
+                        "imgsize": 36864, 
+                        "baseaddr": "0x7fefcbc0000", 
+                        "filepath": "C:\\Windows\\system32\\cngaudit.dll"
+                    }, 
+                    {
+                        "basename": "AUTHZ.dll", 
+                        "imgsize": 192512, 
+                        "baseaddr": "0x7fefcb90000", 
+                        "filepath": "C:\\Windows\\system32\\AUTHZ.dll"
+                    }, 
+                    {
+                        "basename": "ncrypt.dll", 
+                        "imgsize": 319488, 
+                        "baseaddr": "0x7fefcb40000", 
+                        "filepath": "C:\\Windows\\system32\\ncrypt.dll"
+                    }, 
+                    {
+                        "basename": "bcrypt.dll", 
+                        "imgsize": 139264, 
+                        "baseaddr": "0x7fefcb10000", 
+                        "filepath": "C:\\Windows\\system32\\bcrypt.dll"
+                    }, 
+                    {
+                        "basename": "msprivs.DLL", 
+                        "imgsize": 8192, 
+                        "baseaddr": "0x74f00000", 
+                        "filepath": "C:\\Windows\\system32\\msprivs.DLL"
+                    }, 
+                    {
+                        "basename": "netjoin.dll", 
+                        "imgsize": 204800, 
+                        "baseaddr": "0x7fefcad0000", 
+                        "filepath": "C:\\Windows\\system32\\netjoin.dll"
+                    }, 
+                    {
+                        "basename": "negoexts.DLL", 
+                        "imgsize": 147456, 
+                        "baseaddr": "0x7fefcaa0000", 
+                        "filepath": "C:\\Windows\\system32\\negoexts.DLL"
+                    }, 
+                    {
+                        "basename": "Secur32.dll", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefcd00000", 
+                        "filepath": "C:\\Windows\\system32\\Secur32.dll"
+                    }, 
+                    {
+                        "basename": "cryptbase.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd020000", 
+                        "filepath": "C:\\Windows\\system32\\cryptbase.dll"
+                    }, 
+                    {
+                        "basename": "kerberos.DLL", 
+                        "imgsize": 737280, 
+                        "baseaddr": "0x7fefc9e0000", 
+                        "filepath": "C:\\Windows\\system32\\kerberos.DLL"
+                    }, 
+                    {
+                        "basename": "CRYPTSP.dll", 
+                        "imgsize": 94208, 
+                        "baseaddr": "0x7fefc9c0000", 
+                        "filepath": "C:\\Windows\\system32\\CRYPTSP.dll"
+                    }, 
+                    {
+                        "basename": "WS2_32.dll", 
+                        "imgsize": 315392, 
+                        "baseaddr": "0x7fefead0000", 
+                        "filepath": "C:\\Windows\\system32\\WS2_32.dll"
+                    }, 
+                    {
+                        "basename": "NSI.dll", 
+                        "imgsize": 32768, 
+                        "baseaddr": "0x7fefd7c0000", 
+                        "filepath": "C:\\Windows\\system32\\NSI.dll"
+                    }, 
+                    {
+                        "basename": "mswsock.dll", 
+                        "imgsize": 348160, 
+                        "baseaddr": "0x7fefc960000", 
+                        "filepath": "C:\\Windows\\system32\\mswsock.dll"
+                    }, 
+                    {
+                        "basename": "wship6.dll", 
+                        "imgsize": 28672, 
+                        "baseaddr": "0x7fefc950000", 
+                        "filepath": "C:\\Windows\\System32\\wship6.dll"
+                    }, 
+                    {
+                        "basename": "msv1_0.DLL", 
+                        "imgsize": 331776, 
+                        "baseaddr": "0x7fefc8f0000", 
+                        "filepath": "C:\\Windows\\system32\\msv1_0.DLL"
+                    }, 
+                    {
+                        "basename": "netlogon.DLL", 
+                        "imgsize": 712704, 
+                        "baseaddr": "0x7fefc840000", 
+                        "filepath": "C:\\Windows\\system32\\netlogon.DLL"
+                    }, 
+                    {
+                        "basename": "DNSAPI.dll", 
+                        "imgsize": 372736, 
+                        "baseaddr": "0x7fefc7e0000", 
+                        "filepath": "C:\\Windows\\system32\\DNSAPI.dll"
+                    }, 
+                    {
+                        "basename": "logoncli.dll", 
+                        "imgsize": 196608, 
+                        "baseaddr": "0x7fefc7b0000", 
+                        "filepath": "C:\\Windows\\system32\\logoncli.dll"
+                    }, 
+                    {
+                        "basename": "schannel.DLL", 
+                        "imgsize": 356352, 
+                        "baseaddr": "0x7fefc750000", 
+                        "filepath": "C:\\Windows\\system32\\schannel.DLL"
+                    }, 
+                    {
+                        "basename": "CRYPT32.dll", 
+                        "imgsize": 1470464, 
+                        "baseaddr": "0x7fefd350000", 
+                        "filepath": "C:\\Windows\\system32\\CRYPT32.dll"
+                    }, 
+                    {
+                        "basename": "wdigest.DLL", 
+                        "imgsize": 221184, 
+                        "baseaddr": "0x7fefc710000", 
+                        "filepath": "C:\\Windows\\system32\\wdigest.DLL"
+                    }, 
+                    {
+                        "basename": "rsaenh.dll", 
+                        "imgsize": 290816, 
+                        "baseaddr": "0x7fefc6c0000", 
+                        "filepath": "C:\\Windows\\system32\\rsaenh.dll"
+                    }, 
+                    {
+                        "basename": "tspkg.DLL", 
+                        "imgsize": 98304, 
+                        "baseaddr": "0x7fefc6a0000", 
+                        "filepath": "C:\\Windows\\system32\\tspkg.DLL"
+                    }, 
+                    {
+                        "basename": "pku2u.DLL", 
+                        "imgsize": 282624, 
+                        "baseaddr": "0x7fefc650000", 
+                        "filepath": "C:\\Windows\\system32\\pku2u.DLL"
+                    }, 
+                    {
+                        "basename": "bcryptprimitives.dll", 
+                        "imgsize": 311296, 
+                        "baseaddr": "0x7fefc600000", 
+                        "filepath": "C:\\Windows\\system32\\bcryptprimitives.dll"
+                    }, 
+                    {
+                        "basename": "RpcRtRemote.dll", 
+                        "imgsize": 81920, 
+                        "baseaddr": "0x7fefd0d0000", 
+                        "filepath": "C:\\Windows\\system32\\RpcRtRemote.dll"
+                    }, 
+                    {
+                        "basename": "efslsaext.dll", 
+                        "imgsize": 73728, 
+                        "baseaddr": "0x7fefc5e0000", 
+                        "filepath": "C:\\Windows\\system32\\efslsaext.dll"
+                    }, 
+                    {
+                        "basename": "scecli.DLL", 
+                        "imgsize": 253952, 
+                        "baseaddr": "0x7fefc580000", 
+                        "filepath": "C:\\Windows\\system32\\scecli.DLL"
+                    }, 
+                    {
+                        "basename": "credssp.dll", 
+                        "imgsize": 40960, 
+                        "baseaddr": "0x7fefc5c0000", 
+                        "filepath": "C:\\Windows\\system32\\credssp.dll"
+                    }, 
+                    {
+                        "basename": "WINSTA.dll", 
+                        "imgsize": 249856, 
+                        "baseaddr": "0x7fefd100000", 
+                        "filepath": "C:\\Windows\\system32\\WINSTA.dll"
+                    }, 
+                    {
+                        "basename": "wshtcpip.dll", 
+                        "imgsize": 28672, 
+                        "baseaddr": "0x7fefc2e0000", 
+                        "filepath": "C:\\Windows\\System32\\wshtcpip.dll"
+                    }, 
+                    {
+                        "basename": "IPHLPAPI.DLL", 
+                        "imgsize": 159744, 
+                        "baseaddr": "0x7fefc3e0000", 
+                        "filepath": "C:\\Windows\\system32\\IPHLPAPI.DLL"
+                    }, 
+                    {
+                        "basename": "WINNSI.DLL", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefc3d0000", 
+                        "filepath": "C:\\Windows\\system32\\WINNSI.DLL"
+                    }, 
+                    {
+                        "basename": "netutils.dll", 
+                        "imgsize": 49152, 
+                        "baseaddr": "0x7fefab10000", 
+                        "filepath": "C:\\Windows\\system32\\netutils.dll"
+                    }, 
+                    {
+                        "basename": "USERENV.dll", 
+                        "imgsize": 122880, 
+                        "baseaddr": "0x7fefc470000", 
+                        "filepath": "C:\\Windows\\system32\\USERENV.dll"
+                    }, 
+                    {
+                        "basename": "profapi.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd0f0000", 
+                        "filepath": "C:\\Windows\\system32\\profapi.dll"
+                    }, 
+                    {
+                        "basename": "dssenh.dll", 
+                        "imgsize": 204800, 
+                        "baseaddr": "0x7feead80000", 
+                        "filepath": "C:\\Windows\\system32\\dssenh.dll"
+                    }, 
+                    {
+                        "basename": "GPAPI.dll", 
+                        "imgsize": 110592, 
+                        "baseaddr": "0x7fefc450000", 
+                        "filepath": "C:\\Windows\\system32\\GPAPI.dll"
+                    }, 
+                    {
+                        "basename": "monitor-x64.dll", 
+                        "imgsize": 2277376, 
+                        "baseaddr": "0x65a80000", 
+                        "filepath": "C:\\tmp8gfisk\\bin\\monitor-x64.dll"
+                    }
+                ], 
+                "time": 0, 
+                "tid": 1252, 
+                "first_seen": 1554908966.140625, 
+                "ppid": 372, 
+                "type": "process"
+            }
+        ], 
+        "processtree": [
+            {
+                "track": false, 
+                "pid": 468, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\Windows\\system32\\lsass.exe", 
+                "first_seen": 1554908966.140625, 
+                "ppid": 372, 
+                "children": []
+            }
+        ]
+    }, 
+    "debug": {
+        "action": [], 
+        "dbgview": [], 
+        "errors": [], 
+        "log": [
+            "2019-04-10 15:09:25,015 [analyzer] DEBUG: Starting analyzer from: C:\\tmp8gfisk\n", 
+            "2019-04-10 15:09:25,030 [analyzer] DEBUG: Pipe server name: \\??\\PIPE\\TtFKrxNNABVJkBNvwvVZImrkiSECZNSC\n", 
+            "2019-04-10 15:09:25,030 [analyzer] DEBUG: Log pipe server name: \\??\\PIPE\\tSpTBBjUjhJzfUMcSKOGFIwz\n", 
+            "2019-04-10 15:09:25,655 [analyzer] DEBUG: Started auxiliary module DbgView\n", 
+            "2019-04-10 15:09:25,905 [analyzer] DEBUG: Started auxiliary module Disguise\n", 
+            "2019-04-10 15:09:26,203 [analyzer] DEBUG: Loaded monitor into process with pid 468\n", 
+            "2019-04-10 15:09:26,203 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets\n", 
+            "2019-04-10 15:09:26,203 [analyzer] DEBUG: Started auxiliary module Human\n", 
+            "2019-04-10 15:09:26,203 [analyzer] DEBUG: Started auxiliary module InstallCertificate\n", 
+            "2019-04-10 15:09:26,203 [analyzer] DEBUG: Started auxiliary module Reboot\n", 
+            "2019-04-10 15:09:26,217 [analyzer] DEBUG: Started auxiliary module RecentFiles\n", 
+            "2019-04-10 15:09:26,217 [analyzer] DEBUG: Started auxiliary module Screenshots\n", 
+            "2019-04-10 15:09:26,217 [analyzer] DEBUG: Started auxiliary module LoadZer0m0n\n", 
+            "2019-04-10 15:09:26,625 [lib.api.process] ERROR: Failed to execute process from path u'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\SnippingTool.exe' with arguments ['bin\\\\inject-x64.exe', '--app', u'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\SnippingTool.exe', '--only-start', '--curdir', 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp'] (Error: Command '['bin\\\\inject-x64.exe', '--app', u'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\SnippingTool.exe', '--only-start', '--curdir', 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp']' returned non-zero exit status 1)\n"
+        ], 
+        "cuckoo": [
+            "2019-04-10 15:09:26,794 [cuckoo.core.scheduler] INFO: Task #137: acquired machine cuckoo1 (label=Win 7 Clone)\n", 
+            "2019-04-10 15:09:26,883 [cuckoo.auxiliary.sniffer] INFO: Started sniffer with PID 27656 (interface=vboxnet0, host=192.168.56.102)\n", 
+            "2019-04-10 15:09:26,884 [cuckoo.core.plugins] DEBUG: Started auxiliary module: Sniffer\n", 
+            "2019-04-10 15:09:27,711 [cuckoo.machinery.virtualbox] DEBUG: Starting vm Win 7 Clone\n", 
+            "2019-04-10 15:09:27,948 [cuckoo.machinery.virtualbox] DEBUG: Restoring virtual machine Win 7 Clone to Snapshot 3\n", 
+            "2019-04-10 15:09:34,005 [cuckoo.core.guest] INFO: Starting analysis on guest (id=cuckoo1, ip=192.168.56.102)\n", 
+            "2019-04-10 15:09:35,012 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet\n", 
+            "2019-04-10 15:09:35,020 [cuckoo.core.guest] INFO: Guest is running Cuckoo Agent 0.8 (id=cuckoo1, ip=192.168.56.102)\n", 
+            "2019-04-10 15:09:35,039 [cuckoo.core.guest] DEBUG: Uploading analyzer to guest (id=cuckoo1, ip=192.168.56.102, monitor=latest, size=3856831)\n", 
+            "2019-04-10 15:09:38,445 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 15:09:39,434 [cuckoo.core.resultserver] DEBUG: LogHandler for live analysis.log initialized.\n", 
+            "2019-04-10 15:09:39,452 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 15:09:40,463 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 15:09:41,467 [cuckoo.core.guest] WARNING: cuckoo1: analysis caught an exception\n", 
+            "Traceback (most recent call last):\n", 
+            "  File \"C:/tmp8gfisk/analyzer.py\", line 800, in <module>\n", 
+            "    success = analyzer.run()\n", 
+            "  File \"C:/tmp8gfisk/analyzer.py\", line 652, in run\n", 
+            "    pids = self.package.start(self.target)\n", 
+            "  File \"C:\\tmp8gfisk\\modules\\packages\\exe.py\", line 23, in start\n", 
+            "    return self.execute(path, args=shlex.split(args))\n", 
+            "  File \"C:\\tmp8gfisk\\lib\\common\\abstracts.py\", line 166, in execute\n", 
+            "    \"Unable to execute the initial process, analysis aborted.\"\n", 
+            "CuckooPackageError: Unable to execute the initial process, analysis aborted.\n", 
+            "\n", 
+            "2019-04-10 15:09:42,058 [cuckoo.core.plugins] DEBUG: Stopped auxiliary module: Sniffer\n", 
+            "2019-04-10 15:09:42,058 [cuckoo.machinery.virtualbox] DEBUG: Stopping vm Win 7 Clone\n", 
+            "2019-04-10 15:09:42,445 [cuckoo.core.resultserver] DEBUG: File upload request for shots/0001.jpg\n", 
+            "2019-04-10 15:09:42,471 [cuckoo.core.resultserver] DEBUG: Uploaded file length: 135004\n", 
+            "2019-04-10 15:09:44,785 [cuckoo.core.scheduler] DEBUG: Released database task #137\n", 
+            "2019-04-10 15:09:44,876 [cuckoo.core.plugins] DEBUG: Executed processing module \"AnalysisInfo\" for task #137\n", 
+            "2019-04-10 15:09:44,877 [cuckoo.core.plugins] DEBUG: Executed processing module \"BehaviorAnalysis\" for task #137\n", 
+            "2019-04-10 15:09:44,878 [cuckoo.core.plugins] DEBUG: Executed processing module \"Dropped\" for task #137\n", 
+            "2019-04-10 15:09:44,878 [cuckoo.core.plugins] DEBUG: Executed processing module \"DroppedBuffer\" for task #137\n", 
+            "2019-04-10 15:09:44,878 [cuckoo.core.plugins] DEBUG: Executed processing module \"MetaInfo\" for task #137\n", 
+            "2019-04-10 15:09:44,878 [cuckoo.core.plugins] DEBUG: Executed processing module \"ProcessMemory\" for task #137\n", 
+            "2019-04-10 15:09:44,879 [cuckoo.core.plugins] DEBUG: Executed processing module \"Procmon\" for task #137\n", 
+            "2019-04-10 15:09:44,886 [cuckoo.core.plugins] DEBUG: Executed processing module \"Screenshots\" for task #137\n", 
+            "2019-04-10 15:09:49,499 [cuckoo.core.plugins] DEBUG: Executed processing module \"Static\" for task #137\n", 
+            "2019-04-10 15:09:49,629 [cuckoo.core.plugins] DEBUG: Executed processing module \"Strings\" for task #137\n", 
+            "2019-04-10 15:09:49,679 [cuckoo.core.plugins] DEBUG: Executed processing module \"TargetInfo\" for task #137\n", 
+            "2019-04-10 15:09:49,687 [cuckoo.core.plugins] DEBUG: Executed processing module \"NetworkAnalysis\" for task #137\n", 
+            "2019-04-10 15:09:49,687 [cuckoo.core.plugins] DEBUG: Executed processing module \"Extracted\" for task #137\n", 
+            "2019-04-10 15:09:49,688 [cuckoo.core.plugins] DEBUG: Executed processing module \"TLSMasterSecrets\" for task #137\n", 
+            "2019-04-10 15:09:49,808 [cuckoo.core.plugins] DEBUG: Executed processing module \"Debug\" for task #137\n", 
+            "2019-04-10 15:09:49,811 [cuckoo.core.plugins] DEBUG: Running 540 signatures\n", 
+            "2019-04-10 15:09:49,982 [cuckoo.core.plugins] DEBUG: Analysis matched signature: has_pdb\n", 
+            "2019-04-10 15:09:49,982 [cuckoo.core.plugins] DEBUG: Analysis matched signature: pe_unknown_resource_name\n"
+        ]
+    }, 
+    "screenshots": [
+        {
+            "path": "/home/avinash/.cuckoo/storage/analyses/137/shots/0001.jpg", 
+            "ocr": ""
+        }
+    ], 
+    "strings": [
+        "!This program cannot be run in DOS mode.", 
+        "`.rdata", 
+        "@.data", 
+        ".pdata", 
+        "@.rsrc", 
+        "@.reloc", 
+        "9W0thH", 
+        "UVWATAUAVAWH", 
+        "`A_A^A]A\\_^]", 
+        "@USVWAVAWH", 
+        "9w<tl3", 
+        "9t$H|%H", 
+        "A_A^_^[]", 
+        "UVWATAUAVAWH", 
+        "u}H9SHtwH", 
+        "A_A^A]A\\_^]", 
+        "|$ UATAUAVAWH", 
+        "A_A^A]A\\]", 
+        "k VWATAVAWH", 
+        "A_A^A\\_^", 
+        "L$ UVWATAUAVAWH", 
+        "A_A^A]A\\_^]", 
+        "|$ UAVAWH", 
+        "0A_A^]", 
+        "|$ UAVAWH", 
+        "0A_A^]", 
+        "UVWAVAWH", 
+        "pA_A^_^]", 
+        "@USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "@USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "@SUVWAVH", 
+        "A^_^][", 
+        "L$ SUVWH", 
+        "@USVWAVH", 
+        "A^_^[]", 
+        "@USVWAVH", 
+        "fD94Au", 
+        "A^_^[]", 
+        "@USVWAWH", 
+        "pA__^[]", 
+        "UATAUAVAWH", 
+        "A_A^A]A\\]", 
+        "UATAUAVAWH", 
+        "tfD9k u4", 
+        " thD9k$u5", 
+        "@tID9k(u8", 
+        "A_A^A]A\\]", 
+        "@USVWAVH", 
+        "D9uwt4H", 
+        "A^_^[]", 
+        "t$ UWAVH", 
+        "@USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "` UAVAWH", 
+        "UVWATAUAVAWH", 
+        "A_A^A]A\\_^]", 
+        "UWATAVAWH", 
+        "A_A^A\\_]", 
+        "@USWATAVH", 
+        "A^A\\_[]", 
+        "9](~TH", 
+        "x UAVAWH", 
+        "|$ AVH", 
+        "L$ 99s", 
+        "UVWAVAWH", 
+        "`A_A^_^]", 
+        "UVWATAUAVAWH", 
+        "pA_A^A]A\\_^]", 
+        "@SUVWAVH", 
+        "A^_^][", 
+        "UATAUAVAWH", 
+        "A_A^A]A\\]", 
+        "UWATAVAWH", 
+        "A_A^A\\_]", 
+        "UATAUAVAWH", 
+        "F4+F,f", 
+        "A_A^A]A\\]", 
+        ")t$0E3", 
+        "VWATAVAWH", 
+        "G ;_$t5H", 
+        "A_A^A\\_^", 
+        "WAVAWH", 
+        "\\$ UVWATAUAVAWH", 
+        "`A_A^A]A\\_^]", 
+        "t$ UWAVH", 
+        "WATAUAVAWH", 
+        "A_A^A]A\\_", 
+        "UVWATAVH", 
+        "D$ D9t$ },H", 
+        "A^A\\_^]", 
+        "USVWAWH", 
+        "UH!E0H", 
+        "M0!EHH", 
+        "9}0v5D", 
+        "0A__^[]", 
+        "UWAUAVAWH", 
+        "L9w0tEH", 
+        "A_A^A]_]", 
+        "@USVWATAVAWH", 
+        "d$@D9%", 
+        "D9d$@| H", 
+        "A_A^A\\_^[]", 
+        "WATAUAVAWH", 
+        "A_A^A]A\\_", 
+        "WAVAWH", 
+        "UVWAVAWH", 
+        "`A_A^_^]", 
+        "UATAUAVAWH", 
+        "A_A^A]A\\]", 
+        "UVWATAUAVAWH", 
+        "H9\\$pu", 
+        " A_A^A]A\\_^]", 
+        "x ATAVAWH", 
+        " A_A^A\\", 
+        "x AUAVAWH", 
+        " A_A^A]", 
+        "x ATAVAWH", 
+        " A_A^A\\", 
+        "USVWATAUAVAWH", 
+        "hA_A^A]A\\_^[]", 
+        "@UWATAVAWH", 
+        "E0L9E0u", 
+        "H9U8tjL", 
+        "E8f)t,E", 
+        "ePA_A^A\\_]", 
+        "C 9T$H~7A", 
+        "!t$(!t$ E3", 
+        "UVWATAUAVAWH", 
+        "A_A^A]A\\_^]", 
+        "@USVWAVAWH", 
+        "t;H;s`t59{", 
+        "t09{$u+H", 
+        "C(Lc@0H", 
+        "A_A^_^[]", 
+        "t$ UWAVH", 
+        "G(HcP09w", 
+        "G(Lc@0", 
+        "UVWATAUAVAWH", 
+        "PA_A^A]A\\_^]", 
+        "UVWATAUAVAWH", 
+        "PA_A^A]A\\_^]", 
+        "x@f9u ukH", 
+        "@USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "@USVWAUAVAWH", 
+        "A_A^A]_^[]", 
+        "UATAUAVAWH", 
+        "A_A^A]A\\]", 
+        "UVWATAUAVAWH", 
+        "A_A^A]A\\_^]", 
+        "\\$ UVWAVAWH", 
+        "A_A^_^]", 
+        "@SUVWAVH", 
+        "A^_^][", 
+        "t$ UWATAUAVH", 
+        "A^A]A\\_]", 
+        "@USVWAUAVAWH", 
+        "A_A^A]_^[]", 
+        "UVWATAUAVAWH", 
+        "A_A^A]A\\_^]", 
+        "WAVAWH", 
+        "t$ UWAVH", 
+        "@USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "@USVWAVH", 
+        "A^_^[]", 
+        "UAVAWH", 
+        "@USVWATAVAWH", 
+        "`A_A^A\\_^[]", 
+        "UATAUAVAWH", 
+        "A_A^A]A\\]", 
+        "UAVAWH", 
+        "@UWAVH", 
+        "t$ UWAVH", 
+        "wgt[H-", 
+        "|$ UAVAWH", 
+        "@A_A^]", 
+        "@USWAVH", 
+        "XA^_[]", 
+        "UVWATAUAVAWH", 
+        "A_A^A]A\\_^]", 
+        "x UAVAWH", 
+        "@USVWATAUAVAWH", 
+        "EP9]Xt", 
+        "A_A^A]A\\_^[]", 
+        "USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "@USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "x/fD9t$HuX@", 
+        "O<D+O4D", 
+        "UWATAVAWH", 
+        ")V0)~4E3", 
+        "A_A^A\\_]", 
+        "UAVAWH", 
+        "UATAUAVAWH", 
+        "m'D+m\u001fD", 
+        "}+D+}#D", 
+        "A_A^A]A\\]", 
+        "UATAUAVAWH", 
+        "A_A^A]A\\]", 
+        "@USVWATAVAWH", 
+        "A_A^A\\_^[]", 
+        "UVWATAUAVAWH", 
+        "@A_A^A]A\\_^]", 
+        "UATAVH", 
+        "@USVWATAUAVAWH", 
+        "A_A^A]A\\_^[]", 
+        "H SUVWAVH", 
+        " A^_^][", 
+        "@UVWAVAWH", 
+        "D8~)t4D", 
+        "ePA_A^_^]", 
+        "WAVAWH", 
+        "{ D8;t", 
+        "t(D8;u#D8{", 
+        " A_A^_", 
+        "u-H;{(u'D", 
+        "H;{(t'D", 
+        "X UVWH", 
+        "L$ SVWH", 
+        "\\$ UVWAVAWH", 
+        "L9{0t#H", 
+        "A_A^_^]", 
+        "\\$ VWAVH", 
+        "K SVWH", 
+        "WATAUAVAWH", 
+        " A_A^A]A\\_", 
+        "@SUVWATAUAVAWH", 
+        "td@85\u001f+", 
+        "hA_A^A]A\\_^][", 
+        "WATAUAVAWH", 
+        "fD9,Qu", 
+        "H9_Ps<", 
+        " A_A^A]A\\_", 
+        "T$8H!\\$8", 
+        "fD94Cu", 
+        "fA9,Qu", 
+        "UVWAVAWH", 
+        "T$8H!t$8H", 
+        "A_A^_^]", 
+        "t$ UWATAVAWH", 
+        "A_A^A\\_]", 
+        "p WAVAWH", 
+        " A_A^_", 
+        "UWAUAVAWH", 
+        "D!t$$H", 
+        "T$$D!t$ H", 
+        "HcD$ H", 
+        "Lct$$H", 
+        "A_A^A]_]", 
+        "UVWAVAWH", 
+        "PA_A^_^]", 
+        "H WATAUAVAWH", 
+        " A_A^A]A\\_", 
+        "x ATAVAWH", 
+        " A_A^A\\", 
+        "fA9,Qu", 
+        "UVWATAUAVAWH", 
+        "pA_A^A]A\\_^]", 
+        "c UAVAWH", 
+        "@UATAUAVAWH", 
+        "t$`|%H", 
+        "9t$hv=L", 
+        "D;L$hs", 
+        "LcT$hE", 
+        "LcT$hE", 
+        "}@LcD$xA", 
+        "D+l$hD+", 
+        "D;l$pr", 
+        "A_A^A]A\\]", 
+        " H3E H3E", 
+        "InitializeConditionVariable", 
+        "SleepConditionVariableCS", 
+        "WakeAllConditionVariable", 
+        "bad allocation", 
+        "bad array new length", 
+        ",4CCaptureForm::CCaptureForm", 
+        "CCaptureForm::~CCaptureForm", 
+        "CCaptureForm::SetVisible", 
+        "CCaptureForm::SetCapture", 
+        "CCaptureForm::SetMode", 
+        "CCaptureForm::UpdateCursor", 
+        "CCaptureForm::Register", 
+        "CCaptureForm::Init", 
+        "CCaptureForm::InitResources", 
+        "CCaptureForm::WndProcDispatch", 
+        "CCaptureForm::WndProc", 
+        "CCaptureForm::OnCreate", 
+        "CCaptureForm::Paint", 
+        "CCaptureForm::MonitorEnumProc", 
+        "CCaptureForm::GetHighlightedWindowRect", 
+        "CCaptureForm::PaintMinusRect", 
+        "CCaptureForm::Cleanup", 
+        "CCaptureForm::GetWindowAtPoint", 
+        "CCaptureForm::UpdateWindowCache", 
+        "CCaptureForm::RectSelectEventHelper", 
+        "CCaptureForm::CreateCaptureDC", 
+        "CCaptureForm::CreateDisplayDC", 
+        "CCaptureForm::GetDWMWindowRect", 
+        "CClipboard::CClipboard", 
+        "CClipboard::~CClipboard", 
+        "CClipboard::Close", 
+        "CClipboard::Open", 
+        "CClipboard::Empty", 
+        "CClipboard::SetData", 
+        "CEmailSupport::LoadMailProvider", 
+        "CEmailSupport::SendEMailWithSimpleMAPI", 
+        "MAPISendMailW", 
+        "CEmailSupport::ComposeAsInlineHtml", 
+        "CEmailSupport::ComposeAsAttachment", 
+        "CLinkFingerprint::Load", 
+        "CLinkFingerprint::LoadStringW", 
+        "CLinkFingerprint::DoesMatch", 
+        "CLinkFingerprint::DoesParentMatch", 
+        "CLinkFingerprint::CheckParent", 
+        "CLinkFingerprint::IsValid", 
+        "CLinkInfo::GetLinkInfo", 
+        "CLinkInfo::GetURLRecursive", 
+        "wB8%07d*G", 
+        "RWinMain", 
+        "CMain::CMain", 
+        "CMain::~CMain", 
+        "CMain::Run", 
+        "CMain::CopyBitmap", 
+        "CMain::Init", 
+        "CMain::Exit", 
+        "CMain::InitLibs", 
+        "CMain::PointsToRect", 
+        "CMain::MillimetersToPixels", 
+        "CMain::IsOnTablet", 
+        "CMain::SetSnipInEditor", 
+        "CMain::SetInEditorMode", 
+        "CMain::GetCapturePen", 
+        "CMain::CreateCapturePenDrawingAttributes", 
+        "CMain::PixelToInkSpace", 
+        "CMain::CreateStrokesFromStroke", 
+        "CMain::SetInCaptureMode", 
+        "CanRunSnippingTool", 
+        "CMain::EnsureWindowFullyOnScreen", 
+        "CMain::GetAnnotationBackgroundROP", 
+        "CMain::GetHighContrastInkColor", 
+        "CMain::DispError", 
+        "CMain::ShowHelp", 
+        "BringSnipperToFrontIfAlreadyRunning", 
+        "COptions::Init", 
+        "COptions::Load", 
+        "COptions::ReadEraseEnabled", 
+        "COptions::Persist", 
+        "COptions::CustColCmdProc", 
+        "COptions::CustColDlgProc", 
+        "COptions::ComboboxAddItemWithData", 
+        "COptions::ComboboxSelectItemUsingData", 
+        "COptions::ComboboxGetCurSelItemData", 
+        "COptions::ComboboxDrawColorItem", 
+        "COptions::ComboboxDrawThicknessItem", 
+        "COptions::ComboboxDrawPenTipItem", 
+        "COptions::ComboboxUpdateHeight", 
+        "COptions::ComboboxGetItemHeight", 
+        "COptions::PopulateColorList", 
+        "COptions::GetColor", 
+        "COptions::EncodeColor", 
+        "COptions::GetThickness", 
+        "COptions::EncodeThickness", 
+        "COptions::OptionsCmdProc", 
+        "COptions::OptionsDlgToOptions", 
+        "COptions::OptionsDlgProcDispatch", 
+        "COptions::OptionsDlgProc", 
+        "COptions::ShowOptionsDlg", 
+        "COptions::ShowColorDlg", 
+        "COptions::GetCustomPenDims", 
+        "COptions::GetPenWidth", 
+        "COptions::IsCaptureURLEnabled", 
+        "MCScreenCapture::TakeDesktopScreenShot", 
+        "CScreenCapture::IsScreenShotAllowed", 
+        "CSnip::CSnip", 
+        "CSnip::~CSnip", 
+        "CSnip::SetCaptureStroke", 
+        "CSnip::SaveAs", 
+        "CSnip::GetEncoderClsid", 
+        "CSnip::GenerateHTMLBody", 
+        "CSnip::GenerateHTML", 
+        "CSnip::GenerateInlineHTML", 
+        "CSnip::GetOriginalDimensions", 
+        "CSnip::DrawCaptureDecorations", 
+        "CSnip::DrawCaptureRect", 
+        "CSnip::StrokeClearOffset", 
+        "CSnip::DrawCaptureStroke", 
+        "CSnip::GetStrokePointArray", 
+        "CSnip::ObscureStrokeNegativeRegion", 
+        "cCToolbar::CToolbar", 
+        "CToolbar::~CToolbar", 
+        "CToolbar::SetVisible", 
+        "CToolbar::SetInCaptureMode", 
+        "CToolbar::SetCancelButtonEnabled", 
+        "CToolbar::SetCaptureButtonChecked", 
+        "CToolbar::UpdateInstructionsText", 
+        "CToolbar::Init", 
+        "CToolbar::InitResources", 
+        "CToolbar::InitCaptureForm", 
+        "CToolbar::Register", 
+        "CToolbar::InitToolbar", 
+        "CToolbar::OnCreate", 
+        "CToolbar::DoLayout", 
+        "CToolbar::InitBar", 
+        "CToolbar::InitInstructions", 
+        "CToolbar::InitInkCollector", 
+        "CToolbar::SetCapturePenProperties", 
+        "CToolbar::WndProcDispatch", 
+        "CToolbar::WndProc", 
+        "CToolbar::OnUpdateCaptureProc", 
+        "CToolbar::DropDownProc", 
+        "CToolbar::CommandProc", 
+        "CToolbar::ToolTipProc", 
+        "CToolbar::UpdateScreenshot", 
+        "CToolbar::ClearTouchUI", 
+        "CToolbar::BringToFront", 
+        "CToolbar::MakeToolWindow", 
+        "CToolbar::GetRectFromBoundingBox", 
+        "CToolbar::PixelsToInkSpace", 
+        "CToolbar::InkSpaceToPixels", 
+        "CToolbar::ClearStrokes", 
+        "CToolbar::Cleanup", 
+        "CToolbar::PutStrokeOnScreen", 
+        "CToolbar::Stroke", 
+        "CToolbar::NewInAirPackets", 
+        "CToolbar::RectSelectEvent", 
+        "CToolbar::WindowSelectEvent", 
+        "CToolbar::FullScreenSelectEvent", 
+        "CToolbar::StartQuickCapture", 
+        "CToolbar::StrokeToEditor", 
+        "CToolbar::ShowDRMError", 
+        "CToolbar::InstructionsWndProcDispatch", 
+        "CToolbar::DrawIcon", 
+        "CToolbar::InstructionsWndProc", 
+        "CToolbar::PaintInstructions", 
+        "CToolbar::GetInstructionHelpDim", 
+        "CToolbar::GetInstructionTextParams", 
+        "CToolbar::CalcInstructionHeight", 
+        "CToolbar::HelpButtonWndProcDispatch", 
+        "CToolbar::HelpButtonWndProc", 
+        "305.1i<", 
+        "CEditor::CEditor", 
+        "CEditor::~CEditor", 
+        "CEditor::Init", 
+        "CEditor::OnCreate", 
+        "CEditor::InitToolbar", 
+        "CEditor::SetVisible", 
+        "CEditor::MakeToolWindow", 
+        "CEditor::DoLayout", 
+        "CEditor::SetEditorRect", 
+        "CEditor::GetEditorRect", 
+        "CEditor::SetPen", 
+        "CEditor::SetSnip", 
+        "CEditor::InitResources", 
+        "CEditor::Cleanup", 
+        "CEditor::ShowSaveExitDlg", 
+        "CEditor::WndProc", 
+        "CEditor::CommandProc", 
+        "CEditor::DropDownProc", 
+        "CEditor::ToolTipProc", 
+        "CEditor::WndProcDispatch", 
+        "CEditor::Register", 
+        "CEditor::SetButtonCheck", 
+        "CEditor::NewSnip", 
+        "CEditor::SaveSnip", 
+        "CEditor::SetFocus", 
+        "BCEditorPanel::CEditorPanel", 
+        "CEditorPanel::~CEditorPanel", 
+        "CEditorPanel::Init", 
+        "CEditorPanel::InitGui", 
+        "CEditorPanel::InitInkOverlay", 
+        "CEditorPanel::OnSysColorChange", 
+        "CEditorPanel::SetInkProperties", 
+        "CEditorPanel::SetSnip", 
+        "CEditorPanel::InitResources", 
+        "CEditorPanel::Cleanup", 
+        "CEditorPanel::OnCreate", 
+        "CEditorPanel::WndProc", 
+        "CEditorPanel::PaintCanvas", 
+        "CEditorPanel::WndProcDispatch", 
+        "CEditorPanel::Register", 
+        "CEditorPanel::Scroll", 
+        "CEditorPanel::TranslateInk", 
+        "CEditorPanel::ResetScrollBars", 
+        "CEditorPanel::InvalidateClipboardImage", 
+        "CEditorPanel::GetInkBoundingBoxInPixels", 
+        "CEditorPanel::UpdateAnnotatedBitmap", 
+        "CEditorPanel::DrawInkToBitmap", 
+        "CEditorPanel::CopyToClipboard", 
+        "CEditorPanel::Stroke", 
+        "CEditorPanel::DeleteAllStrokes", 
+        "CEditorPanel::NewInAirPackets", 
+        "CEditorPanel::CursorInRange", 
+        "CEditorPanel::HandleInvertedCursor", 
+        "CEditorPanel::SystemGesture", 
+        "CEditorPanel::StrokesDeleted", 
+        "Qimage/gif", 
+        "image/jpeg", 
+        "image/bmp", 
+        "image/png", 
+        "image/x-emf", 
+        "image/pict", 
+        "CMimeFile::Release", 
+        "CMimeFile::InitNew", 
+        "CMimeFile::EncodeString", 
+        "CMimeFile::Save", 
+        "CMimeFile::AddString", 
+        "CMimeFile::CreateCIDFromStream", 
+        "CMimeFile::SecureBodyCID", 
+        "SB?!U;_", 
+        "Fstring too long", 
+        "Unknown exception", 
+        "Exception", 
+        "ReturnHr", 
+        "FailFast", 
+        "RtlDllShutdownInProgress", 
+        "internal\\sdk\\inc\\wil\\resultmacros.h", 
+        "internal\\sdk\\inc\\wil\\resource.h", 
+        "WilError_01", 
+        "internal\\sdk\\inc\\wil\\winrt.h", 
+        "drivers\\tablet\\accessories\\snipper\\paint3dhelper.cpp", 
+        "Helpers::SelectObject", 
+        "Helpers::DeleteObject", 
+        "Helpers::DeleteDC", 
+        "Helpers::GetDC", 
+        "Helpers::GetObjectW", 
+        "Helpers::ReleaseDC", 
+        "Helpers::CreateCompatibleDC", 
+        "Helpers::CreateCompatibleBitmap", 
+        "Helpers::CreateCompatibleDIBSection", 
+        "Helpers::MapWindowPoints", 
+        "Helpers::GetClientRect", 
+        "Helpers::GetWindowRect", 
+        "Helpers::CreatePen", 
+        "Helpers::CreateSolidBrush", 
+        "Helpers::LoadIconW", 
+        "Helpers::LoadImageW", 
+        "Helpers::LoadStringW", 
+        "Helpers::PostMessageW", 
+        "Helpers::RegOpenKeyExW", 
+        "Helpers::RegCloseKey", 
+        "Helpers::RegCreateKeyExW", 
+        "Helpers::RegQueryValueExW", 
+        "Helpers::RegSetValueExW", 
+        "Helpers::StringCchCopyW", 
+        "Helpers::CloseHandle", 
+        "Helpers::CreateMutexW", 
+        "Helpers::ReleaseMutex", 
+        "Helpers::GetStockObject", 
+        "Helpers::SetWindowPos", 
+        "Helpers::BitBlt", 
+        "Helpers::LoadMenuW", 
+        "Helpers::GetSubMenu", 
+        "Helpers::CreateWindowExW", 
+        "Helpers::GetMonitorInfoW", 
+        "Helpers::MonitorFromWindow", 
+        "Helpers::CopyRect", 
+        "Helpers::OffsetRect", 
+        "Helpers::SetLayout", 
+        "Helpers::CreateDIBSection", 
+        "CTabLicense::GetBOOLPermission", 
+        "CTabLicense::CanRunSnippingTool", 
+        "eTabUtils::TabQueryPolicyValue", 
+        "TabUtils::TabQueryDWORDValue", 
+        "TabUtils::IsHighContrastModeOn", 
+        "TabUtils::TrackPopupMenuExAndRespectHandedness", 
+        "TabUtils::IsRTLProcess", 
+        "X\\?E/5\u001fS", 
+        "sQPI[5T", 
+        "@W=7A=", 
+        "d|BNeU", 
+        "E\u001fky;T", 
+        "Vving1", 
+        "gxI3!'", 
+        "WAxK0i", 
+        "FWph?r", 
+        "7T})gW", 
+        "hwp1p0", 
+        "hgtlCm", 
+        "^BNQ,^", 
+        "z?801i:It6", 
+        "1o?-XfF", 
+        "]\u001f$(SQO", 
+        "VG2/iI", 
+        "w9X!P/", 
+        "NtQuerySystemInformation", 
+        "CopyToClipboardClick", 
+        "UTCReplace_AppSessionGuid", 
+        "snipId", 
+        "succeeded", 
+        "EmailSent", 
+        "UTCReplace_AppSessionGuid", 
+        "snipId", 
+        "isInline", 
+        "succeeded", 
+        "SnipSaved", 
+        "UTCReplace_AppSessionGuid", 
+        "snipId", 
+        "SnipAnnotated", 
+        "UTCReplace_AppSessionGuid", 
+        "snipId", 
+        "penType", 
+        "CtrlPrtScnUsed", 
+        "UTCReplace_AppSessionGuid", 
+        "snipId", 
+        "SnipTaken", 
+        "UTCReplace_AppSessionGuid", 
+        "snipId", 
+        "isHotKeyLaunched", 
+        "isCtrlPrtScnUpdated", 
+        "isFramed", 
+        "delaySeconds", 
+        "EditWithPaint3DClicked", 
+        "UTCReplace_AppSessionGuid", 
+        "Launched", 
+        "UTCReplace_AppSessionGuid", 
+        "isWinShiftSLaunched", 
+        "wasAlreadyRunning", 
+        "Microsoft.SnippingTool", 
+        "SnippingTool.pdb", 
+        ".text$di", 
+        ".text$mn", 
+        ".text$mn$00", 
+        ".text$x", 
+        ".text$yd", 
+        ".rdata$brc", 
+        ".rdata$T$brc", 
+        ".idata$5", 
+        ".00cfg", 
+        ".CRT$XCA", 
+        ".CRT$XCAA", 
+        ".CRT$XCL", 
+        ".CRT$XCU", 
+        ".CRT$XCZ", 
+        ".CRT$XIA", 
+        ".CRT$XIAA", 
+        ".CRT$XIAC", 
+        ".CRT$XIC", 
+        ".CRT$XIZ", 
+        ".CRT$XLA", 
+        ".CRT$XLZ", 
+        ".CRT$XPA", 
+        ".CRT$XPZ", 
+        ".CRT$XTA", 
+        ".CRT$XTZ", 
+        ".gfids", 
+        ".rdata", 
+        ".rdata$r", 
+        ".rdata$zETW0", 
+        ".rdata$zETW1", 
+        ".rdata$zETW2", 
+        ".rdata$zETW9", 
+        ".rdata$zzzdbg", 
+        ".rtc$IAA", 
+        ".rtc$IZZ", 
+        ".rtc$TAA", 
+        ".rtc$TZZ", 
+        ".tls$ZZZ", 
+        ".xdata", 
+        ".xdata$x", 
+        ".idata$2", 
+        ".idata$3", 
+        ".idata$4", 
+        ".idata$6", 
+        ".data$brc", 
+        ".data$r$brc", 
+        ".pdata", 
+        ".rsrc$01", 
+        ".rsrc$02", 
+        "TraceMessage", 
+        "GetTraceLoggerHandle", 
+        "GetTraceEnableLevel", 
+        "GetTraceEnableFlags", 
+        "RegisterTraceGuidsW", 
+        "UnregisterTraceGuids", 
+        "TraceEvent", 
+        "EventSetInformation", 
+        "EventRegister", 
+        "EventUnregister", 
+        "EventWriteTransfer", 
+        "ADVAPI32.dll", 
+        "GetLastError", 
+        "GlobalAddAtomW", 
+        "GlobalDeleteAtom", 
+        "RaiseException", 
+        "ExpandEnvironmentStringsW", 
+        "LoadLibraryW", 
+        "GetProcAddress", 
+        "FreeLibrary", 
+        "GetTempPathW", 
+        "DeleteFileW", 
+        "HeapSetInformation", 
+        "CompareStringA", 
+        "RegisterApplicationRestart", 
+        "MulDiv", 
+        "LeaveCriticalSection", 
+        "EnterCriticalSection", 
+        "SizeofResource", 
+        "LockResource", 
+        "LoadResource", 
+        "FindResourceExW", 
+        "CreateFileW", 
+        "WideCharToMultiByte", 
+        "WriteFile", 
+        "CloseHandle", 
+        "GetSystemDefaultUILanguage", 
+        "GetVersionExW", 
+        "GlobalFree", 
+        "lstrlenW", 
+        "MultiByteToWideChar", 
+        "lstrlenA", 
+        "ReleaseMutex", 
+        "ReleaseSemaphore", 
+        "WaitForSingleObjectEx", 
+        "GetModuleHandleW", 
+        "FormatMessageW", 
+        "GetCurrentThreadId", 
+        "HeapFree", 
+        "GetProcessHeap", 
+        "HeapAlloc", 
+        "GetModuleHandleExW", 
+        "GetModuleFileNameA", 
+        "DebugBreak", 
+        "IsDebuggerPresent", 
+        "OutputDebugStringW", 
+        "SetLastError", 
+        "SetEvent", 
+        "WaitForSingleObject", 
+        "OpenSemaphoreW", 
+        "GetCurrentProcessId", 
+        "CreateMutexExW", 
+        "LocalFree", 
+        "CreateSemaphoreExW", 
+        "CreateEventExW", 
+        "KERNEL32.dll", 
+        "CreateRectRgnIndirect", 
+        "CreateRectRgn", 
+        "CombineRgn", 
+        "GetStockObject", 
+        "Rectangle", 
+        "SelectObject", 
+        "DeleteObject", 
+        "GetDeviceCaps", 
+        "GetObjectW", 
+        "SetTextColor", 
+        "SetBkMode", 
+        "GetLayout", 
+        "GetClipRgn", 
+        "SelectClipRgn", 
+        "GetTextMetricsW", 
+        "CreatePolygonRgn", 
+        "OffsetRgn", 
+        "FillRgn", 
+        "StartDocW", 
+        "SetBrushOrgEx", 
+        "SetStretchBltMode", 
+        "StartPage", 
+        "DeleteDC", 
+        "StretchBlt", 
+        "CreateCompatibleDC", 
+        "EndPage", 
+        "EndDoc", 
+        "PatBlt", 
+        "GDI32.dll", 
+        "GetSystemMetrics", 
+        "FindWindowW", 
+        "IsWindowVisible", 
+        "ShowWindow", 
+        "ReleaseDC", 
+        "LoadCursorW", 
+        "SetClassLongPtrW", 
+        "RegisterClassW", 
+        "GetWindowLongPtrW", 
+        "SetWindowLongPtrW", 
+        "DefWindowProcW", 
+        "BeginPaint", 
+        "EndPaint", 
+        "SetCapture", 
+        "ReleaseCapture", 
+        "UnionRect", 
+        "InvalidateRect", 
+        "GetPropW", 
+        "SetPropW", 
+        "IntersectRect", 
+        "EnumDisplayMonitors", 
+        "DestroyCursor", 
+        "PtInRect", 
+        "GetWindow", 
+        "IsIconic", 
+        "LogicalToPhysicalPoint", 
+        "SetRect", 
+        "CloseClipboard", 
+        "OpenClipboard", 
+        "EmptyClipboard", 
+        "SetClipboardData", 
+        "GetClassNameW", 
+        "GetParent", 
+        "LoadAcceleratorsW", 
+        "GetMessageW", 
+        "TranslateMessage", 
+        "DispatchMessageW", 
+        "PostQuitMessage", 
+        "GetDpiForSystem", 
+        "GetDpiForWindow", 
+        "PostMessageW", 
+        "SetWindowPos", 
+        "GetSysColor", 
+        "MessageBoxW", 
+        "OpenIcon", 
+        "SetForegroundWindow", 
+        "GetCursorInfo", 
+        "GetWindowRect", 
+        "GetDlgItem", 
+        "EndDialog", 
+        "SendMessageW", 
+        "FillRect", 
+        "InflateRect", 
+        "DrawTextW", 
+        "DrawFocusRect", 
+        "GetClientRect", 
+        "GetComboBoxInfo", 
+        "IsDlgButtonChecked", 
+        "CheckDlgButton", 
+        "DialogBoxParamW", 
+        "GetDesktopWindow", 
+        "IsZoomed", 
+        "DestroyWindow", 
+        "RegisterHotKey", 
+        "AdjustWindowRectExForDpi", 
+        "CreateWindowExW", 
+        "LoadStringW", 
+        "TranslateAcceleratorW", 
+        "CheckMenuRadioItem", 
+        "PeekMessageW", 
+        "DestroyMenu", 
+        "GetWindowLongW", 
+        "DestroyIcon", 
+        "UnregisterHotKey", 
+        "GetWindowRgnBox", 
+        "OffsetRect", 
+        "DrawIconEx", 
+        "CallWindowProcW", 
+        "GetIconInfo", 
+        "SetCursor", 
+        "GetSystemMetricsForDpi", 
+        "MonitorFromRect", 
+        "GetMonitorInfoW", 
+        "CopyRect", 
+        "EqualRect", 
+        "BeginDeferWindowPos", 
+        "DeferWindowPos", 
+        "EndDeferWindowPos", 
+        "LoadMenuW", 
+        "RemoveMenu", 
+        "SetFocus", 
+        "SetThreadDpiAwarenessContext", 
+        "GetKeyState", 
+        "GetScrollInfo", 
+        "SetScrollInfo", 
+        "SetTimer", 
+        "KillTimer", 
+        "GetCursorPos", 
+        "WindowFromPoint", 
+        "ScreenToClient", 
+        "SetCursorPos", 
+        "USER32.dll", 
+        "?_Xbad_alloc@std@@YAXXZ", 
+        "?_Xlength_error@std@@YAXPEBD@Z", 
+        "msvcp_win.dll", 
+        "wcscspn", 
+        "wcsspn", 
+        "memset", 
+        "_initterm", 
+        "_initterm_e", 
+        "_c_exit", 
+        "_register_thread_local_exe_atexit_callback", 
+        "api-ms-win-crt-string-l1-1-0.dll", 
+        "api-ms-win-crt-runtime-l1-1-0.dll", 
+        "__CxxFrameHandler3", 
+        "__std_terminate", 
+        "__C_specific_handler", 
+        "memmove", 
+        "strstr", 
+        "_o___p__commode", 
+        "_o___std_exception_copy", 
+        "_o___std_exception_destroy", 
+        "_o___stdio_common_vsnprintf_s", 
+        "_o___stdio_common_vswprintf", 
+        "_o___stdio_common_vswprintf_s", 
+        "_o__callnewh", 
+        "_o__cexit", 
+        "_o__configthreadlocale", 
+        "_o__configure_narrow_argv", 
+        "_o__crt_atexit", 
+        "_o__errno", 
+        "_o__exit", 
+        "_o__get_narrow_winmain_command_line", 
+        "_o__initialize_narrow_environment", 
+        "_o__initialize_onexit_table", 
+        "_o__invalid_parameter_noinfo", 
+        "_o__invalid_parameter_noinfo_noreturn", 
+        "_o__purecall", 
+        "_o__recalloc", 
+        "_o__register_onexit_function", 
+        "_o__resetstkoflw", 
+        "_o__seh_filter_exe", 
+        "_o__set_app_type", 
+        "_o__set_fmode", 
+        "_o__set_new_mode", 
+        "_o__wcsicmp", 
+        "_o_exit", 
+        "_o_free", 
+        "_o_malloc", 
+        "_o_terminate", 
+        "_o_wmemcpy_s", 
+        "_CxxThrowException", 
+        "api-ms-win-crt-private-l1-1-0.dll", 
+        "WinSqmIsOptedIn", 
+        "WinSqmIncrementDWORD", 
+        "RtlCaptureContext", 
+        "RtlLookupFunctionEntry", 
+        "RtlVirtualUnwind", 
+        "ntdll.dll", 
+        "GdipAlloc", 
+        "GdipFree", 
+        "GdipCreateFromHDC", 
+        "GdipCreateSolidFill", 
+        "GdipDeleteBrush", 
+        "GdipCloneBrush", 
+        "GdipFillRectangleI", 
+        "GdipDeleteGraphics", 
+        "GdiplusShutdown", 
+        "GdiplusStartup", 
+        "GdipSetSmoothingMode", 
+        "GdipFillEllipseI", 
+        "GdipSaveImageToFile", 
+        "GdipDisposeImage", 
+        "GdipCloneImage", 
+        "GdipCreateBitmapFromHBITMAP", 
+        "GdipCreateBitmapFromScan0", 
+        "GdipGetImageEncoders", 
+        "GdipGetImageEncodersSize", 
+        "GdipCreateLineBrushFromRect", 
+        "GdipFillRectangle", 
+        "GdipDrawString", 
+        "GdipDeleteFont", 
+        "GdipDeleteStringFormat", 
+        "GdipCreateFontFromLogfontW", 
+        "GdipCreateStringFormat", 
+        "GdipSetStringFormatAlign", 
+        "GdipSetStringFormatLineAlign", 
+        "GdipSetStringFormatFlags", 
+        "GdipMeasureString", 
+        "GdipSaveImageToStream", 
+        "gdiplus.dll", 
+        "InitCommonControlsEx", 
+        "ImageList_Destroy", 
+        "ImageList_Create", 
+        "ImageList_Add", 
+        "COMCTL32.dll", 
+        "PrintDlgExW", 
+        "COMDLG32.dll", 
+        "PathFindFileNameW", 
+        "StrChrW", 
+        "PathIsURLW", 
+        "PathFindExtensionW", 
+        "UrlCreateFromPathW", 
+        "PathRemoveExtensionW", 
+        "SHLWAPI.dll", 
+        "ShellAboutW", 
+        "SHCreateItemInKnownFolder", 
+        "ShellExecuteW", 
+        "SHELL32.dll", 
+        "CoCreateGuid", 
+        "StringFromCLSID", 
+        "CoTaskMemFree", 
+        "CoUninitialize", 
+        "CoInitialize", 
+        "CoCreateInstance", 
+        "CreateStreamOnHGlobal", 
+        "CoCreateFreeThreadedMarshaler", 
+        "CoWaitForMultipleHandles", 
+        "ole32.dll", 
+        "OLEAUT32.dll", 
+        "GetThemeSysColor", 
+        "GetThemeSysFont", 
+        "UxTheme.dll", 
+        "AccessibleObjectFromWindow", 
+        "OLEACC.dll", 
+        "DwmGetWindowAttribute", 
+        "dwmapi.dll", 
+        "DRMIsWindowProtected", 
+        "msdrm.dll", 
+        "RoGetActivationFactory", 
+        "WindowsDeleteString", 
+        "WindowsGetStringRawBuffer", 
+        "WindowsCreateStringReference", 
+        "PathAllocCombine", 
+        "UuidCreate", 
+        "UuidToStringW", 
+        "RpcStringFreeW", 
+        "InitializeCriticalSection", 
+        "DeleteCriticalSection", 
+        "HeapSize", 
+        "HeapReAlloc", 
+        "HeapDestroy", 
+        "UnhandledExceptionFilter", 
+        "SetUnhandledExceptionFilter", 
+        "GetCurrentProcess", 
+        "TerminateProcess", 
+        "IsProcessorFeaturePresent", 
+        "InitializeCriticalSectionAndSpinCount", 
+        "ResetEvent", 
+        "CreateEventW", 
+        "QueryPerformanceCounter", 
+        "GetSystemTimeAsFileTime", 
+        "InitializeSListHead", 
+        "GetStartupInfoW", 
+        "RegQueryValueExW", 
+        "RegOpenKeyExW", 
+        "CreateMutexW", 
+        "RegSetValueExW", 
+        "RegCreateKeyExW", 
+        "RegCloseKey", 
+        "GetModuleFileNameW", 
+        "GetProcessMitigationPolicy", 
+        "LocalAlloc", 
+        "api-ms-win-core-winrt-l1-1-0.dll", 
+        "api-ms-win-core-winrt-string-l1-1-0.dll", 
+        "api-ms-win-core-path-l1-1-0.dll", 
+        "RPCRT4.dll", 
+        "api-ms-win-core-synch-l1-1-0.dll", 
+        "api-ms-win-core-heap-l1-1-0.dll", 
+        "api-ms-win-core-errorhandling-l1-1-0.dll", 
+        "api-ms-win-core-processthreads-l1-1-0.dll", 
+        "api-ms-win-core-processthreads-l1-1-1.dll", 
+        "api-ms-win-core-profile-l1-1-0.dll", 
+        "api-ms-win-core-sysinfo-l1-1-0.dll", 
+        "api-ms-win-core-interlocked-l1-1-0.dll", 
+        "api-ms-win-core-registry-l1-1-0.dll", 
+        "api-ms-win-core-libraryloader-l1-2-0.dll", 
+        "api-ms-win-core-heap-l2-1-0.dll", 
+        "CreateSolidBrush", 
+        "CreatePen", 
+        "SetLayout", 
+        "CreateDIBSection", 
+        "CreateCompatibleBitmap", 
+        "BitBlt", 
+        "UnregisterClassA", 
+        "LoadImageW", 
+        "SystemParametersInfoW", 
+        "LoadIconW", 
+        "MapWindowPoints", 
+        "GetSubMenu", 
+        "MonitorFromWindow", 
+        "TrackPopupMenuEx", 
+        "GetProcessDefaultLayout", 
+        "EtwTraceMessage", 
+        "floorf", 
+        "wcscmp", 
+        "api-ms-win-crt-math-l1-1-0.dll", 
+        "memcpy", 
+        ".?AVtype_info@@", 
+        ".?AVbad_array_new_length@std@@", 
+        ".?AVCAtlException@ATL@@", 
+        ".?AVbad_alloc@std@@", 
+        ".?AVResultException@wil@@", 
+        ".?AVexception@std@@", 
+        "ew|>&=4_", 
+        "\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001fXJ", 
+        "\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f\u001f", 
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", 
+        "<!-- Copyright (c) Microsoft Corporation -->", 
+        "<assembly xmlns=\"urn:schemas-microsoft-com:asm.v1\" manifestVersion=\"1.0\" xmlns:asmv3=\"urn:schemas-microsoft-com:asm.v3\">", 
+        "<assemblyIdentity", 
+        "    version=\"5.1.0.0\"", 
+        "    processorArchitecture=\"amd64\"", 
+        "    name=\"Microsoft.TabletPC.SnippingTool\"", 
+        "    type=\"win32\"", 
+        "<description>Tablet PC Snipping Tool accessory.</description>", 
+        "<dependency>", 
+        "    <dependentAssembly>", 
+        "        <assemblyIdentity", 
+        "            type=\"win32\"", 
+        "            name=\"Microsoft.Windows.Common-Controls\"", 
+        "            version=\"6.0.0.0\"", 
+        "            processorArchitecture=\"amd64\"", 
+        "            publicKeyToken=\"6595b64144ccf1df\"", 
+        "            language=\"*\"", 
+        "        />", 
+        "    </dependentAssembly>", 
+        "</dependency>", 
+        "<trustInfo xmlns=\"urn:schemas-microsoft-com:asm.v3\">", 
+        "    <security>", 
+        "        <requestedPrivileges>", 
+        "            <requestedExecutionLevel level=\"asInvoker\" uiAccess=\"false\"/>", 
+        "        </requestedPrivileges>", 
+        "    </security>", 
+        "</trustInfo>", 
+        "<asmv3:application>", 
+        "    <asmv3:windowsSettings xmlns=\"http://schemas.microsoft.com/SMI/2016/WindowsSettings\">", 
+        "        <dpiAwareness>PerMonitorV2</dpiAwareness>", 
+        "    </asmv3:windowsSettings>", 
+        "</asmv3:application>", 
+        "</assembly>", 
+        "+>dA |", 
+        "BVL8p ", 
+        ".,vMVw", 
+        "J=FP P", 
+        "Xr@.S>", 
+        "!}Bwi x", 
+        "0.,z\u001f/", 
+        "VH_:.n", 
+        "Q^Q0H'", 
+        "\"#Q7@&", 
+        "97@!}o/|", 
+        "___\u001fJKK-", 
+        "yyy(..", 
+        "@ 5+'e", 
+        "|~\\9gN", 
+        "BKz:h)", 
+        "karHWRP", 
+        "(#??\u001f]g", 
+        "\u001f@FyE%N", 
+        "VL=qbT", 
+        "\u001fVQ^^nI", 
+        ":h$R\u001fN", 
+        "g_uu5~", 
+        "jOuvvb", 
+        "A4A@90", 
+        "nx_z)\\", 
+        "'On+H#", 
+        "o(I(jj`", 
+        "isBZ\u001fH;", 
+        "}}^\\Q;[", 
+        "ZZZ000", 
+        "i3~J*:", 
+        "MO~zYt", 
+        "!j,`bp", 
+        "zpeU>&", 
+        "c%k lX", 
+        "diyp-|7", 
+        "X7vbMmP$", 
+        ">V%Bg'", 
+        "V\u001f=jHz-", 
+        "vQSS\\?", 
+        "]K`rUY", 
+        "@iK{[J", 
+        "(!(RLt", 
+        "`W^avva^W`", 
+        "^Yo[?67EdoY^", 
+        " qx<)PlY`", 
+        " uv>$+PoW", 
+        "=@\u001f122b^`XaF", 
+        "\u001f\"'DaX", 
+        "XaQ-,%", 
+        "8aX`^i/-JR;M", 
+        "WoU.L~", 
+        "`YqT0VttgHBjY`", 
+        "^YofSKKMcmY^", 
+        "`W^avva^W`", 
+        "lkl8lklxlkl", 
+        "lklxlkl8", 
+        "lkl=lkl", 
+        "lkljvuv", 
+        "lkl=vuv", 
+        "lkl8xwx", 
+        "lkl8lklx", 
+        "lklxlkl", 
+        "lklxlkl8xwx", 
+        "lkl=vuv", 
+        "lkljvuv", 
+        "lkl=lkl", 
+        "lkl8lklxlkl", 
+        "lklxlkl8", 
+        "ihi\\xxy", 
+        "hhi\\fef", 
+        "fefajij", 
+        "mlm~jij", 
+        "mlm}jij", 
+        "hhh\\xwx", 
+        "hhh\\gff", 
+        "nmn}jij", 
+        "nmn~ihi", 
+        "fef`jij", 
+        "ihi\\wvw", 
+        "ihi\\gfg", 
+        "rqrFrqr", 
+        "rqr rqr", 
+        "rqr rqr", 
+        "rqrFrqr", 
+        "rqr rqr", 
+        "rqr rqr", 
+        "rqrFrqr", 
+        "igd0wuq", 
+        "iii=:::", 
+        "fda0xuq", 
+        "lll0lll", 
+        "lll0lll", 
+        "@@@ AAA", 
+        "omi0}{w", 
+        "lll0lll", 
+        "lll0lll", 
+        "@@@0999", 
+        "888@888", 
+        "888@PPP", 
+        "lll`kkk", 
+        "lll`lll", 
+        "@@@ jjj", 
+        "lll`lll", 
+        "@@@0___", 
+        "@@@0bbb", 
+        "@@@0ddd", 
+        "@@@0eee", 
+        "@@@0eee", 
+        "BBBaeee", 
+        "BBBahhh", 
+        "BBBawvs", 
+        "}ocaX\"", 
+        "CCCvMMM", 
+        "@@@@ppp", 
+        "@@@0WWW", 
+        "@@@0ZZZ", 
+        "@@@0ZZZ", 
+        "@@@0ZZZ", 
+        "@@@0[[[", 
+        "@@@0^^^", 
+        "@@@0qol", 
+        "qqq0qqq", 
+        "}ocaX\"", 
+        "888`888", 
+        "caX-caX8", 
+        "caX8caX\"", 
+        "}sdcaX", 
+        "???qttt", 
+        "@@@0jjj", 
+        "@@@Pddd", 
+        "BBBaggg", 
+        "qqq0qqq", 
+        "|sdcaX", 
+        "caX-caX8", 
+        "caX8caX-", 
+        "888@888@mmm", 
+        "kkkPkkk", 
+        "lll`lll", 
+        "lll`lll", 
+        "BBBQkkk", 
+        "lll`lll", 
+        "lll`lll", 
+        "lllPlll", 
+        "111o;;;", 
+        "@@@0LLL", 
+        "@@@0SSS", 
+        "@@@`XXX", 
+        "@@@`XXX", 
+        "BBBa^^^", 
+        "qqq`qqq", 
+        "8880888", 
+        "8880888", 
+        "kkk kkk", 
+        "kkk`kkk", 
+        "<<<Rlll", 
+        "lll`kkk", 
+        "lll`lll", 
+        "3335]]]", 
+        "lll`lll", 
+        "lll`lll", 
+        "lll`lll", 
+        "BBBQeee", 
+        "lll`lll", 
+        "lll`lll", 
+        "@@@ VVV", 
+        "]fe)s|", 
+        "mmm lll", 
+        "888z777", 
+        "@@@`RRR", 
+        "@@@0EEE", 
+        "@@@0HHH", 
+        "@@@0HHH", 
+        "@@@0HHH", 
+        "@@@0KKK", 
+        "@@@PKKK", 
+        "@@@`KKK", 
+        "@@@`LLL", 
+        "@@@`QQQ", 
+        "@@@`QQQ", 
+        "@@@`QQQ", 
+        "@@@`QQQ", 
+        "@@@`RRR", 
+        "@@@`TTT", 
+        "@@@`TTT", 
+        "@@@`TTT", 
+        "qqqPqqq", 
+        "qqqPqqq", 
+        "8880888", 
+        "8880888", 
+        "E?!C.&", 
+        "igd0wuq", 
+        "SN4S\\T5D", 
+        "fda0xuq", 
+        "uq^|ibHP.&", 
+        "WQ8S.&", 
+        "WQ8S.&", 
+        "PI+C.&", 
+        "hbJW.&", 
+        "omi0}{w", 
+        "F@\"@.&", 
+        "miX|.&", 
+        "_ZE_.&", 
+        "d_I_.&", 
+        "HA#C.&", 
+        "WP1C.&", 
+        "JD&=.&", 
+        "e^ES.&", 
+        "pjPS.&", 
+        "{lbZ<7.&", 
+        "`[F].&", 
+        "KE)5.&", 
+        "hdRk.&", 
+        "lgTn.&", 
+        "wqXK.&", 
+        "b]Hb.&", 
+        "zt\\H.&", 
+        "}ocaX\"", 
+        "lgV~.&", 
+        "^XCb.&", 
+        "faNp.&", 
+        "faNp.&", 
+        "fbOn.&", 
+        "b]Gb.&", 
+        "VP7U.&", 
+        "YR4@.&", 
+        "b]Hb.&", 
+        "[T7=.&", 
+        " e^ES.&", 
+        "e^ES.&", 
+        "}ocaX\"", 
+        "UN1:gaHO.&", 
+        "SN4S.&", 
+        "caX-caX8", 
+        "caX8caX\"", 
+        "SN4S.&", 
+        "}sdcaX", 
+        "lgV~.&", 
+        "lgV~.&", 
+        "lgTn.&", 
+        "IB$@.&", 
+        "WQ8S.&", 
+        "YS:P.&", 
+        "YR4@.&", 
+        "b]Hb.&", 
+        "ys]].&", 
+        "~UN/F.&", 
+        "jeMT.&", 
+        "|sdcaX", 
+        "caX-caXC", 
+        "caX8caX-", 
+        " RK-@RK-@.&", 
+        "|rkPS.&", 
+        "lgV~.&", 
+        "UP7O.&", 
+        " mhP_.&", 
+        "faNp.&", 
+        "^XCb.&", 
+        "^XCb.&", 
+        "sn^|.&", 
+        "IB$@.&", 
+        "kfSp.&", 
+        "niWk.&", 
+        "WQ8S.&", 
+        "YR4@.&", 
+        "rlRP.&", 
+        "IB%@.&", 
+        "so^|.&", 
+        "ZU=M.&", 
+        "~WP2C.&", 
+        "mfOQ.&", 
+        "wr_e.&", 
+        "WP2@.&", 
+        "e^ES.&", 
+        "WP2@.&", 
+        "YR5=.&", 
+        "e^ES.&", 
+        " RK-@~xdr.&", 
+        "xq[S4@.&", 
+        "lgV~.&", 
+        "lgV~.&", 
+        "zcYD=\u001fF.&", 
+        "D=\u001fF.&", 
+        "F@\"@.&", 
+        "F@\"@.&", 
+        "}hkIB$@.&", 
+        "b]Gb.&", 
+        "WQ8S.&", 
+        "kfSp.&", 
+        "kfSp.&", 
+        "WQ8S.&", 
+        "YR4@.&", 
+        "VO0D.&", 
+        "rn]~.&", 
+        "ZU=M.&", 
+        "d_J_.&", 
+        "rlVd.&", 
+        "e^ES.&", 
+        "hbJW.&", 
+        "TN1B.&", 
+        "TN1B.&", 
+        "WP2@.&", 
+        "WP2@.&", 
+        "RK-@.&", 
+        "e^ES.&", 
+        "e^ES.&", 
+        "e^ES.&", 
+        "p9993999*999", 
+        "999&999", 
+        "QQQC999", 
+        "___ScccD", 
+        "qqqCnnn", 
+        "|qqqP999 999", 
+        "qqqCppp", 
+        "cccS999 ", 
+        "uuu.qqq", 
+        "rrrCppp", 
+        "9993999", 
+        "uuuCsss", 
+        "rrrCppp", 
+        "uuuCsss", 
+        "sssCqqq", 
+        "uuuCsss", 
+        "tttCsssCqqq", 
+        "uuuCsss", 
+        "uuuCsss", 
+        "uuuCsss", 
+        "cccS999#999", 
+        "uuuCsss", 
+        "uuuCsss", 
+        "vvvCttt", 
+        "ZZZC999", 
+        "vvvCttt", 
+        "uuuCuuuCsss", 
+        "wwwCttt", 
+        "uuuCsss", 
+        "rrrW999", 
+        "wwwCttt", 
+        "uuuCsss", 
+        "xxx.ttt", 
+        "uuuCsss", 
+        "uuuCsss", 
+        "uuuCqqq", 
+        "999#9993", 
+        "999*999", 
+        "999 9990999*999", 
+        "999#999", 
+        "RRR@999#999", 
+        "sss~qqq", 
+        "999-999", 
+        "zzz|999&", 
+        "sss~qqq", 
+        "lll_9993", 
+        "sss~qqq", 
+        "9993999 999", 
+        "ooo_999-999", 
+        "SSSC999", 
+        "9990999", 
+        "```C999", 
+        "999#999", 
+        "UUU=999", 
+        "nnnS999", 
+        "wwwS999 ", 
+        "999*999", 
+        "9990999", 
+        "vvv~ttt", 
+        "999&ZZZC", 
+        "vvv~ttt", 
+        "vvv~ttt", 
+        "999-uuuS", 
+        "999*999", 
+        "999-999&999", 
+        "liii7999", 
+        "mmm]999", 
+        "999#999", 
+        "QQQ0SSS", 
+        "]]]~SSS", 
+        "WWW5999", 
+        "QQQ0UUU", 
+        "]]]~ZZZ", 
+        "uuuk999", 
+        "QQQ0UUU", 
+        "]]]~ZZZ", 
+        "wwwn999", 
+        "]]]~ZZZ", 
+        "~~~B|||", 
+        "^^^~[[[", 
+        "]]]~ZZZ", 
+        "^^^~[[[", 
+        "]]]~ZZZ", 
+        "^^^~[[[", 
+        "]]]~[[[", 
+        "^^^~[[[", 
+        "]]]~[[[", 
+        "^^^~[[[", 
+        "^^^~[[[", 
+        "^^^~[[[", 
+        "^^^~^^^~[[[", 
+        "~~~K999", 
+        "^^^~[[[", 
+        "^^^~[[[", 
+        "^^^~[[[", 
+        "^^^~[[[", 
+        "nnnb999", 
+        "^^^~[[[", 
+        "___~[[[", 
+        "___~[[[", 
+        "___~[[[", 
+        "___~[[[", 
+        "^^^~^^^~[[[", 
+        "___~[[[", 
+        "^^^~[[[", 
+        "___~[[[", 
+        "^^^~[[[", 
+        "___~[[[", 
+        "^^^~[[[", 
+        "___~[[[", 
+        "^^^~[[[", 
+        "___~\\\\\\", 
+        "^^^~[[[", 
+        "^^^~[[[", 
+        "QQQ0VVV", 
+        "^^^~[[[", 
+        "QQQ0VVV", 
+        "^^^~[[[", 
+        "QQQ0SSS", 
+        "^^^~SSS", 
+        "999 999&999", 
+        "y999-999", 
+        "xxx~999-999", 
+        "999-999 999", 
+        "jjjb999", 
+        "9993999 999", 
+        "rrrp999", 
+        "rrrp999", 
+        "sssn999-999", 
+        "[[[tfff", 
+        "mmmb999&999", 
+        "~~~S|||", 
+        "9990999", 
+        "bbbU999", 
+        "yyywyyy", 
+        "9993999", 
+        "999*999", 
+        "999&9990", 
+        "bbb@999", 
+        "nnnb999", 
+        "9990999", 
+        "ddd=999#999", 
+        "[[[tggg", 
+        "999 rrrM", 
+        "999 nnnS9993", 
+        "999 999", 
+        "nnnS999", 
+        "999 999-999", 
+        "___:pppO999", 
+        "b999-999#999", 
+        "___S999#999", 
+        "uuu-uuu8", 
+        "uuu8uuu\"", 
+        "___S999#999", 
+        "VVVjUUU", 
+        "xxx~999-999", 
+        "VVVjSSS", 
+        "xxx~999-999", 
+        "VVVjSSS", 
+        "VVVjTTT", 
+        "999*999-999", 
+        "VVVjTTT", 
+        "wwwn999&999", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "TTT@999", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "cccS999", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "dddP999", 
+        "}}}Sttt", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "999*999", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "999&fffD", 
+        "bbb@999", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjVVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "999*999", 
+        "VVVjTTT", 
+        "nnnb999", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjVVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "~^^^F999&999", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "tttT999", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "WWWjTTT", 
+        "VVVjTTT", 
+        "999 9993", 
+        "VVVjTTT", 
+        "999#XXXF", 
+        "VVVjTTT", 
+        "VVVjTTT", 
+        "999*999", 
+        "VVVjTTT", 
+        "999*999", 
+        "VVVjVVV", 
+        "999-999", 
+        "999#uuuS", 
+        "999&999", 
+        "999*tttU", 
+        "uuu-uuuC", 
+        "uuu8uuu-", 
+        "999 \\\\\\@", 
+        "999 \\\\\\@", 
+        "999 \\\\\\@\\\\\\@999", 
+        "999 999", 
+        "|xxxS999*999", 
+        "999-999", 
+        "xxx~999-999", 
+        "aaaO999", 
+        "999 vvv_999*999", 
+        "rrrp999", 
+        "QQQ`QQQ0", 
+        "QQQ0QQQ`", 
+        "jjjb999*999", 
+        "VVVjQQQ", 
+        "QQQ0SSS", 
+        "jjjb999*999", 
+        "VVVjQQQ", 
+        "QQQ0SSS", 
+        "VVVjQQQ", 
+        "QQQ0SSS", 
+        "999*999", 
+        "999 999", 
+        "VVVjQQQ", 
+        "QQQ0SSS", 
+        "|999*999", 
+        "QQQ`QQQ", 
+        "QQQ0SSS", 
+        "TTT@999 999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "wwwp999&999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "zzzk999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "~~~Swww", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "cccS999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "bbb@999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "yyyP999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "TTT@999", 
+        "QQQ0SSS", 
+        "|999#999", 
+        "QQQ0SSS", 
+        "fffM999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "~```C999 ", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "p9990999#999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "vvvQ999", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ0SSS", 
+        "QQQ`QQQ", 
+        "QQQ0SSS", 
+        "WWWjQQQ", 
+        "QQQ0SSS", 
+        "999 \\\\\\@", 
+        "WWWjQQQ", 
+        "QQQ0SSS", 
+        "WWWjQQQ", 
+        "QQQ0SSS", 
+        "WWWjQQQ", 
+        "QQQ0SSS", 
+        "```@999", 
+        "QQQ`QQQ0", 
+        "QQQ0QQQ`", 
+        "nnnS999", 
+        "```@999", 
+        "bbb=999", 
+        "nnnS999", 
+        "999-999*999", 
+        "999 \\\\\\@", 
+        "999 \\\\\\@", 
+        "999 \\\\\\@", 
+        "b999-999#999", 
+        "qbbb@999 999", 
+        "999-999", 
+        "xxx~999-999", 
+        "xxx~999-999", 
+        "YPPPF999#999", 
+        "PPPF999#999", 
+        "RRR@999 999", 
+        "RRR@999", 
+        "999#999&", 
+        "kTTT@999", 
+        "mmmb999&999", 
+        "QQQ`QQQ", 
+        "999-999", 
+        "cccS999#999", 
+        "wwwp999", 
+        "wwwp999", 
+        "cccS999", 
+        "}}}csss", 
+        "{{{Booo", 
+        "bbb@999", 
+        "999&999-", 
+        "___D999", 
+        "999&fffD", 
+        "~~~~999&999", 
+        "fffM999", 
+        "999*999", 
+        "ppp_999", 
+        "{{{d999", 
+        "nnnS999", 
+        "p9990999#", 
+        "b999-999 999", 
+        "rrrW999", 
+        "^^^B999", 
+        "^^^B999", 
+        "999#nnnS", 
+        "QQQ`QQQ", 
+        "999*lllU", 
+        "999*}}}b", 
+        "```@999", 
+        "```@999", 
+        "999*999", 
+        "\\\\\\@999", 
+        "999 ```@", 
+        "999*999", 
+        "999 \\\\\\F", 
+        "999#999", 
+        "nnnS999", 
+        "999#uuuS", 
+        "999 \\\\\\@", 
+        "nnnS999", 
+        "999 \\\\\\@", 
+        "999 \\\\\\@", 
+        "nnnS999", 
+        "999 999", 
+        "2\"\u001fP2\"\u001f", 
+        "2\"\u001fP2\"\u001f", 
+        "2\"\u001fP2\"\u001f", 
+        "2\"\u001fP2\"\u001f", 
+        "2\"\u001f02\"\u001f", 
+        "2\"\u001f02\"\u001f", 
+        "api-ms-win-core-synch-l1-2-0.dll", 
+        "kernel32.dll", 
+        "MicrosoftTabletPenServiceProperty", 
+        "Microsoft-Windows-SnipperCaptureForm-WinShiftS", 
+        "Microsoft-Windows-SnipperCaptureForm", 
+        "r%windir%\\system32\\mapi32.dll", 
+        "SnipImage-%s().PNG", 
+        "SnipFile-%s().HTML", 
+        "SnipImage().JPG", 
+        "Software\\Microsoft\\Windows\\TabletPC\\Snipping Tool\\LinkFingerprints", 
+        "IEFrame", 
+        "Description", 
+        "ParentDescription", 
+        "ParentValue", 
+        "ParentName", 
+        "ParentRole", 
+        "Microsoft-Windows-SnippingTool-InitializingMutex-WinShiftS", 
+        "Microsoft-Windows-SnippingTool-InitializingMutex", 
+        "DisableSnippingTool", 
+        "pmshelp://Windows/?id=1337CDBA-52A2-4704-AD4D-2D7BACE605B4", 
+        "CaptureMode", 
+        "Software\\Microsoft\\Windows\\TabletPC\\Snipping Tool", 
+        "DisplaySnipInstructions", 
+        "PromptToSave", 
+        "NotFirstRun", 
+        "CaptureWindowVisible", 
+        "FileFormat", 
+        "DisplayURL", 
+        "CapturePenColor", 
+        "ShowCaptureStroke", 
+        "AutoCopyToClipboard", 
+        "MarkupPen", 
+        "CustomPenColor", 
+        "CustomPenTip", 
+        "CustomPenThickness", 
+        "ToolbarX", 
+        "ToolbarY", 
+        "SendTo", 
+        "DeviceKind", 
+        "SOFTWARE\\Microsoft\\Windows\\Tablet PC", 
+        "EraseEnable", 
+        "Software\\Microsoft\\WISP\\PEN\\SysEventParameters", 
+        "image/jpeg", 
+        "Microsoft-Windows-SnipperToolbar", 
+        "ToolbarWindow32", 
+        "Static", 
+        "BUTTON", 
+        "TabletPenServiceHelperClass", 
+        "Microsoft-Windows-SnipperEditor", 
+        "Ctrl+S", 
+        "Ctrl+C", 
+        "%s %lu.%lu.%lu", 
+        "Snipping Tool Print Job", 
+        "Microsoft-Windows-SnipperEditorPanel", 
+        "{FFADD4B1-76C6-4044-9B4E-10AE6009EB82}", 
+        "{CDCC3C6A-53FE-4cee-9F03-597C4E5A4892}", 
+        "Windows.Storage.StorageFile", 
+        "ntdll.dll", 
+        "%hs(%d)\\%hs!%p: ", 
+        "%hs!%p: ", 
+        "(caller: %p) ", 
+        "%hs(%d) tid(%x) %08X %ws", 
+        "Msg:[%ws] ", 
+        "CallContext:[%hs] ", 
+        "[%hs(%hs)]", 
+        "tempsnip.png", 
+        "ms-paint://edit/?source=snippingtool&isTemporary=true&newScene=true&sharedAccessToken=", 
+        "Windows.ApplicationModel.DataTransfer.SharedStorageAccessManager", 
+        "Local\\SM0:%d:%d:%hs", 
+        "FreeForm", 
+        "Rectangle", 
+        "Window", 
+        "FullScreen", 
+        "Custom", 
+        "Highlighter", 
+        "Eraser", 
+        "Undefined", 
+        "lSnippingToolLicensing-Enabled", 
+        "SOFTWARE\\Policies\\Microsoft\\TabletPC", 
+        "WinSta0", 
+        "Default", 
+        "Segoe UI Light", 
+        "Segoe UI SemiBold", 
+        "Segoe UI", 
+        "Segoe Pseudo", 
+        "Yu Gothic UI Light", 
+        "Yu Gothic UI Semibold", 
+        "Yu Gothic UI", 
+        "Malgun Gothic Semilight", 
+        "Malgun Gothic Bold", 
+        "Malgun Gothic", 
+        "Leelawadee UI Semilight", 
+        "Leelawadee UI Bold", 
+        "Leelawadee UI", 
+        "Microsoft YaHei UI Light", 
+        "Microsoft YaHei UI Bold", 
+        "Microsoft YaHei UI", 
+        "Microsoft JhengHei UI Light", 
+        "Microsoft JhengHei UI Bold", 
+        "Microsoft JhengHei UI", 
+        "VS_VERSION_INFO", 
+        "StringFileInfo", 
+        "040904B0", 
+        "CompanyName", 
+        "Microsoft Corporation", 
+        "FileDescription", 
+        "Snipping Tool", 
+        "FileVersion", 
+        "10.0.17134.1 (WinBuild.160101.0800)", 
+        "InternalName", 
+        "SnippingTool", 
+        "LegalCopyright", 
+        " Microsoft Corporation. All rights reserved.", 
+        "OriginalFilename", 
+        "SnippingTool.exe", 
+        "ProductName", 
+        "Microsoft", 
+        " Windows", 
+        " Operating System", 
+        "ProductVersion", 
+        "10.0.17134.1", 
+        "VarFileInfo", 
+        "Translation"
+    ], 
+    "metadata": {
+        "output": {
+            "pcap": {
+                "basename": "dump.pcap", 
+                "sha256": "50e28503f0d4793fd9be745a14dc9a7f692b011561116b4c3181844aaa19d7a7", 
+                "dirname": ""
+            }
+        }
+    }
+}

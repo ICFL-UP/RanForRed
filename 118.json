@@ -1,0 +1,5230 @@
+{
+    "info": {
+        "added": 1554890064.304077, 
+        "started": 1554890064.768463, 
+        "duration": 24, 
+        "ended": 1554890089.494963, 
+        "owner": "Avinash", 
+        "score": 0.4, 
+        "id": 118, 
+        "category": "file", 
+        "git": {
+            "head": "c41c7c5cb09416b7cfc6159811792679e20762f2", 
+            "fetch_head": "c41c7c5cb09416b7cfc6159811792679e20762f2"
+        }, 
+        "monitor": "e071e63a66e831163a40abc45109fdf71fee829e", 
+        "package": "exe", 
+        "route": "none", 
+        "custom": "", 
+        "machine": {
+            "status": "stopped", 
+            "name": "cuckoo1", 
+            "label": "Win 7 Clone", 
+            "manager": "VirtualBox", 
+            "started_on": "2019-04-10 09:54:25", 
+            "shutdown_on": "2019-04-10 09:54:46"
+        }, 
+        "platform": "windows", 
+        "version": "2.0.6", 
+        "options": "procmemdump=yes"
+    }, 
+    "signatures": [
+        {
+            "markcount": 1, 
+            "families": [], 
+            "description": "The binary likely contains encrypted or compressed data indicative of a packer", 
+            "severity": 2, 
+            "marks": [
+                {
+                    "entropy": 7.402812381492381, 
+                    "section": {
+                        "size_of_data": "0x00009400", 
+                        "virtual_address": "0x0006c000", 
+                        "entropy": 7.402812381492381, 
+                        "name": ".rsrc", 
+                        "virtual_size": "0x000093b8"
+                    }, 
+                    "type": "generic", 
+                    "description": "A section with a high entropy has been found"
+                }
+            ], 
+            "references": [
+                "http://www.forensickb.com/2013/03/file-entropy-explained.html", 
+                "http://virii.es/U/Using%20Entropy%20Analysis%20to%20Find%20Encrypted%20and%20Packed%20Malware.pdf"
+            ], 
+            "name": "packer_entropy"
+        }
+    ], 
+    "target": {
+        "category": "file", 
+        "file": {
+            "yara": [], 
+            "sha1": "833db284ce52a96bbd321a978f2a722a565944fc", 
+            "name": "uget.exe", 
+            "type": "PE32 executable (GUI) Intel 80386 (stripped to external PDB), for MS Windows", 
+            "sha256": "c8646e951eede1d72e25e745b259b22dabb1c245cdebce88115e59c347a6efa7", 
+            "urls": [
+                "http://ugetdm.com/donate", 
+                "http://ugetdm.com/", 
+                "http://feeds.feedburner.com/uget/all?format=xml", 
+                "http://feeds.feedburner.com/uget/stable?format=xml", 
+                "http://ugetdm.com/help", 
+                "http://for.example/path/pre", 
+                "https://www.youtube.com/watch?v=%s", 
+                "http://ugetdm.com/reportbug", 
+                "http://ugetdm.com/keyboard-shortcuts", 
+                "http://ugetdm.com/versioncheck?v=2.2.1", 
+                "https://eu.api.mega.co.nz/cs", 
+                "http://ugetdm.com/documentation", 
+                "http://ugetdm.com/survey", 
+                "http://localhost:6800/jsonrpc", 
+                "http://feeds.feedburner.com/uget/tutorials?format=xml", 
+                "http://feeds.feedburner.com/uget/news?format=xml", 
+                "http://ugetdm.com/feedback", 
+                "http://ugetdm.com/documentation/on-complete", 
+                "http://ugetdm.com/forum/", 
+                "http://feeds.feedburner.com/uget/development?format=xml", 
+                "https://www.youtube.com/get_video_info?video_id=%s"
+            ], 
+            "crc32": "32F3548F", 
+            "path": "/home/avinash/.cuckoo/storage/binaries/c8646e951eede1d72e25e745b259b22dabb1c245cdebce88115e59c347a6efa7", 
+            "ssdeep": null, 
+            "size": 456704, 
+            "sha512": "987b2227765b3f216b53ddb47e7104ea13a0234e57c9a23ccae57444ec0e51ed5d8e17cf7856dcb5390341222ef69d61832bbf836dbe0f377fda501af1e903d0", 
+            "md5": "6c428e2a92ca5b09f899d68102d29191"
+        }
+    }, 
+    "network": {
+        "tls": [], 
+        "udp": [
+            {
+                "src": "192.168.56.102", 
+                "dst": "192.168.56.255", 
+                "offset": 1242, 
+                "time": 5.46000599861145, 
+                "dport": 137, 
+                "sport": 137
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "192.168.56.255", 
+                "offset": 6570, 
+                "time": 11.459382057189941, 
+                "dport": 138, 
+                "sport": 138
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 8934, 
+                "time": 8.631672143936157, 
+                "dport": 5355, 
+                "sport": 53534
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 9262, 
+                "time": 6.392942190170288, 
+                "dport": 5355, 
+                "sport": 58437
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 9594, 
+                "time": 3.4008970260620117, 
+                "dport": 5355, 
+                "sport": 58705
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 9926, 
+                "time": 5.267724990844727, 
+                "dport": 5355, 
+                "sport": 63295
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "224.0.0.252", 
+                "offset": 10254, 
+                "time": 14.631466150283813, 
+                "dport": 5355, 
+                "sport": 63430
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "239.255.255.250", 
+                "offset": 10582, 
+                "time": 3.443010091781616, 
+                "dport": 1900, 
+                "sport": 1900
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "239.255.255.250", 
+                "offset": 29992, 
+                "time": 5.599738121032715, 
+                "dport": 1900, 
+                "sport": 58709
+            }, 
+            {
+                "src": "192.168.56.102", 
+                "dst": "239.255.255.250", 
+                "offset": 34504, 
+                "time": 3.4083001613616943, 
+                "dport": 3702, 
+                "sport": 63919
+            }
+        ], 
+        "dns_servers": [], 
+        "http": [], 
+        "icmp": [], 
+        "smtp": [], 
+        "tcp": [], 
+        "smtp_ex": [], 
+        "mitm": [], 
+        "hosts": [], 
+        "pcap_sha256": "b9832c020ab0f05ef19371c9a88c3dba29774ed7524a4ee328f1968ff5dd47d1", 
+        "dns": [], 
+        "http_ex": [], 
+        "domains": [], 
+        "dead_hosts": [], 
+        "sorted_pcap_sha256": "01bd2776d1eb6691c03b7a935c9dd7e5b6d5f24e344c8a6ea1ca02fdb5ac1c82", 
+        "irc": [], 
+        "https_ex": []
+    }, 
+    "static": {
+        "pdb_path": null, 
+        "pe_imports": [
+            {
+                "imports": [
+                    {
+                        "name": "AdjustTokenPrivileges", 
+                        "address": "0x464b60"
+                    }, 
+                    {
+                        "name": "LookupPrivilegeValueA", 
+                        "address": "0x464b64"
+                    }, 
+                    {
+                        "name": "OpenProcessToken", 
+                        "address": "0x464b68"
+                    }
+                ], 
+                "dll": "ADVAPI32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "AllocConsole", 
+                        "address": "0x464b70"
+                    }, 
+                    {
+                        "name": "CloseHandle", 
+                        "address": "0x464b74"
+                    }, 
+                    {
+                        "name": "CopyFileW", 
+                        "address": "0x464b78"
+                    }, 
+                    {
+                        "name": "DeleteCriticalSection", 
+                        "address": "0x464b7c"
+                    }, 
+                    {
+                        "name": "EnterCriticalSection", 
+                        "address": "0x464b80"
+                    }, 
+                    {
+                        "name": "FreeConsole", 
+                        "address": "0x464b84"
+                    }, 
+                    {
+                        "name": "FreeLibrary", 
+                        "address": "0x464b88"
+                    }, 
+                    {
+                        "name": "GetCurrentProcess", 
+                        "address": "0x464b8c"
+                    }, 
+                    {
+                        "name": "GetCurrentProcessId", 
+                        "address": "0x464b90"
+                    }, 
+                    {
+                        "name": "GetCurrentThreadId", 
+                        "address": "0x464b94"
+                    }, 
+                    {
+                        "name": "GetFileAttributesW", 
+                        "address": "0x464b98"
+                    }, 
+                    {
+                        "name": "GetLastError", 
+                        "address": "0x464b9c"
+                    }, 
+                    {
+                        "name": "GetModuleFileNameW", 
+                        "address": "0x464ba0"
+                    }, 
+                    {
+                        "name": "GetModuleHandleA", 
+                        "address": "0x464ba4"
+                    }, 
+                    {
+                        "name": "GetProcAddress", 
+                        "address": "0x464ba8"
+                    }, 
+                    {
+                        "name": "GetStartupInfoA", 
+                        "address": "0x464bac"
+                    }, 
+                    {
+                        "name": "GetSystemTimeAsFileTime", 
+                        "address": "0x464bb0"
+                    }, 
+                    {
+                        "name": "GetTickCount", 
+                        "address": "0x464bb4"
+                    }, 
+                    {
+                        "name": "GetVersionExA", 
+                        "address": "0x464bb8"
+                    }, 
+                    {
+                        "name": "InitializeCriticalSection", 
+                        "address": "0x464bbc"
+                    }, 
+                    {
+                        "name": "LeaveCriticalSection", 
+                        "address": "0x464bc0"
+                    }, 
+                    {
+                        "name": "LoadLibraryA", 
+                        "address": "0x464bc4"
+                    }, 
+                    {
+                        "name": "QueryPerformanceCounter", 
+                        "address": "0x464bc8"
+                    }, 
+                    {
+                        "name": "SetEndOfFile", 
+                        "address": "0x464bcc"
+                    }, 
+                    {
+                        "name": "SetFilePointer", 
+                        "address": "0x464bd0"
+                    }, 
+                    {
+                        "name": "SetFilePointerEx", 
+                        "address": "0x464bd4"
+                    }, 
+                    {
+                        "name": "SetUnhandledExceptionFilter", 
+                        "address": "0x464bd8"
+                    }, 
+                    {
+                        "name": "Sleep", 
+                        "address": "0x464bdc"
+                    }, 
+                    {
+                        "name": "TerminateProcess", 
+                        "address": "0x464be0"
+                    }, 
+                    {
+                        "name": "TlsGetValue", 
+                        "address": "0x464be4"
+                    }, 
+                    {
+                        "name": "UnhandledExceptionFilter", 
+                        "address": "0x464be8"
+                    }, 
+                    {
+                        "name": "VirtualProtect", 
+                        "address": "0x464bec"
+                    }, 
+                    {
+                        "name": "VirtualQuery", 
+                        "address": "0x464bf0"
+                    }, 
+                    {
+                        "name": "WaitForSingleObject", 
+                        "address": "0x464bf4"
+                    }
+                ], 
+                "dll": "KERNEL32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "__argc", 
+                        "address": "0x464bfc"
+                    }, 
+                    {
+                        "name": "__argv", 
+                        "address": "0x464c00"
+                    }, 
+                    {
+                        "name": "__dllonexit", 
+                        "address": "0x464c04"
+                    }, 
+                    {
+                        "name": "__doserrno", 
+                        "address": "0x464c08"
+                    }, 
+                    {
+                        "name": "__getmainargs", 
+                        "address": "0x464c0c"
+                    }, 
+                    {
+                        "name": "__initenv", 
+                        "address": "0x464c10"
+                    }, 
+                    {
+                        "name": "__lconv_init", 
+                        "address": "0x464c14"
+                    }, 
+                    {
+                        "name": "__pioinfo", 
+                        "address": "0x464c18"
+                    }, 
+                    {
+                        "name": "__set_app_type", 
+                        "address": "0x464c1c"
+                    }, 
+                    {
+                        "name": "__setusermatherr", 
+                        "address": "0x464c20"
+                    }, 
+                    {
+                        "name": "_acmdln", 
+                        "address": "0x464c24"
+                    }, 
+                    {
+                        "name": "_amsg_exit", 
+                        "address": "0x464c28"
+                    }, 
+                    {
+                        "name": "_beginthreadex", 
+                        "address": "0x464c2c"
+                    }, 
+                    {
+                        "name": "_cexit", 
+                        "address": "0x464c30"
+                    }, 
+                    {
+                        "name": "_close", 
+                        "address": "0x464c34"
+                    }, 
+                    {
+                        "name": "_commit", 
+                        "address": "0x464c38"
+                    }, 
+                    {
+                        "name": "_errno", 
+                        "address": "0x464c3c"
+                    }, 
+                    {
+                        "name": "_filelengthi64", 
+                        "address": "0x464c40"
+                    }, 
+                    {
+                        "name": "_fileno", 
+                        "address": "0x464c44"
+                    }, 
+                    {
+                        "name": "_fmode", 
+                        "address": "0x464c48"
+                    }, 
+                    {
+                        "name": "_get_osfhandle", 
+                        "address": "0x464c4c"
+                    }, 
+                    {
+                        "name": "_initterm", 
+                        "address": "0x464c50"
+                    }, 
+                    {
+                        "name": "_iob", 
+                        "address": "0x464c54"
+                    }, 
+                    {
+                        "name": "_lock", 
+                        "address": "0x464c58"
+                    }, 
+                    {
+                        "name": "_lseeki64", 
+                        "address": "0x464c5c"
+                    }, 
+                    {
+                        "name": "_onexit", 
+                        "address": "0x464c60"
+                    }, 
+                    {
+                        "name": "_read", 
+                        "address": "0x464c64"
+                    }, 
+                    {
+                        "name": "_stricmp", 
+                        "address": "0x464c68"
+                    }, 
+                    {
+                        "name": "_strnicmp", 
+                        "address": "0x464c6c"
+                    }, 
+                    {
+                        "name": "_telli64", 
+                        "address": "0x464c70"
+                    }, 
+                    {
+                        "name": "_unlock", 
+                        "address": "0x464c74"
+                    }, 
+                    {
+                        "name": "_vsnprintf", 
+                        "address": "0x464c78"
+                    }, 
+                    {
+                        "name": "_wcreat", 
+                        "address": "0x464c7c"
+                    }, 
+                    {
+                        "name": "_wfopen", 
+                        "address": "0x464c80"
+                    }, 
+                    {
+                        "name": "_wmkdir", 
+                        "address": "0x464c84"
+                    }, 
+                    {
+                        "name": "_wopen", 
+                        "address": "0x464c88"
+                    }, 
+                    {
+                        "name": "_wremove", 
+                        "address": "0x464c8c"
+                    }, 
+                    {
+                        "name": "_wrename", 
+                        "address": "0x464c90"
+                    }, 
+                    {
+                        "name": "_write", 
+                        "address": "0x464c94"
+                    }, 
+                    {
+                        "name": "_wrmdir", 
+                        "address": "0x464c98"
+                    }, 
+                    {
+                        "name": "_wunlink", 
+                        "address": "0x464c9c"
+                    }, 
+                    {
+                        "name": "_wutime", 
+                        "address": "0x464ca0"
+                    }, 
+                    {
+                        "name": "abort", 
+                        "address": "0x464ca4"
+                    }, 
+                    {
+                        "name": "bsearch", 
+                        "address": "0x464ca8"
+                    }, 
+                    {
+                        "name": "calloc", 
+                        "address": "0x464cac"
+                    }, 
+                    {
+                        "name": "exit", 
+                        "address": "0x464cb0"
+                    }, 
+                    {
+                        "name": "fclose", 
+                        "address": "0x464cb4"
+                    }, 
+                    {
+                        "name": "fflush", 
+                        "address": "0x464cb8"
+                    }, 
+                    {
+                        "name": "fgetpos", 
+                        "address": "0x464cbc"
+                    }, 
+                    {
+                        "name": "fgets", 
+                        "address": "0x464cc0"
+                    }, 
+                    {
+                        "name": "fprintf", 
+                        "address": "0x464cc4"
+                    }, 
+                    {
+                        "name": "fread", 
+                        "address": "0x464cc8"
+                    }, 
+                    {
+                        "name": "free", 
+                        "address": "0x464ccc"
+                    }, 
+                    {
+                        "name": "freopen", 
+                        "address": "0x464cd0"
+                    }, 
+                    {
+                        "name": "fseek", 
+                        "address": "0x464cd4"
+                    }, 
+                    {
+                        "name": "fsetpos", 
+                        "address": "0x464cd8"
+                    }, 
+                    {
+                        "name": "fwrite", 
+                        "address": "0x464cdc"
+                    }, 
+                    {
+                        "name": "islower", 
+                        "address": "0x464ce0"
+                    }, 
+                    {
+                        "name": "isspace", 
+                        "address": "0x464ce4"
+                    }, 
+                    {
+                        "name": "isupper", 
+                        "address": "0x464ce8"
+                    }, 
+                    {
+                        "name": "localeconv", 
+                        "address": "0x464cec"
+                    }, 
+                    {
+                        "name": "localtime", 
+                        "address": "0x464cf0"
+                    }, 
+                    {
+                        "name": "malloc", 
+                        "address": "0x464cf4"
+                    }, 
+                    {
+                        "name": "memchr", 
+                        "address": "0x464cf8"
+                    }, 
+                    {
+                        "name": "memcmp", 
+                        "address": "0x464cfc"
+                    }, 
+                    {
+                        "name": "memmove", 
+                        "address": "0x464d00"
+                    }, 
+                    {
+                        "name": "mktime", 
+                        "address": "0x464d04"
+                    }, 
+                    {
+                        "name": "memcpy", 
+                        "address": "0x464d08"
+                    }, 
+                    {
+                        "name": "printf", 
+                        "address": "0x464d0c"
+                    }, 
+                    {
+                        "name": "qsort", 
+                        "address": "0x464d10"
+                    }, 
+                    {
+                        "name": "rand", 
+                        "address": "0x464d14"
+                    }, 
+                    {
+                        "name": "rewind", 
+                        "address": "0x464d18"
+                    }, 
+                    {
+                        "name": "signal", 
+                        "address": "0x464d1c"
+                    }, 
+                    {
+                        "name": "sprintf", 
+                        "address": "0x464d20"
+                    }, 
+                    {
+                        "name": "srand", 
+                        "address": "0x464d24"
+                    }, 
+                    {
+                        "name": "strcat", 
+                        "address": "0x464d28"
+                    }, 
+                    {
+                        "name": "strchr", 
+                        "address": "0x464d2c"
+                    }, 
+                    {
+                        "name": "strcmp", 
+                        "address": "0x464d30"
+                    }, 
+                    {
+                        "name": "strcpy", 
+                        "address": "0x464d34"
+                    }, 
+                    {
+                        "name": "strcspn", 
+                        "address": "0x464d38"
+                    }, 
+                    {
+                        "name": "strlen", 
+                        "address": "0x464d3c"
+                    }, 
+                    {
+                        "name": "strncmp", 
+                        "address": "0x464d40"
+                    }, 
+                    {
+                        "name": "strncpy", 
+                        "address": "0x464d44"
+                    }, 
+                    {
+                        "name": "strpbrk", 
+                        "address": "0x464d48"
+                    }, 
+                    {
+                        "name": "strrchr", 
+                        "address": "0x464d4c"
+                    }, 
+                    {
+                        "name": "strstr", 
+                        "address": "0x464d50"
+                    }, 
+                    {
+                        "name": "strtoul", 
+                        "address": "0x464d54"
+                    }, 
+                    {
+                        "name": "strtol", 
+                        "address": "0x464d58"
+                    }, 
+                    {
+                        "name": "system", 
+                        "address": "0x464d5c"
+                    }, 
+                    {
+                        "name": "time", 
+                        "address": "0x464d60"
+                    }, 
+                    {
+                        "name": "vfprintf", 
+                        "address": "0x464d64"
+                    }, 
+                    {
+                        "name": "vsprintf", 
+                        "address": "0x464d68"
+                    }, 
+                    {
+                        "name": "wcslen", 
+                        "address": "0x464d6c"
+                    }, 
+                    {
+                        "name": "wcsncpy", 
+                        "address": "0x464d70"
+                    }
+                ], 
+                "dll": "msvcrt.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "ShellExecuteA", 
+                        "address": "0x464d78"
+                    }, 
+                    {
+                        "name": "ShellExecuteW", 
+                        "address": "0x464d7c"
+                    }, 
+                    {
+                        "name": "Shell_NotifyIconW", 
+                        "address": "0x464d80"
+                    }
+                ], 
+                "dll": "SHELL32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "ExitWindowsEx", 
+                        "address": "0x464d88"
+                    }, 
+                    {
+                        "name": "FindWindowA", 
+                        "address": "0x464d8c"
+                    }
+                ], 
+                "dll": "USER32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "PlaySoundW", 
+                        "address": "0x464d94"
+                    }
+                ], 
+                "dll": "WINMM.DLL"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "WSACleanup", 
+                        "address": "0x464d9c"
+                    }, 
+                    {
+                        "name": "WSAGetLastError", 
+                        "address": "0x464da0"
+                    }, 
+                    {
+                        "name": "WSAStartup", 
+                        "address": "0x464da4"
+                    }, 
+                    {
+                        "name": "accept", 
+                        "address": "0x464da8"
+                    }, 
+                    {
+                        "name": "bind", 
+                        "address": "0x464dac"
+                    }, 
+                    {
+                        "name": "closesocket", 
+                        "address": "0x464db0"
+                    }, 
+                    {
+                        "name": "connect", 
+                        "address": "0x464db4"
+                    }, 
+                    {
+                        "name": "freeaddrinfo", 
+                        "address": "0x464db8"
+                    }, 
+                    {
+                        "name": "getaddrinfo", 
+                        "address": "0x464dbc"
+                    }, 
+                    {
+                        "name": "getsockopt", 
+                        "address": "0x464dc0"
+                    }, 
+                    {
+                        "name": "ioctlsocket", 
+                        "address": "0x464dc4"
+                    }, 
+                    {
+                        "name": "listen", 
+                        "address": "0x464dc8"
+                    }, 
+                    {
+                        "name": "recv", 
+                        "address": "0x464dcc"
+                    }, 
+                    {
+                        "name": "select", 
+                        "address": "0x464dd0"
+                    }, 
+                    {
+                        "name": "send", 
+                        "address": "0x464dd4"
+                    }, 
+                    {
+                        "name": "setsockopt", 
+                        "address": "0x464dd8"
+                    }, 
+                    {
+                        "name": "shutdown", 
+                        "address": "0x464ddc"
+                    }, 
+                    {
+                        "name": "socket", 
+                        "address": "0x464de0"
+                    }
+                ], 
+                "dll": "WS2_32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "__deregister_frame_info", 
+                        "address": "0x464de8"
+                    }, 
+                    {
+                        "name": "__divdi3", 
+                        "address": "0x464dec"
+                    }, 
+                    {
+                        "name": "__register_frame_info", 
+                        "address": "0x464df0"
+                    }, 
+                    {
+                        "name": "__udivdi3", 
+                        "address": "0x464df4"
+                    }
+                ], 
+                "dll": "libgcc_s_dw2-1.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "cairo_clip", 
+                        "address": "0x464dfc"
+                    }, 
+                    {
+                        "name": "cairo_destroy", 
+                        "address": "0x464e00"
+                    }, 
+                    {
+                        "name": "cairo_fill", 
+                        "address": "0x464e04"
+                    }, 
+                    {
+                        "name": "cairo_line_to", 
+                        "address": "0x464e08"
+                    }, 
+                    {
+                        "name": "cairo_move_to", 
+                        "address": "0x464e0c"
+                    }, 
+                    {
+                        "name": "cairo_rectangle", 
+                        "address": "0x464e10"
+                    }, 
+                    {
+                        "name": "cairo_set_line_width", 
+                        "address": "0x464e14"
+                    }, 
+                    {
+                        "name": "cairo_set_source_rgb", 
+                        "address": "0x464e18"
+                    }, 
+                    {
+                        "name": "cairo_stroke", 
+                        "address": "0x464e1c"
+                    }
+                ], 
+                "dll": "libcairo-2.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "AES_ctr128_encrypt", 
+                        "address": "0x464e24"
+                    }, 
+                    {
+                        "name": "AES_decrypt", 
+                        "address": "0x464e28"
+                    }, 
+                    {
+                        "name": "AES_set_decrypt_key", 
+                        "address": "0x464e2c"
+                    }, 
+                    {
+                        "name": "AES_set_encrypt_key", 
+                        "address": "0x464e30"
+                    }, 
+                    {
+                        "name": "CRYPTO_cbc128_decrypt", 
+                        "address": "0x464e34"
+                    }
+                ], 
+                "dll": "LIBEAY32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "curl_easy_cleanup", 
+                        "address": "0x464e3c"
+                    }, 
+                    {
+                        "name": "curl_easy_getinfo", 
+                        "address": "0x464e40"
+                    }, 
+                    {
+                        "name": "curl_easy_init", 
+                        "address": "0x464e44"
+                    }, 
+                    {
+                        "name": "curl_easy_perform", 
+                        "address": "0x464e48"
+                    }, 
+                    {
+                        "name": "curl_easy_setopt", 
+                        "address": "0x464e4c"
+                    }, 
+                    {
+                        "name": "curl_global_cleanup", 
+                        "address": "0x464e50"
+                    }, 
+                    {
+                        "name": "curl_global_init", 
+                        "address": "0x464e54"
+                    }, 
+                    {
+                        "name": "curl_slist_append", 
+                        "address": "0x464e58"
+                    }, 
+                    {
+                        "name": "curl_slist_free_all", 
+                        "address": "0x464e5c"
+                    }
+                ], 
+                "dll": "libcurl-4.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "gdk_cairo_create", 
+                        "address": "0x464e64"
+                    }, 
+                    {
+                        "name": "gdk_cursor_new", 
+                        "address": "0x464e68"
+                    }, 
+                    {
+                        "name": "gdk_device_manager_get_client_pointer", 
+                        "address": "0x464e6c"
+                    }, 
+                    {
+                        "name": "gdk_display_get_device_manager", 
+                        "address": "0x464e70"
+                    }, 
+                    {
+                        "name": "gdk_screen_get_default", 
+                        "address": "0x464e74"
+                    }, 
+                    {
+                        "name": "gdk_screen_get_height", 
+                        "address": "0x464e78"
+                    }, 
+                    {
+                        "name": "gdk_screen_get_width", 
+                        "address": "0x464e7c"
+                    }, 
+                    {
+                        "name": "gdk_screen_height", 
+                        "address": "0x464e80"
+                    }, 
+                    {
+                        "name": "gdk_screen_width", 
+                        "address": "0x464e84"
+                    }, 
+                    {
+                        "name": "gdk_window_get_device_position", 
+                        "address": "0x464e88"
+                    }, 
+                    {
+                        "name": "gdk_window_get_display", 
+                        "address": "0x464e8c"
+                    }, 
+                    {
+                        "name": "gdk_window_get_origin", 
+                        "address": "0x464e90"
+                    }, 
+                    {
+                        "name": "gdk_window_get_state", 
+                        "address": "0x464e94"
+                    }, 
+                    {
+                        "name": "gdk_window_set_cursor", 
+                        "address": "0x464e98"
+                    }
+                ], 
+                "dll": "libgdk-3-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "gdk_pixbuf_new_from_file_utf8", 
+                        "address": "0x464ea0"
+                    }
+                ], 
+                "dll": "libgdk_pixbuf-2.0-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "g_settings_get_int", 
+                        "address": "0x464ea8"
+                    }, 
+                    {
+                        "name": "g_settings_new", 
+                        "address": "0x464eac"
+                    }, 
+                    {
+                        "name": "g_settings_set_boolean", 
+                        "address": "0x464eb0"
+                    }, 
+                    {
+                        "name": "g_settings_set_int", 
+                        "address": "0x464eb4"
+                    }
+                ], 
+                "dll": "libgio-2.0-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "g_array_free", 
+                        "address": "0x464ebc"
+                    }, 
+                    {
+                        "name": "g_array_new", 
+                        "address": "0x464ec0"
+                    }, 
+                    {
+                        "name": "g_array_set_size", 
+                        "address": "0x464ec4"
+                    }, 
+                    {
+                        "name": "g_ascii_strcasecmp", 
+                        "address": "0x464ec8"
+                    }, 
+                    {
+                        "name": "g_assertion_message_expr", 
+                        "address": "0x464ecc"
+                    }, 
+                    {
+                        "name": "g_build_filename", 
+                        "address": "0x464ed0"
+                    }, 
+                    {
+                        "name": "g_dir_close", 
+                        "address": "0x464ed4"
+                    }, 
+                    {
+                        "name": "g_dir_open_utf8", 
+                        "address": "0x464ed8"
+                    }, 
+                    {
+                        "name": "g_dir_read_name_utf8", 
+                        "address": "0x464edc"
+                    }, 
+                    {
+                        "name": "g_error_free", 
+                        "address": "0x464ee0"
+                    }, 
+                    {
+                        "name": "g_file_test_utf8", 
+                        "address": "0x464ee4"
+                    }, 
+                    {
+                        "name": "g_filename_from_utf8_utf8", 
+                        "address": "0x464ee8"
+                    }, 
+                    {
+                        "name": "g_filename_to_utf8_utf8", 
+                        "address": "0x464eec"
+                    }, 
+                    {
+                        "name": "g_free", 
+                        "address": "0x464ef0"
+                    }, 
+                    {
+                        "name": "g_get_home_dir", 
+                        "address": "0x464ef4"
+                    }, 
+                    {
+                        "name": "g_get_user_config_dir", 
+                        "address": "0x464ef8"
+                    }, 
+                    {
+                        "name": "g_hash_table_destroy", 
+                        "address": "0x464efc"
+                    }, 
+                    {
+                        "name": "g_hash_table_insert", 
+                        "address": "0x464f00"
+                    }, 
+                    {
+                        "name": "g_hash_table_lookup", 
+                        "address": "0x464f04"
+                    }, 
+                    {
+                        "name": "g_hash_table_lookup_extended", 
+                        "address": "0x464f08"
+                    }, 
+                    {
+                        "name": "g_hash_table_new_full", 
+                        "address": "0x464f0c"
+                    }, 
+                    {
+                        "name": "g_hash_table_remove", 
+                        "address": "0x464f10"
+                    }, 
+                    {
+                        "name": "g_hash_table_size", 
+                        "address": "0x464f14"
+                    }, 
+                    {
+                        "name": "g_hash_table_steal", 
+                        "address": "0x464f18"
+                    }, 
+                    {
+                        "name": "g_io_channel_new_file_utf8", 
+                        "address": "0x464f1c"
+                    }, 
+                    {
+                        "name": "g_io_channel_read_chars", 
+                        "address": "0x464f20"
+                    }, 
+                    {
+                        "name": "g_io_channel_read_line", 
+                        "address": "0x464f24"
+                    }, 
+                    {
+                        "name": "g_io_channel_seek_position", 
+                        "address": "0x464f28"
+                    }, 
+                    {
+                        "name": "g_io_channel_set_encoding", 
+                        "address": "0x464f2c"
+                    }, 
+                    {
+                        "name": "g_io_channel_unref", 
+                        "address": "0x464f30"
+                    }, 
+                    {
+                        "name": "g_io_channel_write_chars", 
+                        "address": "0x464f34"
+                    }, 
+                    {
+                        "name": "g_list_free", 
+                        "address": "0x464f38"
+                    }, 
+                    {
+                        "name": "g_list_free_full", 
+                        "address": "0x464f3c"
+                    }, 
+                    {
+                        "name": "g_list_prepend", 
+                        "address": "0x464f40"
+                    }, 
+                    {
+                        "name": "g_list_remove_all", 
+                        "address": "0x464f44"
+                    }, 
+                    {
+                        "name": "g_list_reverse", 
+                        "address": "0x464f48"
+                    }, 
+                    {
+                        "name": "g_locale_to_utf8", 
+                        "address": "0x464f4c"
+                    }, 
+                    {
+                        "name": "g_malloc", 
+                        "address": "0x464f50"
+                    }, 
+                    {
+                        "name": "g_malloc0", 
+                        "address": "0x464f54"
+                    }, 
+                    {
+                        "name": "g_path_get_dirname", 
+                        "address": "0x464f58"
+                    }, 
+                    {
+                        "name": "g_print", 
+                        "address": "0x464f5c"
+                    }, 
+                    {
+                        "name": "g_ptr_array_add", 
+                        "address": "0x464f60"
+                    }, 
+                    {
+                        "name": "g_ptr_array_set_size", 
+                        "address": "0x464f64"
+                    }, 
+                    {
+                        "name": "g_ptr_array_sized_new", 
+                        "address": "0x464f68"
+                    }, 
+                    {
+                        "name": "g_random_int", 
+                        "address": "0x464f6c"
+                    }, 
+                    {
+                        "name": "g_realloc", 
+                        "address": "0x464f70"
+                    }, 
+                    {
+                        "name": "g_regex_match", 
+                        "address": "0x464f74"
+                    }, 
+                    {
+                        "name": "g_regex_new", 
+                        "address": "0x464f78"
+                    }, 
+                    {
+                        "name": "g_regex_unref", 
+                        "address": "0x464f7c"
+                    }, 
+                    {
+                        "name": "g_return_if_fail_warning", 
+                        "address": "0x464f80"
+                    }, 
+                    {
+                        "name": "g_slice_alloc", 
+                        "address": "0x464f84"
+                    }, 
+                    {
+                        "name": "g_slice_alloc0", 
+                        "address": "0x464f88"
+                    }, 
+                    {
+                        "name": "g_slice_free1", 
+                        "address": "0x464f8c"
+                    }, 
+                    {
+                        "name": "g_slist_free", 
+                        "address": "0x464f90"
+                    }, 
+                    {
+                        "name": "g_source_remove", 
+                        "address": "0x464f94"
+                    }, 
+                    {
+                        "name": "g_str_equal", 
+                        "address": "0x464f98"
+                    }, 
+                    {
+                        "name": "g_str_hash", 
+                        "address": "0x464f9c"
+                    }, 
+                    {
+                        "name": "g_strconcat", 
+                        "address": "0x464fa0"
+                    }, 
+                    {
+                        "name": "g_strdup", 
+                        "address": "0x464fa4"
+                    }, 
+                    {
+                        "name": "g_strdup_printf", 
+                        "address": "0x464fa8"
+                    }, 
+                    {
+                        "name": "g_string_append", 
+                        "address": "0x464fac"
+                    }, 
+                    {
+                        "name": "g_string_free", 
+                        "address": "0x464fb0"
+                    }, 
+                    {
+                        "name": "g_string_insert_c", 
+                        "address": "0x464fb4"
+                    }, 
+                    {
+                        "name": "g_string_new", 
+                        "address": "0x464fb8"
+                    }, 
+                    {
+                        "name": "g_string_sized_new", 
+                        "address": "0x464fbc"
+                    }, 
+                    {
+                        "name": "g_string_truncate", 
+                        "address": "0x464fc0"
+                    }, 
+                    {
+                        "name": "g_strndup", 
+                        "address": "0x464fc4"
+                    }, 
+                    {
+                        "name": "g_timeout_add", 
+                        "address": "0x464fc8"
+                    }, 
+                    {
+                        "name": "g_timeout_add_full", 
+                        "address": "0x464fcc"
+                    }, 
+                    {
+                        "name": "g_timeout_add_seconds_full", 
+                        "address": "0x464fd0"
+                    }, 
+                    {
+                        "name": "g_uri_escape_string", 
+                        "address": "0x464fd4"
+                    }, 
+                    {
+                        "name": "g_uri_parse_scheme", 
+                        "address": "0x464fd8"
+                    }, 
+                    {
+                        "name": "g_usleep", 
+                        "address": "0x464fdc"
+                    }, 
+                    {
+                        "name": "g_utf16_to_utf8", 
+                        "address": "0x464fe0"
+                    }, 
+                    {
+                        "name": "g_utf8_to_utf16", 
+                        "address": "0x464fe4"
+                    }, 
+                    {
+                        "name": "g_utf8_validate", 
+                        "address": "0x464fe8"
+                    }
+                ], 
+                "dll": "libglib-2.0-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "g_object_new", 
+                        "address": "0x464ff0"
+                    }, 
+                    {
+                        "name": "g_object_set", 
+                        "address": "0x464ff4"
+                    }, 
+                    {
+                        "name": "g_object_unref", 
+                        "address": "0x464ff8"
+                    }, 
+                    {
+                        "name": "g_signal_connect_data", 
+                        "address": "0x464ffc"
+                    }, 
+                    {
+                        "name": "g_signal_emit_by_name", 
+                        "address": "0x465000"
+                    }, 
+                    {
+                        "name": "g_signal_handler_disconnect", 
+                        "address": "0x465004"
+                    }, 
+                    {
+                        "name": "g_signal_handlers_block_matched", 
+                        "address": "0x465008"
+                    }, 
+                    {
+                        "name": "g_signal_handlers_unblock_matched", 
+                        "address": "0x46500c"
+                    }, 
+                    {
+                        "name": "g_type_add_interface_static", 
+                        "address": "0x465010"
+                    }, 
+                    {
+                        "name": "g_type_check_instance_cast", 
+                        "address": "0x465014"
+                    }, 
+                    {
+                        "name": "g_type_check_instance_is_a", 
+                        "address": "0x465018"
+                    }, 
+                    {
+                        "name": "g_type_class_peek_parent", 
+                        "address": "0x46501c"
+                    }, 
+                    {
+                        "name": "g_type_register_static", 
+                        "address": "0x465020"
+                    }, 
+                    {
+                        "name": "g_value_init", 
+                        "address": "0x465024"
+                    }, 
+                    {
+                        "name": "g_value_set_pointer", 
+                        "address": "0x465028"
+                    }
+                ], 
+                "dll": "libgobject-2.0-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "gtk_about_dialog_new", 
+                        "address": "0x465030"
+                    }, 
+                    {
+                        "name": "gtk_accel_group_new", 
+                        "address": "0x465034"
+                    }, 
+                    {
+                        "name": "gtk_accel_map_add_entry", 
+                        "address": "0x465038"
+                    }, 
+                    {
+                        "name": "gtk_adjustment_new", 
+                        "address": "0x46503c"
+                    }, 
+                    {
+                        "name": "gtk_bin_get_child", 
+                        "address": "0x465040"
+                    }, 
+                    {
+                        "name": "gtk_bin_get_type", 
+                        "address": "0x465044"
+                    }, 
+                    {
+                        "name": "gtk_box_get_type", 
+                        "address": "0x465048"
+                    }, 
+                    {
+                        "name": "gtk_box_new", 
+                        "address": "0x46504c"
+                    }, 
+                    {
+                        "name": "gtk_box_pack_end", 
+                        "address": "0x465050"
+                    }, 
+                    {
+                        "name": "gtk_box_pack_start", 
+                        "address": "0x465054"
+                    }, 
+                    {
+                        "name": "gtk_button_new_with_label", 
+                        "address": "0x465058"
+                    }, 
+                    {
+                        "name": "gtk_button_new_with_mnemonic", 
+                        "address": "0x46505c"
+                    }, 
+                    {
+                        "name": "gtk_cell_layout_get_cells", 
+                        "address": "0x465060"
+                    }, 
+                    {
+                        "name": "gtk_cell_layout_get_type", 
+                        "address": "0x465064"
+                    }, 
+                    {
+                        "name": "gtk_cell_renderer_pixbuf_new", 
+                        "address": "0x465068"
+                    }, 
+                    {
+                        "name": "gtk_cell_renderer_progress_new", 
+                        "address": "0x46506c"
+                    }, 
+                    {
+                        "name": "gtk_cell_renderer_text_new", 
+                        "address": "0x465070"
+                    }, 
+                    {
+                        "name": "gtk_cell_renderer_toggle_new", 
+                        "address": "0x465074"
+                    }, 
+                    {
+                        "name": "gtk_check_button_new_with_label", 
+                        "address": "0x465078"
+                    }, 
+                    {
+                        "name": "gtk_check_button_new_with_mnemonic", 
+                        "address": "0x46507c"
+                    }, 
+                    {
+                        "name": "gtk_check_menu_item_get_active", 
+                        "address": "0x465080"
+                    }, 
+                    {
+                        "name": "gtk_check_menu_item_new_with_mnemonic", 
+                        "address": "0x465084"
+                    }, 
+                    {
+                        "name": "gtk_check_menu_item_set_active", 
+                        "address": "0x465088"
+                    }, 
+                    {
+                        "name": "gtk_clipboard_get", 
+                        "address": "0x46508c"
+                    }, 
+                    {
+                        "name": "gtk_clipboard_request_text", 
+                        "address": "0x465090"
+                    }, 
+                    {
+                        "name": "gtk_clipboard_set_text", 
+                        "address": "0x465094"
+                    }, 
+                    {
+                        "name": "gtk_clipboard_wait_for_text", 
+                        "address": "0x465098"
+                    }, 
+                    {
+                        "name": "gtk_clipboard_wait_is_text_available", 
+                        "address": "0x46509c"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_get_active", 
+                        "address": "0x4650a0"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_get_type", 
+                        "address": "0x4650a4"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_set_active", 
+                        "address": "0x4650a8"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_text_append_text", 
+                        "address": "0x4650ac"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_text_get_type", 
+                        "address": "0x4650b0"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_text_insert_text", 
+                        "address": "0x4650b4"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_text_new", 
+                        "address": "0x4650b8"
+                    }, 
+                    {
+                        "name": "gtk_combo_box_text_new_with_entry", 
+                        "address": "0x4650bc"
+                    }, 
+                    {
+                        "name": "gtk_container_add", 
+                        "address": "0x4650c0"
+                    }, 
+                    {
+                        "name": "gtk_container_get_type", 
+                        "address": "0x4650c4"
+                    }, 
+                    {
+                        "name": "gtk_container_remove", 
+                        "address": "0x4650c8"
+                    }, 
+                    {
+                        "name": "gtk_container_set_border_width", 
+                        "address": "0x4650cc"
+                    }, 
+                    {
+                        "name": "gtk_dialog_add_button", 
+                        "address": "0x4650d0"
+                    }, 
+                    {
+                        "name": "gtk_dialog_get_content_area", 
+                        "address": "0x4650d4"
+                    }, 
+                    {
+                        "name": "gtk_dialog_get_type", 
+                        "address": "0x4650d8"
+                    }, 
+                    {
+                        "name": "gtk_dialog_get_widget_for_response", 
+                        "address": "0x4650dc"
+                    }, 
+                    {
+                        "name": "gtk_dialog_new", 
+                        "address": "0x4650e0"
+                    }, 
+                    {
+                        "name": "gtk_dialog_new_with_buttons", 
+                        "address": "0x4650e4"
+                    }, 
+                    {
+                        "name": "gtk_dialog_response", 
+                        "address": "0x4650e8"
+                    }, 
+                    {
+                        "name": "gtk_dialog_run", 
+                        "address": "0x4650ec"
+                    }, 
+                    {
+                        "name": "gtk_dialog_set_default_response", 
+                        "address": "0x4650f0"
+                    }, 
+                    {
+                        "name": "gtk_dialog_set_response_sensitive", 
+                        "address": "0x4650f4"
+                    }, 
+                    {
+                        "name": "gtk_drawing_area_new", 
+                        "address": "0x4650f8"
+                    }, 
+                    {
+                        "name": "gtk_editable_get_type", 
+                        "address": "0x4650fc"
+                    }, 
+                    {
+                        "name": "gtk_entry_get_text", 
+                        "address": "0x465100"
+                    }, 
+                    {
+                        "name": "gtk_entry_get_type", 
+                        "address": "0x465104"
+                    }, 
+                    {
+                        "name": "gtk_entry_new", 
+                        "address": "0x465108"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_activates_default", 
+                        "address": "0x46510c"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_icon_from_icon_name", 
+                        "address": "0x465110"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_icon_tooltip_text", 
+                        "address": "0x465114"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_max_length", 
+                        "address": "0x465118"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_placeholder_text", 
+                        "address": "0x46511c"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_text", 
+                        "address": "0x465120"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_visibility", 
+                        "address": "0x465124"
+                    }, 
+                    {
+                        "name": "gtk_entry_set_width_chars", 
+                        "address": "0x465128"
+                    }, 
+                    {
+                        "name": "gtk_event_box_new", 
+                        "address": "0x46512c"
+                    }, 
+                    {
+                        "name": "gtk_file_chooser_add_filter", 
+                        "address": "0x465130"
+                    }, 
+                    {
+                        "name": "gtk_file_chooser_dialog_new", 
+                        "address": "0x465134"
+                    }, 
+                    {
+                        "name": "gtk_file_chooser_get_filename", 
+                        "address": "0x465138"
+                    }, 
+                    {
+                        "name": "gtk_file_chooser_get_type", 
+                        "address": "0x46513c"
+                    }, 
+                    {
+                        "name": "gtk_file_chooser_select_filename", 
+                        "address": "0x465140"
+                    }, 
+                    {
+                        "name": "gtk_file_filter_add_mime_type", 
+                        "address": "0x465144"
+                    }, 
+                    {
+                        "name": "gtk_file_filter_add_pattern", 
+                        "address": "0x465148"
+                    }, 
+                    {
+                        "name": "gtk_file_filter_new", 
+                        "address": "0x46514c"
+                    }, 
+                    {
+                        "name": "gtk_file_filter_set_name", 
+                        "address": "0x465150"
+                    }, 
+                    {
+                        "name": "gtk_frame_get_type", 
+                        "address": "0x465154"
+                    }, 
+                    {
+                        "name": "gtk_frame_new", 
+                        "address": "0x465158"
+                    }, 
+                    {
+                        "name": "gtk_frame_set_label_widget", 
+                        "address": "0x46515c"
+                    }, 
+                    {
+                        "name": "gtk_get_current_event_time", 
+                        "address": "0x465160"
+                    }, 
+                    {
+                        "name": "gtk_grid_attach", 
+                        "address": "0x465164"
+                    }, 
+                    {
+                        "name": "gtk_grid_new", 
+                        "address": "0x465168"
+                    }, 
+                    {
+                        "name": "gtk_grid_set_row_homogeneous", 
+                        "address": "0x46516c"
+                    }, 
+                    {
+                        "name": "gtk_image_menu_item_get_type", 
+                        "address": "0x465170"
+                    }, 
+                    {
+                        "name": "gtk_image_menu_item_new_from_stock", 
+                        "address": "0x465174"
+                    }, 
+                    {
+                        "name": "gtk_image_menu_item_new_with_label", 
+                        "address": "0x465178"
+                    }, 
+                    {
+                        "name": "gtk_image_menu_item_new_with_mnemonic", 
+                        "address": "0x46517c"
+                    }, 
+                    {
+                        "name": "gtk_image_menu_item_set_image", 
+                        "address": "0x465180"
+                    }, 
+                    {
+                        "name": "gtk_image_new_from_icon_name", 
+                        "address": "0x465184"
+                    }, 
+                    {
+                        "name": "gtk_image_new_from_stock", 
+                        "address": "0x465188"
+                    }, 
+                    {
+                        "name": "gtk_init_abi_check", 
+                        "address": "0x46518c"
+                    }, 
+                    {
+                        "name": "gtk_label_get_type", 
+                        "address": "0x465190"
+                    }, 
+                    {
+                        "name": "gtk_label_new", 
+                        "address": "0x465194"
+                    }, 
+                    {
+                        "name": "gtk_label_new_with_mnemonic", 
+                        "address": "0x465198"
+                    }, 
+                    {
+                        "name": "gtk_label_set_mnemonic_widget", 
+                        "address": "0x46519c"
+                    }, 
+                    {
+                        "name": "gtk_label_set_text", 
+                        "address": "0x4651a0"
+                    }, 
+                    {
+                        "name": "gtk_list_store_append", 
+                        "address": "0x4651a4"
+                    }, 
+                    {
+                        "name": "gtk_list_store_clear", 
+                        "address": "0x4651a8"
+                    }, 
+                    {
+                        "name": "gtk_list_store_new", 
+                        "address": "0x4651ac"
+                    }, 
+                    {
+                        "name": "gtk_list_store_remove", 
+                        "address": "0x4651b0"
+                    }, 
+                    {
+                        "name": "gtk_list_store_set", 
+                        "address": "0x4651b4"
+                    }, 
+                    {
+                        "name": "gtk_main", 
+                        "address": "0x4651b8"
+                    }, 
+                    {
+                        "name": "gtk_main_quit", 
+                        "address": "0x4651bc"
+                    }, 
+                    {
+                        "name": "gtk_menu_bar_new", 
+                        "address": "0x4651c0"
+                    }, 
+                    {
+                        "name": "gtk_menu_get_type", 
+                        "address": "0x4651c4"
+                    }, 
+                    {
+                        "name": "gtk_menu_item_new_with_mnemonic", 
+                        "address": "0x4651c8"
+                    }, 
+                    {
+                        "name": "gtk_menu_item_set_accel_path", 
+                        "address": "0x4651cc"
+                    }, 
+                    {
+                        "name": "gtk_menu_item_set_submenu", 
+                        "address": "0x4651d0"
+                    }, 
+                    {
+                        "name": "gtk_menu_new", 
+                        "address": "0x4651d4"
+                    }, 
+                    {
+                        "name": "gtk_menu_popdown", 
+                        "address": "0x4651d8"
+                    }, 
+                    {
+                        "name": "gtk_menu_popup", 
+                        "address": "0x4651dc"
+                    }, 
+                    {
+                        "name": "gtk_menu_set_accel_group", 
+                        "address": "0x4651e0"
+                    }, 
+                    {
+                        "name": "gtk_menu_set_screen", 
+                        "address": "0x4651e4"
+                    }, 
+                    {
+                        "name": "gtk_menu_shell_append", 
+                        "address": "0x4651e8"
+                    }, 
+                    {
+                        "name": "gtk_menu_shell_get_type", 
+                        "address": "0x4651ec"
+                    }, 
+                    {
+                        "name": "gtk_menu_tool_button_new", 
+                        "address": "0x4651f0"
+                    }, 
+                    {
+                        "name": "gtk_menu_tool_button_set_arrow_tooltip_text", 
+                        "address": "0x4651f4"
+                    }, 
+                    {
+                        "name": "gtk_menu_tool_button_set_menu", 
+                        "address": "0x4651f8"
+                    }, 
+                    {
+                        "name": "gtk_message_dialog_format_secondary_text", 
+                        "address": "0x4651fc"
+                    }, 
+                    {
+                        "name": "gtk_message_dialog_new", 
+                        "address": "0x465200"
+                    }, 
+                    {
+                        "name": "gtk_misc_get_type", 
+                        "address": "0x465204"
+                    }, 
+                    {
+                        "name": "gtk_misc_set_alignment", 
+                        "address": "0x465208"
+                    }, 
+                    {
+                        "name": "gtk_notebook_append_page", 
+                        "address": "0x46520c"
+                    }, 
+                    {
+                        "name": "gtk_notebook_get_current_page", 
+                        "address": "0x465210"
+                    }, 
+                    {
+                        "name": "gtk_notebook_new", 
+                        "address": "0x465214"
+                    }, 
+                    {
+                        "name": "gtk_notebook_set_current_page", 
+                        "address": "0x465218"
+                    }, 
+                    {
+                        "name": "gtk_notebook_set_show_border", 
+                        "address": "0x46521c"
+                    }, 
+                    {
+                        "name": "gtk_notebook_set_show_tabs", 
+                        "address": "0x465220"
+                    }, 
+                    {
+                        "name": "gtk_paned_get_child1", 
+                        "address": "0x465224"
+                    }, 
+                    {
+                        "name": "gtk_paned_get_position", 
+                        "address": "0x465228"
+                    }, 
+                    {
+                        "name": "gtk_paned_new", 
+                        "address": "0x46522c"
+                    }, 
+                    {
+                        "name": "gtk_paned_pack1", 
+                        "address": "0x465230"
+                    }, 
+                    {
+                        "name": "gtk_paned_pack2", 
+                        "address": "0x465234"
+                    }, 
+                    {
+                        "name": "gtk_paned_set_position", 
+                        "address": "0x465238"
+                    }, 
+                    {
+                        "name": "gtk_radio_button_new_with_mnemonic", 
+                        "address": "0x46523c"
+                    }, 
+                    {
+                        "name": "gtk_radio_button_new_with_mnemonic_from_widget", 
+                        "address": "0x465240"
+                    }, 
+                    {
+                        "name": "gtk_radio_menu_item_new_with_mnemonic", 
+                        "address": "0x465244"
+                    }, 
+                    {
+                        "name": "gtk_radio_menu_item_new_with_mnemonic_from_widget", 
+                        "address": "0x465248"
+                    }, 
+                    {
+                        "name": "gtk_scrolled_window_get_type", 
+                        "address": "0x46524c"
+                    }, 
+                    {
+                        "name": "gtk_scrolled_window_new", 
+                        "address": "0x465250"
+                    }, 
+                    {
+                        "name": "gtk_scrolled_window_set_policy", 
+                        "address": "0x465254"
+                    }, 
+                    {
+                        "name": "gtk_scrolled_window_set_shadow_type", 
+                        "address": "0x465258"
+                    }, 
+                    {
+                        "name": "gtk_separator_menu_item_new", 
+                        "address": "0x46525c"
+                    }, 
+                    {
+                        "name": "gtk_separator_new", 
+                        "address": "0x465260"
+                    }, 
+                    {
+                        "name": "gtk_separator_tool_item_new", 
+                        "address": "0x465264"
+                    }, 
+                    {
+                        "name": "gtk_size_group_add_widget", 
+                        "address": "0x465268"
+                    }, 
+                    {
+                        "name": "gtk_size_group_new", 
+                        "address": "0x46526c"
+                    }, 
+                    {
+                        "name": "gtk_spin_button_get_value", 
+                        "address": "0x465270"
+                    }, 
+                    {
+                        "name": "gtk_spin_button_get_value_as_int", 
+                        "address": "0x465274"
+                    }, 
+                    {
+                        "name": "gtk_spin_button_new", 
+                        "address": "0x465278"
+                    }, 
+                    {
+                        "name": "gtk_spin_button_new_with_range", 
+                        "address": "0x46527c"
+                    }, 
+                    {
+                        "name": "gtk_spin_button_set_value", 
+                        "address": "0x465280"
+                    }, 
+                    {
+                        "name": "gtk_status_icon_get_screen", 
+                        "address": "0x465284"
+                    }, 
+                    {
+                        "name": "gtk_status_icon_new_from_icon_name", 
+                        "address": "0x465288"
+                    }, 
+                    {
+                        "name": "gtk_status_icon_set_from_icon_name", 
+                        "address": "0x46528c"
+                    }, 
+                    {
+                        "name": "gtk_status_icon_set_tooltip_text", 
+                        "address": "0x465290"
+                    }, 
+                    {
+                        "name": "gtk_status_icon_set_visible", 
+                        "address": "0x465294"
+                    }, 
+                    {
+                        "name": "gtk_statusbar_get_context_id", 
+                        "address": "0x465298"
+                    }, 
+                    {
+                        "name": "gtk_statusbar_new", 
+                        "address": "0x46529c"
+                    }, 
+                    {
+                        "name": "gtk_statusbar_pop", 
+                        "address": "0x4652a0"
+                    }, 
+                    {
+                        "name": "gtk_statusbar_push", 
+                        "address": "0x4652a4"
+                    }, 
+                    {
+                        "name": "gtk_style_context_get_background_color", 
+                        "address": "0x4652a8"
+                    }, 
+                    {
+                        "name": "gtk_style_context_get_color", 
+                        "address": "0x4652ac"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_create_tag", 
+                        "address": "0x4652b0"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_get_end_iter", 
+                        "address": "0x4652b4"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_get_iter_at_offset", 
+                        "address": "0x4652b8"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_get_selection_bounds", 
+                        "address": "0x4652bc"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_get_start_iter", 
+                        "address": "0x4652c0"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_get_text", 
+                        "address": "0x4652c4"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_insert", 
+                        "address": "0x4652c8"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_insert_with_tags", 
+                        "address": "0x4652cc"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_new", 
+                        "address": "0x4652d0"
+                    }, 
+                    {
+                        "name": "gtk_text_buffer_set_text", 
+                        "address": "0x4652d4"
+                    }, 
+                    {
+                        "name": "gtk_text_iter_get_offset", 
+                        "address": "0x4652d8"
+                    }, 
+                    {
+                        "name": "gtk_text_iter_get_tags", 
+                        "address": "0x4652dc"
+                    }, 
+                    {
+                        "name": "gtk_text_view_get_buffer", 
+                        "address": "0x4652e0"
+                    }, 
+                    {
+                        "name": "gtk_text_view_get_iter_at_location", 
+                        "address": "0x4652e4"
+                    }, 
+                    {
+                        "name": "gtk_text_view_get_type", 
+                        "address": "0x4652e8"
+                    }, 
+                    {
+                        "name": "gtk_text_view_get_window", 
+                        "address": "0x4652ec"
+                    }, 
+                    {
+                        "name": "gtk_text_view_new", 
+                        "address": "0x4652f0"
+                    }, 
+                    {
+                        "name": "gtk_text_view_new_with_buffer", 
+                        "address": "0x4652f4"
+                    }, 
+                    {
+                        "name": "gtk_text_view_set_cursor_visible", 
+                        "address": "0x4652f8"
+                    }, 
+                    {
+                        "name": "gtk_text_view_set_editable", 
+                        "address": "0x4652fc"
+                    }, 
+                    {
+                        "name": "gtk_text_view_set_wrap_mode", 
+                        "address": "0x465300"
+                    }, 
+                    {
+                        "name": "gtk_text_view_window_to_buffer_coords", 
+                        "address": "0x465304"
+                    }, 
+                    {
+                        "name": "gtk_toggle_button_get_active", 
+                        "address": "0x465308"
+                    }, 
+                    {
+                        "name": "gtk_toggle_button_get_type", 
+                        "address": "0x46530c"
+                    }, 
+                    {
+                        "name": "gtk_toggle_button_set_active", 
+                        "address": "0x465310"
+                    }, 
+                    {
+                        "name": "gtk_toggle_button_toggled", 
+                        "address": "0x465314"
+                    }, 
+                    {
+                        "name": "gtk_tool_button_new", 
+                        "address": "0x465318"
+                    }, 
+                    {
+                        "name": "gtk_tool_item_set_homogeneous", 
+                        "address": "0x46531c"
+                    }, 
+                    {
+                        "name": "gtk_tool_item_set_tooltip_text", 
+                        "address": "0x465320"
+                    }, 
+                    {
+                        "name": "gtk_toolbar_get_type", 
+                        "address": "0x465324"
+                    }, 
+                    {
+                        "name": "gtk_toolbar_insert", 
+                        "address": "0x465328"
+                    }, 
+                    {
+                        "name": "gtk_toolbar_new", 
+                        "address": "0x46532c"
+                    }, 
+                    {
+                        "name": "gtk_toolbar_set_icon_size", 
+                        "address": "0x465330"
+                    }, 
+                    {
+                        "name": "gtk_toolbar_set_style", 
+                        "address": "0x465334"
+                    }, 
+                    {
+                        "name": "gtk_tree_iter_copy", 
+                        "address": "0x465338"
+                    }, 
+                    {
+                        "name": "gtk_tree_iter_free", 
+                        "address": "0x46533c"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_get", 
+                        "address": "0x465340"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_get_iter", 
+                        "address": "0x465344"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_get_iter_first", 
+                        "address": "0x465348"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_get_path", 
+                        "address": "0x46534c"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_get_type", 
+                        "address": "0x465350"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_iter_n_children", 
+                        "address": "0x465354"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_iter_next", 
+                        "address": "0x465358"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_row_changed", 
+                        "address": "0x46535c"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_row_deleted", 
+                        "address": "0x465360"
+                    }, 
+                    {
+                        "name": "gtk_tree_model_row_inserted", 
+                        "address": "0x465364"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_append_index", 
+                        "address": "0x465368"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_copy", 
+                        "address": "0x46536c"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_free", 
+                        "address": "0x465370"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_get_depth", 
+                        "address": "0x465374"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_get_indices", 
+                        "address": "0x465378"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_new", 
+                        "address": "0x46537c"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_new_first", 
+                        "address": "0x465380"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_new_from_indices", 
+                        "address": "0x465384"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_new_from_string", 
+                        "address": "0x465388"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_prepend_index", 
+                        "address": "0x46538c"
+                    }, 
+                    {
+                        "name": "gtk_tree_path_prev", 
+                        "address": "0x465390"
+                    }, 
+                    {
+                        "name": "gtk_tree_selection_count_selected_rows", 
+                        "address": "0x465394"
+                    }, 
+                    {
+                        "name": "gtk_tree_selection_get_selected_rows", 
+                        "address": "0x465398"
+                    }, 
+                    {
+                        "name": "gtk_tree_selection_path_is_selected", 
+                        "address": "0x46539c"
+                    }, 
+                    {
+                        "name": "gtk_tree_selection_select_iter", 
+                        "address": "0x4653a0"
+                    }, 
+                    {
+                        "name": "gtk_tree_selection_set_mode", 
+                        "address": "0x4653a4"
+                    }, 
+                    {
+                        "name": "gtk_tree_selection_unselect_all", 
+                        "address": "0x4653a8"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_append_column", 
+                        "address": "0x4653ac"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_get_sort_indicator", 
+                        "address": "0x4653b0"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_get_sort_order", 
+                        "address": "0x4653b4"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_get_width", 
+                        "address": "0x4653b8"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_new", 
+                        "address": "0x4653bc"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_new_with_attributes", 
+                        "address": "0x4653c0"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_pack_start", 
+                        "address": "0x4653c4"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_alignment", 
+                        "address": "0x4653c8"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_cell_data_func", 
+                        "address": "0x4653cc"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_clickable", 
+                        "address": "0x4653d0"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_expand", 
+                        "address": "0x4653d4"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_fixed_width", 
+                        "address": "0x4653d8"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_min_width", 
+                        "address": "0x4653dc"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_resizable", 
+                        "address": "0x4653e0"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_sizing", 
+                        "address": "0x4653e4"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_sort_indicator", 
+                        "address": "0x4653e8"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_sort_order", 
+                        "address": "0x4653ec"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_title", 
+                        "address": "0x4653f0"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_column_set_visible", 
+                        "address": "0x4653f4"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_get_column", 
+                        "address": "0x4653f8"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_get_cursor", 
+                        "address": "0x4653fc"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_get_model", 
+                        "address": "0x465400"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_get_path_at_pos", 
+                        "address": "0x465404"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_get_selection", 
+                        "address": "0x465408"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_get_type", 
+                        "address": "0x46540c"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_insert_column_with_attributes", 
+                        "address": "0x465410"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_new", 
+                        "address": "0x465414"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_new_with_model", 
+                        "address": "0x465418"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_scroll_to_cell", 
+                        "address": "0x46541c"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_scroll_to_point", 
+                        "address": "0x465420"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_set_cursor", 
+                        "address": "0x465424"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_set_fixed_height_mode", 
+                        "address": "0x465428"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_set_headers_visible", 
+                        "address": "0x46542c"
+                    }, 
+                    {
+                        "name": "gtk_tree_view_set_model", 
+                        "address": "0x465430"
+                    }, 
+                    {
+                        "name": "gtk_widget_add_events", 
+                        "address": "0x465434"
+                    }, 
+                    {
+                        "name": "gtk_widget_destroy", 
+                        "address": "0x465438"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_allocation", 
+                        "address": "0x46543c"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_direction", 
+                        "address": "0x465440"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_pango_context", 
+                        "address": "0x465444"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_parent_window", 
+                        "address": "0x465448"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_preferred_size", 
+                        "address": "0x46544c"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_sensitive", 
+                        "address": "0x465450"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_size_request", 
+                        "address": "0x465454"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_style_context", 
+                        "address": "0x465458"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_type", 
+                        "address": "0x46545c"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_visible", 
+                        "address": "0x465460"
+                    }, 
+                    {
+                        "name": "gtk_widget_get_window", 
+                        "address": "0x465464"
+                    }, 
+                    {
+                        "name": "gtk_widget_hide", 
+                        "address": "0x465468"
+                    }, 
+                    {
+                        "name": "gtk_widget_is_sensitive", 
+                        "address": "0x46546c"
+                    }, 
+                    {
+                        "name": "gtk_widget_queue_draw", 
+                        "address": "0x465470"
+                    }, 
+                    {
+                        "name": "gtk_widget_set_sensitive", 
+                        "address": "0x465474"
+                    }, 
+                    {
+                        "name": "gtk_widget_set_size_request", 
+                        "address": "0x465478"
+                    }, 
+                    {
+                        "name": "gtk_widget_set_visible", 
+                        "address": "0x46547c"
+                    }, 
+                    {
+                        "name": "gtk_widget_show", 
+                        "address": "0x465480"
+                    }, 
+                    {
+                        "name": "gtk_widget_show_all", 
+                        "address": "0x465484"
+                    }, 
+                    {
+                        "name": "gtk_window_add_accel_group", 
+                        "address": "0x465488"
+                    }, 
+                    {
+                        "name": "gtk_window_get_focus", 
+                        "address": "0x46548c"
+                    }, 
+                    {
+                        "name": "gtk_window_get_modal", 
+                        "address": "0x465490"
+                    }, 
+                    {
+                        "name": "gtk_window_get_position", 
+                        "address": "0x465494"
+                    }, 
+                    {
+                        "name": "gtk_window_get_size", 
+                        "address": "0x465498"
+                    }, 
+                    {
+                        "name": "gtk_window_get_title", 
+                        "address": "0x46549c"
+                    }, 
+                    {
+                        "name": "gtk_window_get_transient_for", 
+                        "address": "0x4654a0"
+                    }, 
+                    {
+                        "name": "gtk_window_get_type", 
+                        "address": "0x4654a4"
+                    }, 
+                    {
+                        "name": "gtk_window_maximize", 
+                        "address": "0x4654a8"
+                    }, 
+                    {
+                        "name": "gtk_window_move", 
+                        "address": "0x4654ac"
+                    }, 
+                    {
+                        "name": "gtk_window_new", 
+                        "address": "0x4654b0"
+                    }, 
+                    {
+                        "name": "gtk_window_present", 
+                        "address": "0x4654b4"
+                    }, 
+                    {
+                        "name": "gtk_window_resize", 
+                        "address": "0x4654b8"
+                    }, 
+                    {
+                        "name": "gtk_window_set_default_icon_name", 
+                        "address": "0x4654bc"
+                    }, 
+                    {
+                        "name": "gtk_window_set_destroy_with_parent", 
+                        "address": "0x4654c0"
+                    }, 
+                    {
+                        "name": "gtk_window_set_focus", 
+                        "address": "0x4654c4"
+                    }, 
+                    {
+                        "name": "gtk_window_set_keep_above", 
+                        "address": "0x4654c8"
+                    }, 
+                    {
+                        "name": "gtk_window_set_modal", 
+                        "address": "0x4654cc"
+                    }, 
+                    {
+                        "name": "gtk_window_set_title", 
+                        "address": "0x4654d0"
+                    }, 
+                    {
+                        "name": "gtk_window_set_transient_for", 
+                        "address": "0x4654d4"
+                    }
+                ], 
+                "dll": "libgtk-3-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "__printf__", 
+                        "address": "0x4654dc"
+                    }, 
+                    {
+                        "name": "libintl_bind_textdomain_codeset", 
+                        "address": "0x4654e0"
+                    }, 
+                    {
+                        "name": "libintl_bindtextdomain", 
+                        "address": "0x4654e4"
+                    }, 
+                    {
+                        "name": "libintl_gettext", 
+                        "address": "0x4654e8"
+                    }, 
+                    {
+                        "name": "libintl_textdomain", 
+                        "address": "0x4654ec"
+                    }
+                ], 
+                "dll": "libintl-8.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "pango_context_get_font_description", 
+                        "address": "0x4654f4"
+                    }, 
+                    {
+                        "name": "pango_layout_get_pixel_size", 
+                        "address": "0x4654f8"
+                    }, 
+                    {
+                        "name": "pango_layout_new", 
+                        "address": "0x4654fc"
+                    }, 
+                    {
+                        "name": "pango_layout_set_font_description", 
+                        "address": "0x465500"
+                    }, 
+                    {
+                        "name": "pango_layout_set_text", 
+                        "address": "0x465504"
+                    }
+                ], 
+                "dll": "libpango-1.0-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "pango_cairo_create_layout", 
+                        "address": "0x46550c"
+                    }, 
+                    {
+                        "name": "pango_cairo_show_layout", 
+                        "address": "0x465510"
+                    }, 
+                    {
+                        "name": "pango_cairo_update_layout", 
+                        "address": "0x465514"
+                    }
+                ], 
+                "dll": "libpangocairo-1.0-0.dll"
+            }
+        ], 
+        "peid_signatures": null, 
+        "keys": [], 
+        "signature": [], 
+        "pe_timestamp": "2018-03-09 17:13:26", 
+        "pe_exports": [], 
+        "imported_dll_count": 20, 
+        "pe_imphash": "b9ceb4a79e4cf508fdf07713ba538322", 
+        "pe_resources": [
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "PNG image data, 256 x 256, 8-bit/color RGBA, non-interlaced", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00070648", 
+                "size": "0x000045af"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "PNG image data, 256 x 256, 8-bit/color RGBA, non-interlaced", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00070648", 
+                "size": "0x000045af"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "PNG image data, 256 x 256, 8-bit/color RGBA, non-interlaced", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00070648", 
+                "size": "0x000045af"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "PNG image data, 256 x 256, 8-bit/color RGBA, non-interlaced", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00070648", 
+                "size": "0x000045af"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "PNG image data, 256 x 256, 8-bit/color RGBA, non-interlaced", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00070648", 
+                "size": "0x000045af"
+            }, 
+            {
+                "name": "RT_GROUP_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00074bf8", 
+                "size": "0x0000004c"
+            }, 
+            {
+                "name": "RT_VERSION", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00074c48", 
+                "size": "0x000002d0"
+            }, 
+            {
+                "name": "RT_MANIFEST", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "XML 1.0 document, ASCII text", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x00074f18", 
+                "size": "0x0000048f"
+            }
+        ], 
+        "pe_versioninfo": [], 
+        "pe_sections": [
+            {
+                "size_of_data": "0x00047400", 
+                "virtual_address": "0x00001000", 
+                "entropy": 5.8884010294313, 
+                "name": ".text", 
+                "virtual_size": "0x000473d4"
+            }, 
+            {
+                "size_of_data": "0x00000600", 
+                "virtual_address": "0x00049000", 
+                "entropy": 2.442659187436578, 
+                "name": ".data", 
+                "virtual_size": "0x000004f0"
+            }, 
+            {
+                "size_of_data": "0x00009000", 
+                "virtual_address": "0x0004a000", 
+                "entropy": 5.240902760438761, 
+                "name": ".rdata", 
+                "virtual_size": "0x00008f6c"
+            }, 
+            {
+                "size_of_data": "0x0000fa00", 
+                "virtual_address": "0x00053000", 
+                "entropy": 4.890891441371235, 
+                "name": ".eh_fram", 
+                "virtual_size": "0x0000f998"
+            }, 
+            {
+                "size_of_data": "0x00000000", 
+                "virtual_address": "0x00063000", 
+                "entropy": 0.0, 
+                "name": ".bss", 
+                "virtual_size": "0x00000fe0"
+            }, 
+            {
+                "size_of_data": "0x00005800", 
+                "virtual_address": "0x00064000", 
+                "entropy": 5.258523645564765, 
+                "name": ".idata", 
+                "virtual_size": "0x00005790"
+            }, 
+            {
+                "size_of_data": "0x00000200", 
+                "virtual_address": "0x0006a000", 
+                "entropy": 0.2678987311092426, 
+                "name": ".CRT", 
+                "virtual_size": "0x00000034"
+            }, 
+            {
+                "size_of_data": "0x00000200", 
+                "virtual_address": "0x0006b000", 
+                "entropy": 0.2044881574398449, 
+                "name": ".tls", 
+                "virtual_size": "0x00000020"
+            }, 
+            {
+                "size_of_data": "0x00009400", 
+                "virtual_address": "0x0006c000", 
+                "entropy": 7.402812381492381, 
+                "name": ".rsrc", 
+                "virtual_size": "0x000093b8"
+            }
+        ]
+    }, 
+    "behavior": {
+        "generic": [
+            {
+                "process_path": "C:\\Windows\\System32\\lsass.exe", 
+                "process_name": "lsass.exe", 
+                "pid": 468, 
+                "summary": {}, 
+                "first_seen": 1554890067.546875, 
+                "ppid": 372
+            }
+        ], 
+        "processes": [
+            {
+                "process_path": "C:\\Windows\\System32\\lsass.exe", 
+                "calls": [], 
+                "track": false, 
+                "pid": 468, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\Windows\\system32\\lsass.exe", 
+                "modules": [
+                    {
+                        "basename": "lsass.exe", 
+                        "imgsize": 49152, 
+                        "baseaddr": "0xff6d0000", 
+                        "filepath": "C:\\Windows\\system32\\lsass.exe"
+                    }, 
+                    {
+                        "basename": "ntdll.dll", 
+                        "imgsize": 1740800, 
+                        "baseaddr": "0x771e0000", 
+                        "filepath": "C:\\Windows\\SYSTEM32\\ntdll.dll"
+                    }, 
+                    {
+                        "basename": "kernel32.dll", 
+                        "imgsize": 1175552, 
+                        "baseaddr": "0x770c0000", 
+                        "filepath": "C:\\Windows\\system32\\kernel32.dll"
+                    }, 
+                    {
+                        "basename": "KERNELBASE.dll", 
+                        "imgsize": 438272, 
+                        "baseaddr": "0x7fefd220000", 
+                        "filepath": "C:\\Windows\\system32\\KERNELBASE.dll"
+                    }, 
+                    {
+                        "basename": "msvcrt.dll", 
+                        "imgsize": 651264, 
+                        "baseaddr": "0x7fefed20000", 
+                        "filepath": "C:\\Windows\\system32\\msvcrt.dll"
+                    }, 
+                    {
+                        "basename": "RPCRT4.dll", 
+                        "imgsize": 1232896, 
+                        "baseaddr": "0x7feff3c0000", 
+                        "filepath": "C:\\Windows\\system32\\RPCRT4.dll"
+                    }, 
+                    {
+                        "basename": "SspiSrv.dll", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefcf80000", 
+                        "filepath": "C:\\Windows\\system32\\SspiSrv.dll"
+                    }, 
+                    {
+                        "basename": "lsasrv.dll", 
+                        "imgsize": 1470464, 
+                        "baseaddr": "0x7fefce00000", 
+                        "filepath": "C:\\Windows\\system32\\lsasrv.dll"
+                    }, 
+                    {
+                        "basename": "sechost.dll", 
+                        "imgsize": 126976, 
+                        "baseaddr": "0x7fefed00000", 
+                        "filepath": "C:\\Windows\\SYSTEM32\\sechost.dll"
+                    }, 
+                    {
+                        "basename": "SspiCli.dll", 
+                        "imgsize": 151552, 
+                        "baseaddr": "0x7fefcf90000", 
+                        "filepath": "C:\\Windows\\system32\\SspiCli.dll"
+                    }, 
+                    {
+                        "basename": "ADVAPI32.dll", 
+                        "imgsize": 897024, 
+                        "baseaddr": "0x7feff260000", 
+                        "filepath": "C:\\Windows\\system32\\ADVAPI32.dll"
+                    }, 
+                    {
+                        "basename": "USER32.dll", 
+                        "imgsize": 1024000, 
+                        "baseaddr": "0x76fc0000", 
+                        "filepath": "C:\\Windows\\system32\\USER32.dll"
+                    }, 
+                    {
+                        "basename": "GDI32.dll", 
+                        "imgsize": 421888, 
+                        "baseaddr": "0x7fefe7b0000", 
+                        "filepath": "C:\\Windows\\system32\\GDI32.dll"
+                    }, 
+                    {
+                        "basename": "LPK.dll", 
+                        "imgsize": 57344, 
+                        "baseaddr": "0x7fefeea0000", 
+                        "filepath": "C:\\Windows\\system32\\LPK.dll"
+                    }, 
+                    {
+                        "basename": "USP10.dll", 
+                        "imgsize": 823296, 
+                        "baseaddr": "0x7fefd950000", 
+                        "filepath": "C:\\Windows\\system32\\USP10.dll"
+                    }, 
+                    {
+                        "basename": "SAMSRV.dll", 
+                        "imgsize": 774144, 
+                        "baseaddr": "0x7fefcd10000", 
+                        "filepath": "C:\\Windows\\system32\\SAMSRV.dll"
+                    }, 
+                    {
+                        "basename": "cryptdll.dll", 
+                        "imgsize": 81920, 
+                        "baseaddr": "0x7fefcce0000", 
+                        "filepath": "C:\\Windows\\system32\\cryptdll.dll"
+                    }, 
+                    {
+                        "basename": "MSASN1.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd1d0000", 
+                        "filepath": "C:\\Windows\\system32\\MSASN1.dll"
+                    }, 
+                    {
+                        "basename": "wevtapi.dll", 
+                        "imgsize": 446464, 
+                        "baseaddr": "0x7fefcc00000", 
+                        "filepath": "C:\\Windows\\system32\\wevtapi.dll"
+                    }, 
+                    {
+                        "basename": "IMM32.DLL", 
+                        "imgsize": 188416, 
+                        "baseaddr": "0x7feff120000", 
+                        "filepath": "C:\\Windows\\system32\\IMM32.DLL"
+                    }, 
+                    {
+                        "basename": "MSCTF.dll", 
+                        "imgsize": 1085440, 
+                        "baseaddr": "0x7feff150000", 
+                        "filepath": "C:\\Windows\\system32\\MSCTF.dll"
+                    }, 
+                    {
+                        "basename": "cngaudit.dll", 
+                        "imgsize": 36864, 
+                        "baseaddr": "0x7fefcbc0000", 
+                        "filepath": "C:\\Windows\\system32\\cngaudit.dll"
+                    }, 
+                    {
+                        "basename": "AUTHZ.dll", 
+                        "imgsize": 192512, 
+                        "baseaddr": "0x7fefcb90000", 
+                        "filepath": "C:\\Windows\\system32\\AUTHZ.dll"
+                    }, 
+                    {
+                        "basename": "ncrypt.dll", 
+                        "imgsize": 319488, 
+                        "baseaddr": "0x7fefcb40000", 
+                        "filepath": "C:\\Windows\\system32\\ncrypt.dll"
+                    }, 
+                    {
+                        "basename": "bcrypt.dll", 
+                        "imgsize": 139264, 
+                        "baseaddr": "0x7fefcb10000", 
+                        "filepath": "C:\\Windows\\system32\\bcrypt.dll"
+                    }, 
+                    {
+                        "basename": "msprivs.DLL", 
+                        "imgsize": 8192, 
+                        "baseaddr": "0x74f00000", 
+                        "filepath": "C:\\Windows\\system32\\msprivs.DLL"
+                    }, 
+                    {
+                        "basename": "netjoin.dll", 
+                        "imgsize": 204800, 
+                        "baseaddr": "0x7fefcad0000", 
+                        "filepath": "C:\\Windows\\system32\\netjoin.dll"
+                    }, 
+                    {
+                        "basename": "negoexts.DLL", 
+                        "imgsize": 147456, 
+                        "baseaddr": "0x7fefcaa0000", 
+                        "filepath": "C:\\Windows\\system32\\negoexts.DLL"
+                    }, 
+                    {
+                        "basename": "Secur32.dll", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefcd00000", 
+                        "filepath": "C:\\Windows\\system32\\Secur32.dll"
+                    }, 
+                    {
+                        "basename": "cryptbase.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd020000", 
+                        "filepath": "C:\\Windows\\system32\\cryptbase.dll"
+                    }, 
+                    {
+                        "basename": "kerberos.DLL", 
+                        "imgsize": 737280, 
+                        "baseaddr": "0x7fefc9e0000", 
+                        "filepath": "C:\\Windows\\system32\\kerberos.DLL"
+                    }, 
+                    {
+                        "basename": "CRYPTSP.dll", 
+                        "imgsize": 94208, 
+                        "baseaddr": "0x7fefc9c0000", 
+                        "filepath": "C:\\Windows\\system32\\CRYPTSP.dll"
+                    }, 
+                    {
+                        "basename": "WS2_32.dll", 
+                        "imgsize": 315392, 
+                        "baseaddr": "0x7fefead0000", 
+                        "filepath": "C:\\Windows\\system32\\WS2_32.dll"
+                    }, 
+                    {
+                        "basename": "NSI.dll", 
+                        "imgsize": 32768, 
+                        "baseaddr": "0x7fefd7c0000", 
+                        "filepath": "C:\\Windows\\system32\\NSI.dll"
+                    }, 
+                    {
+                        "basename": "mswsock.dll", 
+                        "imgsize": 348160, 
+                        "baseaddr": "0x7fefc960000", 
+                        "filepath": "C:\\Windows\\system32\\mswsock.dll"
+                    }, 
+                    {
+                        "basename": "wship6.dll", 
+                        "imgsize": 28672, 
+                        "baseaddr": "0x7fefc950000", 
+                        "filepath": "C:\\Windows\\System32\\wship6.dll"
+                    }, 
+                    {
+                        "basename": "msv1_0.DLL", 
+                        "imgsize": 331776, 
+                        "baseaddr": "0x7fefc8f0000", 
+                        "filepath": "C:\\Windows\\system32\\msv1_0.DLL"
+                    }, 
+                    {
+                        "basename": "netlogon.DLL", 
+                        "imgsize": 712704, 
+                        "baseaddr": "0x7fefc840000", 
+                        "filepath": "C:\\Windows\\system32\\netlogon.DLL"
+                    }, 
+                    {
+                        "basename": "DNSAPI.dll", 
+                        "imgsize": 372736, 
+                        "baseaddr": "0x7fefc7e0000", 
+                        "filepath": "C:\\Windows\\system32\\DNSAPI.dll"
+                    }, 
+                    {
+                        "basename": "logoncli.dll", 
+                        "imgsize": 196608, 
+                        "baseaddr": "0x7fefc7b0000", 
+                        "filepath": "C:\\Windows\\system32\\logoncli.dll"
+                    }, 
+                    {
+                        "basename": "schannel.DLL", 
+                        "imgsize": 356352, 
+                        "baseaddr": "0x7fefc750000", 
+                        "filepath": "C:\\Windows\\system32\\schannel.DLL"
+                    }, 
+                    {
+                        "basename": "CRYPT32.dll", 
+                        "imgsize": 1470464, 
+                        "baseaddr": "0x7fefd350000", 
+                        "filepath": "C:\\Windows\\system32\\CRYPT32.dll"
+                    }, 
+                    {
+                        "basename": "wdigest.DLL", 
+                        "imgsize": 221184, 
+                        "baseaddr": "0x7fefc710000", 
+                        "filepath": "C:\\Windows\\system32\\wdigest.DLL"
+                    }, 
+                    {
+                        "basename": "rsaenh.dll", 
+                        "imgsize": 290816, 
+                        "baseaddr": "0x7fefc6c0000", 
+                        "filepath": "C:\\Windows\\system32\\rsaenh.dll"
+                    }, 
+                    {
+                        "basename": "tspkg.DLL", 
+                        "imgsize": 98304, 
+                        "baseaddr": "0x7fefc6a0000", 
+                        "filepath": "C:\\Windows\\system32\\tspkg.DLL"
+                    }, 
+                    {
+                        "basename": "pku2u.DLL", 
+                        "imgsize": 282624, 
+                        "baseaddr": "0x7fefc650000", 
+                        "filepath": "C:\\Windows\\system32\\pku2u.DLL"
+                    }, 
+                    {
+                        "basename": "bcryptprimitives.dll", 
+                        "imgsize": 311296, 
+                        "baseaddr": "0x7fefc600000", 
+                        "filepath": "C:\\Windows\\system32\\bcryptprimitives.dll"
+                    }, 
+                    {
+                        "basename": "RpcRtRemote.dll", 
+                        "imgsize": 81920, 
+                        "baseaddr": "0x7fefd0d0000", 
+                        "filepath": "C:\\Windows\\system32\\RpcRtRemote.dll"
+                    }, 
+                    {
+                        "basename": "efslsaext.dll", 
+                        "imgsize": 73728, 
+                        "baseaddr": "0x7fefc5e0000", 
+                        "filepath": "C:\\Windows\\system32\\efslsaext.dll"
+                    }, 
+                    {
+                        "basename": "scecli.DLL", 
+                        "imgsize": 253952, 
+                        "baseaddr": "0x7fefc580000", 
+                        "filepath": "C:\\Windows\\system32\\scecli.DLL"
+                    }, 
+                    {
+                        "basename": "credssp.dll", 
+                        "imgsize": 40960, 
+                        "baseaddr": "0x7fefc5c0000", 
+                        "filepath": "C:\\Windows\\system32\\credssp.dll"
+                    }, 
+                    {
+                        "basename": "WINSTA.dll", 
+                        "imgsize": 249856, 
+                        "baseaddr": "0x7fefd100000", 
+                        "filepath": "C:\\Windows\\system32\\WINSTA.dll"
+                    }, 
+                    {
+                        "basename": "wshtcpip.dll", 
+                        "imgsize": 28672, 
+                        "baseaddr": "0x7fefc2e0000", 
+                        "filepath": "C:\\Windows\\System32\\wshtcpip.dll"
+                    }, 
+                    {
+                        "basename": "IPHLPAPI.DLL", 
+                        "imgsize": 159744, 
+                        "baseaddr": "0x7fefc3e0000", 
+                        "filepath": "C:\\Windows\\system32\\IPHLPAPI.DLL"
+                    }, 
+                    {
+                        "basename": "WINNSI.DLL", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefc3d0000", 
+                        "filepath": "C:\\Windows\\system32\\WINNSI.DLL"
+                    }, 
+                    {
+                        "basename": "netutils.dll", 
+                        "imgsize": 49152, 
+                        "baseaddr": "0x7fefab10000", 
+                        "filepath": "C:\\Windows\\system32\\netutils.dll"
+                    }, 
+                    {
+                        "basename": "USERENV.dll", 
+                        "imgsize": 122880, 
+                        "baseaddr": "0x7fefc470000", 
+                        "filepath": "C:\\Windows\\system32\\USERENV.dll"
+                    }, 
+                    {
+                        "basename": "profapi.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd0f0000", 
+                        "filepath": "C:\\Windows\\system32\\profapi.dll"
+                    }, 
+                    {
+                        "basename": "dssenh.dll", 
+                        "imgsize": 204800, 
+                        "baseaddr": "0x7feead80000", 
+                        "filepath": "C:\\Windows\\system32\\dssenh.dll"
+                    }, 
+                    {
+                        "basename": "GPAPI.dll", 
+                        "imgsize": 110592, 
+                        "baseaddr": "0x7fefc450000", 
+                        "filepath": "C:\\Windows\\system32\\GPAPI.dll"
+                    }, 
+                    {
+                        "basename": "monitor-x64.dll", 
+                        "imgsize": 2277376, 
+                        "baseaddr": "0x65a80000", 
+                        "filepath": "C:\\tmp8gfisk\\bin\\monitor-x64.dll"
+                    }
+                ], 
+                "time": 0, 
+                "tid": 2212, 
+                "first_seen": 1554890067.546875, 
+                "ppid": 372, 
+                "type": "process"
+            }
+        ], 
+        "processtree": [
+            {
+                "track": false, 
+                "pid": 468, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\Windows\\system32\\lsass.exe", 
+                "first_seen": 1554890067.546875, 
+                "ppid": 372, 
+                "children": []
+            }
+        ]
+    }, 
+    "debug": {
+        "action": [], 
+        "dbgview": [], 
+        "errors": [], 
+        "log": [
+            "2019-04-10 09:54:24,000 [analyzer] DEBUG: Starting analyzer from: C:\\tmp8gfisk\n", 
+            "2019-04-10 09:54:24,015 [analyzer] DEBUG: Pipe server name: \\??\\PIPE\\OIekWxwAQntLtXakgKeBJSokIfeDpu\n", 
+            "2019-04-10 09:54:24,015 [analyzer] DEBUG: Log pipe server name: \\??\\PIPE\\IYemLSxLVgtFMFjC\n", 
+            "2019-04-10 09:54:27,046 [analyzer] DEBUG: Started auxiliary module DbgView\n", 
+            "2019-04-10 09:54:27,296 [analyzer] DEBUG: Started auxiliary module Disguise\n", 
+            "2019-04-10 09:54:27,608 [analyzer] DEBUG: Loaded monitor into process with pid 468\n", 
+            "2019-04-10 09:54:27,608 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets\n", 
+            "2019-04-10 09:54:27,608 [analyzer] DEBUG: Started auxiliary module Human\n", 
+            "2019-04-10 09:54:27,608 [analyzer] DEBUG: Started auxiliary module InstallCertificate\n", 
+            "2019-04-10 09:54:27,608 [analyzer] DEBUG: Started auxiliary module Reboot\n", 
+            "2019-04-10 09:54:27,625 [analyzer] DEBUG: Started auxiliary module RecentFiles\n", 
+            "2019-04-10 09:54:27,625 [analyzer] DEBUG: Started auxiliary module Screenshots\n", 
+            "2019-04-10 09:54:27,625 [analyzer] DEBUG: Started auxiliary module LoadZer0m0n\n", 
+            "2019-04-10 09:54:28,645 [lib.api.process] INFO: Successfully executed process from path u'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\uget.exe' with arguments '' and pid 2532\n", 
+            "2019-04-10 09:54:29,351 [modules.auxiliary.human] INFO: Found button u'OK', clicking it\n", 
+            "2019-04-10 09:54:30,855 [analyzer] INFO: Process with pid 2532 has terminated\n", 
+            "2019-04-10 09:54:30,855 [analyzer] INFO: Process list is empty, terminating analysis.\n", 
+            "2019-04-10 09:54:31,954 [analyzer] INFO: Analysis completed.\n"
+        ], 
+        "cuckoo": [
+            "2019-04-10 09:54:24,947 [cuckoo.core.scheduler] INFO: Task #118: acquired machine cuckoo1 (label=Win 7 Clone)\n", 
+            "2019-04-10 09:54:24,955 [cuckoo.auxiliary.sniffer] INFO: Started sniffer with PID 22466 (interface=vboxnet0, host=192.168.56.102)\n", 
+            "2019-04-10 09:54:24,956 [cuckoo.core.plugins] DEBUG: Started auxiliary module: Sniffer\n", 
+            "2019-04-10 09:54:25,333 [cuckoo.machinery.virtualbox] DEBUG: Starting vm Win 7 Clone\n", 
+            "2019-04-10 09:54:25,495 [cuckoo.machinery.virtualbox] DEBUG: Restoring virtual machine Win 7 Clone to Snapshot 3\n", 
+            "2019-04-10 09:54:29,675 [cuckoo.core.guest] INFO: Starting analysis on guest (id=cuckoo1, ip=192.168.56.102)\n", 
+            "2019-04-10 09:54:30,677 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet\n", 
+            "2019-04-10 09:54:31,680 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet\n", 
+            "2019-04-10 09:54:34,652 [cuckoo.core.guest] INFO: Guest is running Cuckoo Agent 0.8 (id=cuckoo1, ip=192.168.56.102)\n", 
+            "2019-04-10 09:54:34,667 [cuckoo.core.guest] DEBUG: Uploading analyzer to guest (id=cuckoo1, ip=192.168.56.102, monitor=latest, size=3856831)\n", 
+            "2019-04-10 09:54:35,963 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:36,620 [cuckoo.core.resultserver] DEBUG: LogHandler for live analysis.log initialized.\n", 
+            "2019-04-10 09:54:36,988 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:38,047 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:39,884 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:40,891 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:41,896 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:42,281 [cuckoo.core.resultserver] DEBUG: File upload request for shots/0001.jpg\n", 
+            "2019-04-10 09:54:42,286 [cuckoo.core.resultserver] DEBUG: Uploaded file length: 129824\n", 
+            "2019-04-10 09:54:42,902 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:43,308 [cuckoo.core.resultserver] DEBUG: File upload request for shots/0002.jpg\n", 
+            "2019-04-10 09:54:43,329 [cuckoo.core.resultserver] DEBUG: Uploaded file length: 133516\n", 
+            "2019-04-10 09:54:43,908 [cuckoo.core.guest] DEBUG: cuckoo1: analysis still processing\n", 
+            "2019-04-10 09:54:44,344 [cuckoo.core.resultserver] DEBUG: File upload request for shots/0003.jpg\n", 
+            "2019-04-10 09:54:44,361 [cuckoo.core.resultserver] DEBUG: Uploaded file length: 133188\n", 
+            "2019-04-10 09:54:44,912 [cuckoo.core.guest] INFO: cuckoo1: analysis completed successfully\n", 
+            "2019-04-10 09:54:45,214 [cuckoo.core.plugins] DEBUG: Stopped auxiliary module: Sniffer\n", 
+            "2019-04-10 09:54:45,214 [cuckoo.machinery.virtualbox] DEBUG: Stopping vm Win 7 Clone\n", 
+            "2019-04-10 09:54:45,379 [cuckoo.core.resultserver] DEBUG: File upload request for shots/0004.jpg\n", 
+            "2019-04-10 09:54:49,396 [cuckoo.core.resultserver] DEBUG: Uploaded file length: 91004\n", 
+            "2019-04-10 09:54:49,485 [cuckoo.core.scheduler] DEBUG: Released database task #118\n", 
+            "2019-04-10 09:54:49,574 [cuckoo.core.plugins] DEBUG: Executed processing module \"AnalysisInfo\" for task #118\n", 
+            "2019-04-10 09:54:49,576 [cuckoo.core.plugins] DEBUG: Executed processing module \"BehaviorAnalysis\" for task #118\n", 
+            "2019-04-10 09:54:49,576 [cuckoo.core.plugins] DEBUG: Executed processing module \"Dropped\" for task #118\n", 
+            "2019-04-10 09:54:49,576 [cuckoo.core.plugins] DEBUG: Executed processing module \"DroppedBuffer\" for task #118\n", 
+            "2019-04-10 09:54:49,577 [cuckoo.core.plugins] DEBUG: Executed processing module \"MetaInfo\" for task #118\n", 
+            "2019-04-10 09:54:49,577 [cuckoo.core.plugins] DEBUG: Executed processing module \"ProcessMemory\" for task #118\n", 
+            "2019-04-10 09:54:49,577 [cuckoo.core.plugins] DEBUG: Executed processing module \"Procmon\" for task #118\n", 
+            "2019-04-10 09:54:49,600 [cuckoo.core.plugins] DEBUG: Executed processing module \"Screenshots\" for task #118\n", 
+            "2019-04-10 09:54:50,143 [cuckoo.core.plugins] DEBUG: Executed processing module \"Static\" for task #118\n", 
+            "2019-04-10 09:54:50,163 [cuckoo.core.plugins] DEBUG: Executed processing module \"Strings\" for task #118\n", 
+            "2019-04-10 09:54:50,172 [cuckoo.core.plugins] DEBUG: Executed processing module \"TargetInfo\" for task #118\n", 
+            "2019-04-10 09:54:50,186 [cuckoo.core.plugins] DEBUG: Executed processing module \"NetworkAnalysis\" for task #118\n", 
+            "2019-04-10 09:54:50,186 [cuckoo.core.plugins] DEBUG: Executed processing module \"Extracted\" for task #118\n", 
+            "2019-04-10 09:54:50,186 [cuckoo.core.plugins] DEBUG: Executed processing module \"TLSMasterSecrets\" for task #118\n", 
+            "2019-04-10 09:54:50,188 [cuckoo.core.plugins] DEBUG: Executed processing module \"Debug\" for task #118\n", 
+            "2019-04-10 09:54:50,189 [cuckoo.core.plugins] DEBUG: Running 540 signatures\n", 
+            "2019-04-10 09:54:50,343 [cuckoo.core.plugins] DEBUG: Analysis matched signature: packer_entropy\n"
+        ]
+    }, 
+    "screenshots": [
+        {
+            "path": "/home/avinash/.cuckoo/storage/analyses/118/shots/0001.jpg", 
+            "ocr": ""
+        }, 
+        {
+            "path": "/home/avinash/.cuckoo/storage/analyses/118/shots/0002.jpg", 
+            "ocr": ""
+        }, 
+        {
+            "path": "/home/avinash/.cuckoo/storage/analyses/118/shots/0003.jpg", 
+            "ocr": ""
+        }
+    ], 
+    "strings": [
+        "!This program cannot be run in DOS mode.", 
+        "P`.data", 
+        ".rdata", 
+        "`@.eh_fram", 
+        "0@.bss", 
+        ".idata", 
+        "C,;FH|", 
+        "9D$ t_", 
+        "9D$ tZ", 
+        "9D$ t%", 
+        "9D$ t_", 
+        "9D$ tZ", 
+        "9D$ t%", 
+        "9D$ t\u001f", 
+        "9D$ t_", 
+        "9D$ tZ", 
+        "9D$ t%", 
+        "9|$ht\u001f", 
+        "3C\\3SX", 
+        "Kd3C83K<", 
+        "3C83S<", 
+        "A,9A0|", 
+        "D$ +D$", 
+        "9\\$$ts", 
+        "tx;s(u", 
+        "D$$9D$", 
+        "L$@;|$@t", 
+        "D$(+D$H", 
+        "D$ ;D$$", 
+        "D$ ;D$$r", 
+        "D$ ;D$$", 
+        "< tj<\"tB", 
+        "T$+9T$,", 
+        "VUUUVS", 
+        ";D$D}d", 
+        "L$\\+L$X", 
+        ";D$\\uB", 
+        "|$@9|$0~", 
+        "|$ ;t$X", 
+        "u)9l$X", 
+        "\\$$9\\$,w", 
+        "libgcc_s_dw2-1.dll", 
+        "__register_frame_info", 
+        "__deregister_frame_info", 
+        "libgcj-16.dll", 
+        "_Jv_RegisterClasses", 
+        "logo.png", 
+        "pixmaps", 
+        "uGet Project Manager: ", 
+        "uGet Founder: ", 
+        "Download Manager", 
+        "translator-credits", 
+        "artists", 
+        "authors", 
+        "license", 
+        "http://ugetdm.com/", 
+        "website-label", 
+        "Copyright (C) 2005-2018 C.H. Huang", 
+        "copyright", 
+        "comments", 
+        "version", 
+        "program-name", 
+        "response", 
+        "Michael Tunnell (visuex.com)", 
+        "C.H. Huang  (", 
+        " Copyright (C) 2005-2018 by C.H. Huang", 
+        " plushuang.tw@gmail.com", 
+        "This library is free software; you can redistribute it and/or", 
+        "modify it under the terms of the GNU Lesser General Public", 
+        "License as published by the Free Software Foundation; either", 
+        "version 2.1 of the License, or (at your option) any later version.", 
+        "This library is distributed in the hope that it will be useful,", 
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of", 
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU", 
+        "Lesser General Public License for more details.", 
+        "You should have received a copy of the GNU Lesser General Public", 
+        "License along with this library; if not, write to the Free Software", 
+        "Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA", 
+        "---------", 
+        "In addition, as a special exception, the copyright holders give", 
+        "permission to link the code of portions of this program with the", 
+        "OpenSSL library under certain conditions as described in each", 
+        "individual source file, and distribute linked combinations", 
+        "including the two.", 
+        "You must obey the GNU Lesser General Public License in all respects", 
+        "for all of the code used other than OpenSSL.  If you modify", 
+        "file(s) with this exception, you may extend this exception to your", 
+        "version of the file(s), but you are not obligated to do so.  If you", 
+        "do not wish to do so, delete this exception statement from your", 
+        "version.  If you delete this exception statement from all source", 
+        "files in the program, then also delete it here.", 
+        "changed", 
+        "cursor-changed", 
+        "button-press-event", 
+        "activate", 
+        "key-press-event", 
+        "delete-event", 
+        "destroy", 
+        "clicked", 
+        "kernel32.dll", 
+        "AttachConsole", 
+        "CONOUT$", 
+        "uGet 2.2.1 for GTK+", 
+        "attachment", 
+        "New from Clipboard", 
+        "uGet - ", 
+        "New Download", 
+        "Clipboard", 
+        "Command line", 
+        "gtkstatusicon-observer", 
+        "Starting download queue.", 
+        "Download Starting", 
+        "Error Occurred when downloading.", 
+        "Error Occurred", 
+        "notification.wav", 
+        "sounds", 
+        "All queuing downloads have been completed.", 
+        "Download Completed", 
+        "uGet - %u %s", 
+        "<uGet>/File/New", 
+        "<uGet>/File/Load", 
+        "<uGet>/File/Save", 
+        "<uGet>/File/SaveAll", 
+        "<uGet>/Download/Delete", 
+        "<uGet>/Download/DeleteFile", 
+        "<uGet>/Download/Open", 
+        "<uGet>/Download/OpenFolder", 
+        "9999 MiB/s", 
+        "document-new", 
+        "Create new download", 
+        "Create new item", 
+        "New _Download...", 
+        "New _Category...", 
+        "gtk-dnd-multiple", 
+        "New Clipboard _batch...", 
+        "edit-paste", 
+        "New _URL Sequence batch...", 
+        "view-sort-ascending", 
+        "New Torrent...", 
+        "New Metalink...", 
+        "document-save", 
+        "Save all settings", 
+        "media-playback-start", 
+        "Set selected download runnable", 
+        "media-playback-pause", 
+        "Set selected download to pause", 
+        "document-properties", 
+        "Set selected download properties", 
+        "Move selected download up", 
+        "go-down", 
+        "Move selected download down", 
+        "go-top", 
+        "Move selected download to top", 
+        "go-bottom", 
+        "Move selected download to bottom", 
+        "uget-icon", 
+        "Status", 
+        "Category", 
+        "org.gtk.Settings.FileChooser", 
+        "sort-directories-first", 
+        "sidebar-width", 
+        "gtk-ok", 
+        "gtk-cancel", 
+        "Link <A>", 
+        "Image <IMG>", 
+        "Setting.json", 
+        "RSS-built-in.json", 
+        "New Category", 
+        "Copy - ", 
+        "Category Properties", 
+        "uGet - ", 
+        "Download Properties", 
+        "Open Torrent file", 
+        "Torrent file (*.torrent)", 
+        "application/x-bittorrent", 
+        "response", 
+        "Open Metalink file", 
+        "Metalink file (*.metalink, *.meta4)", 
+        "*.metalink", 
+        "*.meta4", 
+        "Save Category file", 
+        "Open Category file", 
+        "JSON file (*.json)", 
+        "application/json", 
+        "Import URLs from HTML file", 
+        "HTML file (*.htm, *.html)", 
+        "text/html", 
+        "Import URLs from text file", 
+        "Plain text file", 
+        "text/plain", 
+        "Export URLs to text file", 
+        "URL Sequence batch", 
+        "magnet", 
+        "torrent", 
+        "metalink", 
+        "Message", 
+        "Failed to save category file.", 
+        "Failed to load category file.", 
+        "Text File", 
+        "New Download", 
+        "New Torrent", 
+        "New Metalink", 
+        "No URLs found in clipboard.", 
+        "All URLs had existed.", 
+        "Clipboard batch", 
+        "Clipboard", 
+        "selected", 
+        "Selected %d items", 
+        "activate", 
+        "underline", 
+        "event-after", 
+        "motion-notify-event", 
+        "button-release-event", 
+        "Attention uGetters:", 
+        "we are running a Donation Drive for uGet's Future Development, please click ", 
+        "http://ugetdm.com/donate", 
+        "please fill out this quick User Survey for uGet.", 
+        "click here to take survey", 
+        "http://ugetdm.com/survey", 
+        "gtk-go-back", 
+        "gtk-go-forward", 
+        "gtk-cancel", 
+        "gtk-ok", 
+        "response", 
+        "Category _name:", 
+        "margin", 
+        "hexpand", 
+        "margin-bottom", 
+        "margin-top", 
+        "Active _downloads:", 
+        "Capacity of Finished:", 
+        "Capacity of Recycled:", 
+        "URI Matching conditions", 
+        "Matched _Hosts:", 
+        "Matched _Schemes:", 
+        "Matched _Types:", 
+        "Guget-portable-mode", 
+        "config", 
+        "locale", 
+        "Really Quit?", 
+        "Are you sure you want to quit?", 
+        "Really delete files?", 
+        "Are you sure you want to delete files?", 
+        "Really delete category?", 
+        "Are you sure you want to delete category?", 
+        "uGet - ", 
+        "gtk-yes", 
+        "gtk-no", 
+        "gtk-dialog-question", 
+        "Don't ask me again", 
+        "response", 
+        "Select Folder", 
+        "uGet - ", 
+        "gtk-ok", 
+        "gtk-cancel", 
+        "response", 
+        "Select Post File", 
+        "Select Cookie File", 
+        "margin-right", 
+        "margin-left", 
+        "margin-bottom", 
+        "margin-top", 
+        "hexpand", 
+        "changed", 
+        "Mirrors:", 
+        "Leave blank to use default filename ...", 
+        "margin", 
+        "folder", 
+        "icon-release", 
+        "_Folder:", 
+        "Referrer:", 
+        "_Max Connections:", 
+        "Status", 
+        "_Runnable", 
+        "P_ause", 
+        "Password:", 
+        "Cookie file:", 
+        "text-x-generic", 
+        "Post file:", 
+        "User Agent:", 
+        "Retry _limit:", 
+        "counts", 
+        "Retry _delay:", 
+        "seconds", 
+        "Max upload speed:", 
+        "Max download speed:", 
+        "Retrieve timestamp", 
+        "@_File", 
+        "New _Download...", 
+        "<uGet>/File/New", 
+        "document-new", 
+        "New _Category...", 
+        "gtk-dnd-multiple", 
+        "New Torrent...", 
+        "New Metalink...", 
+        "_Batch Downloads", 
+        "_Clipboard batch...", 
+        "edit-paste", 
+        "_URL Sequence batch...", 
+        "view-sort-ascending", 
+        "_Text file import (.txt)...", 
+        "go-next", 
+        "_HTML file import (.html)...", 
+        "gtk-convert", 
+        "_Export to Text file (.txt)...", 
+        "go-previous", 
+        "_Open category...", 
+        "<uGet>/File/Load", 
+        "document-open", 
+        "_Save category as...", 
+        "<uGet>/File/Save", 
+        "document-save", 
+        "Save _all settings", 
+        "<uGet>/File/SaveAll", 
+        "Offline Mode", 
+        "gtk-quit", 
+        "Clipboard _Monitor", 
+        "Clipboard works quietly", 
+        "Command-line works quietly", 
+        "Skip existing URI", 
+        "Apply recent download settings", 
+        "Completion _Auto-Actions", 
+        "_Disable", 
+        "Hibernate", 
+        "Suspend", 
+        "Shutdown", 
+        "Reboot", 
+        "Custom", 
+        "Remember setting", 
+        "_Settings...", 
+        "document-properties", 
+        "_Toolbar", 
+        "Statusbar", 
+        "Category", 
+        "_Summary", 
+        "Summary _Items", 
+        "_Folder", 
+        "_Message", 
+        "Download _Columns", 
+        "_Complete", 
+        "_Percent '%'", 
+        "_Elapsed", 
+        "Up Speed", 
+        "Uploaded", 
+        "_Retry", 
+        "Added On", 
+        "Completed On", 
+        "_Category", 
+        "_New Category...", 
+        "_Delete Category", 
+        "window-close", 
+        "gtk-properties", 
+        "gtk-go-up", 
+        "gtk-go-down", 
+        "_Download", 
+        "gtk-new", 
+        "_Delete Entry", 
+        "<uGet>/Download/Delete", 
+        "edit-delete", 
+        "Delete Entry and _File", 
+        "<uGet>/Download/DeleteFile", 
+        "gtk-open", 
+        "<uGet>/Download/Open", 
+        "Open _Containing folder", 
+        "<uGet>/Download/OpenFolder", 
+        "folder", 
+        "Force Start", 
+        "_Runnable", 
+        "<uGet>/Download/SwitchState", 
+        "media-playback-start", 
+        "gtk-media-pause", 
+        "_Move To", 
+        "gtk-goto-top", 
+        "gtk-goto-bottom", 
+        "Priority", 
+        "_Normal", 
+        "Get Help Online", 
+        "help-browser", 
+        "Documentation", 
+        "text-x-generic", 
+        "Support Forum", 
+        "dialog-question", 
+        "Submit Feedback", 
+        "list-add", 
+        "Report a Bug", 
+        "dialog-warning-symbolic", 
+        "Keyboard Shortcuts", 
+        "Check for Updates", 
+        "gtk-about", 
+        "http://ugetdm.com/versioncheck?v=2.2.1", 
+        "http://ugetdm.com/keyboard-shortcuts", 
+        "http://ugetdm.com/reportbug", 
+        "http://ugetdm.com/feedback", 
+        "http://ugetdm.com/forum/", 
+        "http://ugetdm.com/documentation", 
+        "http://ugetdm.com/help", 
+        "http://ugetdm.com/documentation/on-complete", 
+        "'%s' - This folder does not exist.", 
+        "uGet - ", 
+        "response", 
+        "/e,/select,\"", 
+        "Can't launch default application for file '%s'.", 
+        "Settings", 
+        "activate", 
+        "toggled", 
+        "gtk-dnd-multiple", 
+        "General", 
+        "Advanced", 
+        "Category settings", 
+        "Default for new download 1", 
+        "Default 2", 
+        "gtk-cancel", 
+        "gtk-ok", 
+        "changed", 
+        "response", 
+        "URI had existed", 
+        "This URI had existed, are you sure to continue?", 
+        "uGet - ", 
+        "Category", 
+        "cursor-changed", 
+        "row-changed", 
+        "row-deleted", 
+        "row-inserted", 
+        "UgtkNodeList", 
+        "UGTK_IS_NODE_LIST (tree_model)", 
+        "parent == NULL", 
+        "iter == NULL", 
+        "iter != NULL", 
+        "column < NODE_LIST_N_COLUMNS", 
+        "UGTK_IS_NODE_LIST(tree_model)", 
+        "iter->user_data != NULL", 
+        "D:\\Projects\\uget2\\ui-gtk\\UgtkNodeList.c", 
+        "path != NULL", 
+        "depth == 1", 
+        "index < NODE_LIST_N_COLUMNS && index >= 0", 
+        "get_flags", 
+        "get_n_columns", 
+        "get_column_type", 
+        "get_iter", 
+        "get_path", 
+        "get_value", 
+        "iter_next", 
+        "iter_children", 
+        "iter_n_children", 
+        "iter_nth_child", 
+        "UgtkNodeTree", 
+        "UGTK_IS_NODE_TREE (tree_model)", 
+        "iter != NULL", 
+        "column < NODE_TREE_N_COLUMNS", 
+        "UGTK_IS_NODE_TREE(tree_model)", 
+        "iter->user_data != NULL", 
+        "D:\\Projects\\uget2\\ui-gtk\\UgtkNodeTree.c", 
+        "path != NULL", 
+        "index < NODE_TREE_N_COLUMNS && index >= 0", 
+        "get_flags", 
+        "get_n_columns", 
+        "get_column_type", 
+        "get_iter", 
+        "get_path", 
+        "get_value", 
+        "iter_next", 
+        "iter_children", 
+        "iter_n_children", 
+        "iter_nth_child", 
+        "unnamed", 
+        "visible", 
+        "text-x-generic", 
+        "icon-name", 
+        "Quantity", 
+        "xalign", 
+        "All Status", 
+        "gtk-dnd-multiple", 
+        "media-playback-pause", 
+        "Complete", 
+        "Elapsed", 
+        "Up Speed", 
+        "Uploaded", 
+        "Category", 
+        "Added On", 
+        "Completed On", 
+        "Status", 
+        "stock-size", 
+        "Paused", 
+        "Uploading", 
+        "Completed", 
+        "Finished", 
+        "Recycled", 
+        "Queuing", 
+        "Active", 
+        "go-last", 
+        "list-remove", 
+        "dialog-error", 
+        "gtk-yes", 
+        "media-playback-start", 
+        "Proxy:", 
+        "Don't use", 
+        "Default", 
+        "SOCKS v4", 
+        "SOCKS v5", 
+        "changed", 
+        "margin-right", 
+        "margin-left", 
+        "margin-bottom", 
+        "margin-top", 
+        "hexpand", 
+        "margin", 
+        "Password:", 
+        "%s, %.2d:00 - %.2d:59", 
+        "_Enable Scheduler", 
+        "toggled", 
+        "button-press-event", 
+        "motion-notify-event", 
+        "leave-notify-event", 
+        "margin", 
+        "Turn off", 
+        "- stop all task", 
+        "Normal", 
+        "- run task normally", 
+        "toggled", 
+        "active", 
+        "clicked", 
+        "Base hypertext reference", 
+        " <base href> :", 
+        "Mark _All", 
+        "Mark _None", 
+        "_Mark by filter...", 
+        "Mark by filter", 
+        "uGet - ", 
+        "gtk-ok", 
+        "gtk-cancel", 
+        "response", 
+        "Mark URLs by host AND filename extension.", 
+        "This will reset all marks of URLs.", 
+        "File Ext.", 
+        "(none)", 
+        ".(none)", 
+        "URI is not valid.", 
+        "No wildcard(*) character in URI entry.", 
+        "No character in 'From' or 'To' entry.", 
+        "changed", 
+        "value-changed", 
+        "digits:", 
+        "case-sensitive", 
+        "realize", 
+        "destroy", 
+        "margin", 
+        "hexpand", 
+        "http://for.example/path/pre*.jpg", 
+        "Preview", 
+        "expand", 
+        "BIN|ZIP|GZ|7Z|XZ|Z|TAR|TGZ|BZ2|LZH|A[0-9]?|RAR|R[0-9][0-9]|ISO|RPM|DEB|EXE|MSI|APK|3GP|AAC|FLAC|M4A|M4P|MP3|OGG|WAV|WMA|MP4|MKV|WEBM|OGV|AVI|MOV|WMV|FLV|F4V|MPG|MPEG|RMVB", 
+        "aria2c", 
+        "--enable-rpc=true -D --disable-ipv6 --check-certificate=false", 
+        "http://localhost:6800/jsonrpc", 
+        "Window", 
+        "Summary", 
+        "DownloadColumn", 
+        "UserInterface", 
+        "Clipboard", 
+        "Bandwidth", 
+        "Commandline", 
+        "PluginOrder", 
+        "PluginAria2", 
+        "PluginMedia", 
+        "Completion", 
+        "FolderHistory", 
+        "AutoSave", 
+        "AutoSaveInterval", 
+        "Scheduler", 
+        "remember", 
+        "action", 
+        "command", 
+        "OnError", 
+        "match_mode", 
+        "quality", 
+        "launch", 
+        "shutdown", 
+        "arguments", 
+        "MaxUploadSpeed", 
+        "MaxDownloadSpeed", 
+        "NthCategory", 
+        "enable", 
+        "NormalUpload", 
+        "NormalDownload", 
+        "SchedulerUpload", 
+        "SchedulerDownload", 
+        "pattern", 
+        "monitor", 
+        "Website", 
+        "MediaWebsite", 
+        "ExitConfirmation", 
+        "DeleteConfirmation", 
+        "ShowTrayIcon", 
+        "StartInTray", 
+        "CloseToTray", 
+        "StartInOfflineMode", 
+        "StartNotification", 
+        "SoundNotification", 
+        "ApplyRecently", 
+        "ApplyRecent", 
+        "SkipExisting", 
+        "LargeIcon", 
+        "complete", 
+        "percent", 
+        "elapsed", 
+        "UploadSpeed", 
+        "uploaded", 
+        "category", 
+        "AddedOn", 
+        "CompletedOn", 
+        "SortType", 
+        "SortNth", 
+        "completed", 
+        "folder", 
+        "message", 
+        "Toolbar", 
+        "Statusbar", 
+        "Category", 
+        "Banner", 
+        "height", 
+        "maximized", 
+        "NthStatus", 
+        "PanedPositionH", 
+        "PanedPositionV", 
+        "response", 
+        "gtk-ok", 
+        "gtk-cancel", 
+        "User Interface", 
+        "cursor-changed", 
+        "Clipboard", 
+        "Bandwidth", 
+        "Scheduler", 
+        "Plug-in", 
+        "Media website", 
+        "Others", 
+        "_Enable clipboard monitor", 
+        "_Quiet mode", 
+        "Default category index", 
+        "Adding to Nth category if no matched category.", 
+        "_Monitor URL of website", 
+        "Monitor clipboard for specified file types:", 
+        "Separate the types with character '|'.", 
+        "You can use regular expressions here.", 
+        "Confirmation", 
+        "Show confirmation dialog on exit", 
+        "Confirm when deleting files", 
+        "System Tray", 
+        "Always show tray icon", 
+        "Minimize to tray on startup", 
+        "Close to tray on window close", 
+        "Enable offline mode on startup", 
+        "Download starting notification", 
+        "Sound when download is finished", 
+        "Apply recent download settings", 
+        "Display large icon", 
+        "These will affect all plug-ins.", 
+        "Global speed limit", 
+        "Max upload speed", 
+        "Max download speed", 
+        "Completion Auto-Actions", 
+        "Custom command:", 
+        "Custom command if error occurred:", 
+        "_Autosave", 
+        "toggled", 
+        "_Interval:", 
+        "minutes", 
+        "Commandline Settings", 
+        "Use '--quiet' by default", 
+        "Plug-in matching order:", 
+        "curl + aria2", 
+        "aria2 + curl", 
+        "changed", 
+        "Aria2 plug-in options", 
+        "RPC authorization secret token", 
+        "Global speed limit for aria2 only", 
+        "_Launch aria2 on startup", 
+        "_Shutdown aria2 on exit", 
+        "Launch aria2 on local device", 
+        "Arguments", 
+        "You must restart uGet after modifying it.", 
+        "Media matching mode:", 
+        "Don't match", 
+        "Match 1 condition", 
+        "Match 2 condition", 
+        "Near quality", 
+        "Match conditions", 
+        "Quality:", 
+        "margin-right", 
+        "margin-left", 
+        "margin-bottom", 
+        "margin-top", 
+        "Bstock-id", 
+        "gtk-copy", 
+        "Copy _All", 
+        "gtk-select-all", 
+        "gtk-info", 
+        "gtk-dialog-error", 
+        "gtk-dialog-warning", 
+        "unnamed", 
+        "gtk-file", 
+        "Folder", 
+        "gtk-directory", 
+        "Category", 
+        "gtk-dnd-multiple", 
+        "gtk-network", 
+        "Message", 
+        "cursor-changed", 
+        "row-deleted", 
+        "clicked", 
+        "activate", 
+        "uget-tray-default", 
+        "gtk-go-down", 
+        "New _Download...", 
+        "document-new", 
+        "New Clipboard _batch...", 
+        "edit-paste", 
+        "New Torrent...", 
+        "New Metalink...", 
+        "Clipboard _Monitor", 
+        "Clipboard works quietly", 
+        "Command-line works quietly", 
+        "Skip existing URI", 
+        "Apply recent download settings", 
+        "_Settings...", 
+        "document-properties", 
+        "gtk-about", 
+        "_Offline Mode", 
+        "gtk-quit", 
+        "uget-icon.png", 
+        "hicolor", 
+        "uget-tray-error", 
+        "uget-tray-downloading", 
+        "uGet 2.2.1", 
+        " %s , ", 
+        "popup-menu", 
+        "leave-notify-event", 
+        "enter-notify-event", 
+        "toggled", 
+        "!$&'()*+,;=:@/", 
+        "UTF-32BE", 
+        "UTF-32LE", 
+        "UTF-16BE", 
+        "UTF-16LE", 
+        "All Category", 
+        "category", 
+        "%s%c%.4d.json", 
+        "%s%cTemp.json", 
+        "\\/:*?\"<>|", 
+        "attachment", 
+        "%s%c%.4d.temp", 
+        "magnet", 
+        "category", 
+        "schemes", 
+        "file-exts", 
+        "active-limit", 
+        "finished-limit", 
+        "recycled-limit", 
+        "relation", 
+        "plugin-name", 
+        "priority", 
+        "added-time", 
+        "completed-time", 
+        "messages", 
+        "password", 
+        "active-mode", 
+        "referrer", 
+        "user-agent", 
+        "post-data", 
+        "post-file", 
+        "cookie-data", 
+        "cookie-file", 
+        "redirection-limit", 
+        "progress", 
+        "complete", 
+        "elapsed", 
+        "uploaded", 
+        "percent", 
+        "common", 
+        "mirrors", 
+        "folder", 
+        "connect-timeout", 
+        "transmit-timeout", 
+        "retry-delay", 
+        "retry-limit", 
+        "retry-count", 
+        "max-connections", 
+        "max-upload-speed", 
+        "max-download-speed", 
+        "timestamp", 
+        "string", 
+        "couldn't connect to host.", 
+        "Folder can't be created.", 
+        "File can't be created (bad filename or file exist).", 
+        "File can't be opened.", 
+        "Unable to create thread.", 
+        "Incorrect source (different file size).", 
+        "Out of resource (disk full or run out of memory).", 
+        "No output file.", 
+        "No output setting.", 
+        "Too many retries.", 
+        "Unsupported scheme (protocol).", 
+        "Unsupported file.", 
+        "post file not found.", 
+        "cookie file not found.", 
+        "Output file can't be renamed.", 
+        "Connecting...", 
+        "Transmitting...", 
+        "Download completed", 
+        "Finished", 
+        "Resumable", 
+        "Not Resumable", 
+        "complete", 
+        "collection", 
+        "children", 
+        "Show help options", 
+        "version", 
+        "display the version of uGet and exit.", 
+        "add download directly. Don't show dialog.", 
+        "category-index", 
+        "add download to Nth category.", 
+        "input-file", 
+        "add URLs found in FILE.", 
+        "set-offline", 
+        "set offline mode to N. (0=Disable)", 
+        "folder", 
+        "placed download file in FOLDER.", 
+        "FOLDER", 
+        "filename", 
+        "set download filename to FILE.", 
+        "set both ftp and http user to USER.", 
+        "password", 
+        "set both ftp and http password to PASS.", 
+        "proxy-type", 
+        "set proxy type to N. (0=Don't use)", 
+        "proxy-host", 
+        "set proxy host to HOST.", 
+        "proxy-port", 
+        "set proxy port to PORT.", 
+        "proxy-user", 
+        "set USER as proxy username.", 
+        "proxy-password", 
+        "set PASS as proxy password.", 
+        "http-user", 
+        "set http user to USER.", 
+        "http-password", 
+        "set http password to PASS.", 
+        "http-referer", 
+        "include `Referer: URL' header in HTTP request.", 
+        "http-user-agent", 
+        "identify as AGENT instead of default.", 
+        "http-cookie-data", 
+        "load cookies from STRING.", 
+        "STRING", 
+        "http-cookie-file", 
+        "load cookies from FILE.", 
+        "http-post-data", 
+        "use the POST method; send STRING as the data.", 
+        "http-post-file", 
+        "use the POST method; send contents of FILE", 
+        "ftp-user", 
+        "set ftp user to USER.", 
+        "ftp-password", 
+        "set ftp password to PASS.", 
+        "No response. Is aria2 shutdown?", 
+        "aria2.tellStatus", 
+        "aria2.changeOption", 
+        "max-download-limit", 
+        "max-upload-limit", 
+        "status", 
+        "errorCode", 
+        "totalLength", 
+        "completedLength", 
+        "uploadLength", 
+        "downloadSpeed", 
+        "uploadSpeed", 
+        "followedBy", 
+        "%s.aria2", 
+        "length", 
+        "aria2.remove", 
+        "d8:announce", 
+        "magnet", 
+        "aria2.addUri", 
+        "aria2.addTorrent", 
+        "aria2.addMetalink", 
+        "continue", 
+        "remote-time", 
+        "retry-wait", 
+        "max-tries", 
+        "lowest-speed-limit", 
+        "max-connection-per-server", 
+        "all-proxy", 
+        "all-proxy-user", 
+        "all-proxy-password", 
+        "referer", 
+        "user-agent", 
+        "aria2: gid was removed.", 
+        "aria2: an unknown error occurred.", 
+        "aria2: time out occurred.", 
+        "aria2: resource was not found.", 
+        "aria2 saw the specified number of 'resource not found' error. See --max-file-not-found option", 
+        "aria2: speed was too slow.", 
+        "aria2: network problem occurred.", 
+        "aria2: unfinished downloads.", 
+        "Not Resumable", 
+        "Out of resource", 
+        "aria2: piece length was different from one in .aria2 control file.", 
+        "aria2 was downloading same file.", 
+        "aria2 was downloading same info hash torrent.", 
+        "aria2: file already existed. See --allow-overwrite option.", 
+        "Output file can't be renamed.", 
+        "aria2: could not open existing file.", 
+        "aria2: could not create new file or truncate existing file.", 
+        "aria2: file I/O error occurred.", 
+        "Folder can't be created.", 
+        "aria2: name resolution failed.", 
+        "aria2: could not parse Metalink document.", 
+        "aria2: FTP command failed.", 
+        "aria2: HTTP response header was bad or unexpected.", 
+        "Too many redirections.", 
+        "aria2: HTTP authorization failed.", 
+        "aria2: could not parse bencoded file(usually .torrent file).", 
+        "aria2: torrent file was corrupted or missing information.", 
+        "aria2: Magnet URI was bad.", 
+        "aria2: bad/unrecognized option was given or unexpected option argument was given.", 
+        "aria2: remote server was unable to handle the request.", 
+        "aria2: could not parse JSON-RPC request.", 
+        "torrent", 
+        "metalink", 
+        "\\/:*?\"<>|", 
+        ".aria2", 
+        "unknown", 
+        "Failed to get media link.", 
+        "No matched media.", 
+        "%s_%s.%s", 
+        "\\/:*?\"<>|", 
+        "(%d/%d) %s", 
+        "youtube.com", 
+        "youtu.be", 
+        "decrypting file...", 
+        "decryption completed", 
+        "[{\"a\":\"g\",\"g\":1,\"p\":\"%s\"}]", 
+        "https://eu.api.mega.co.nz/cs", 
+        "%s.enc", 
+        "%s.aria2", 
+        "Can't get download URL.", 
+        "Can't handle this MEGA URL.", 
+        "mega.co.nz", 
+        "mega.nz", 
+        "Invalid Request", 
+        "127.0.0.1", 
+        "uget.present", 
+        "uget.sendCommand", 
+        "No URIs", 
+        "%s\\%X.cookie", 
+        "%s\\%X.post", 
+        "Method not found", 
+        "--filename=", 
+        "\\/:*?\"<>|", 
+        "channel", 
+        "text/html", 
+        "alternate", 
+        "http://feeds.feedburner.com/uget/stable?format=xml", 
+        "http://feeds.feedburner.com/uget/development?format=xml", 
+        "http://feeds.feedburner.com/uget/news?format=xml", 
+        "http://feeds.feedburner.com/uget/tutorials?format=xml", 
+        "http://feeds.feedburner.com/uget/all?format=xml", 
+        "checked", 
+        "updated", 
+        "pubDate", 
+        "youtube.com", 
+        "watch?", 
+        "youtu.be", 
+        "mega.co.nz", 
+        "mega.nz", 
+        "http://localhost:6800/jsonrpc", 
+        "aria2c", 
+        "--enable-rpc=true -D --check-certificate=false", 
+        "status", 
+        "totalLength", 
+        "completedLength", 
+        "uploadLength", 
+        "downloadSpeed", 
+        "uploadSpeed", 
+        "errorCode", 
+        "followedBy", 
+        "127.0.0.1", 
+        "localhost", 
+        "aria2.shutdown", 
+        "aria2.changeGlobalOption", 
+        "max-overall-download-limit", 
+        "max-overall-upload-limit", 
+        "aria2.getGlobalStat", 
+        "token:", 
+        "Server response code : %ld", 
+        "Accept-Ranges: ", 
+        "Content-Type: ", 
+        "Location: ", 
+        "text/html", 
+        "Content-Location: ", 
+        "Content-Disposition: ", 
+        "filename=", 
+        "video/webm", 
+        "video/mp4", 
+        "video/x-flv", 
+        "video/3gpp", 
+        "quality", 
+        "medium", 
+        "hd1080", 
+        "%s&signature=%s", 
+        "    %.*s=%.*s", 
+        "audio/mp4", 
+        "audio/webm", 
+        "quality_label", 
+        "bitrate", 
+        "script", 
+        "ytplayer.config", 
+        "url_encoded_fmt_stream_map", 
+        "adaptive_fmts", 
+        "reason", 
+        "status", 
+        "errorcode", 
+        "https://www.youtube.com/get_video_info?video_id=%s", 
+        "This video has been removed.", 
+        "Error occurred during getting video info.", 
+        "https://www.youtube.com/watch?v=%s", 
+        "Error occurred during getting video web page.", 
+        "youtube.com", 
+        "watch?", 
+        "youtu.be", 
+        "No video_id found in URL of YouTube.", 
+        "assets", 
+        "script", 
+        "content", 
+        "charset=", 
+        "0123456789ABCDEF", 
+        "jsonrpc", 
+        "method", 
+        "params", 
+        "result", 
+        "Invalid Request", 
+        "Parse error", 
+        "message", 
+        "Content-Type: application/json-rpc; charset=utf-8", 
+        "Usage:", 
+        " [OPTION...] ", 
+        "version", 
+        "%d%s%s", 
+        "%.2d:%.2d:%.2d", 
+        "99:99:99", 
+        "> 1 year", 
+        "%u days", 
+        "%.4d-%.2d-%.2d", 
+        "%.4d-%.2d-%.2d %.2d:%.2d:%.2d", 
+        ":\\/%?#", 
+        "SeShutdownPrivilege", 
+        "powercfg -hibernate off", 
+        "rundll32 powrprof.dll,SetSuspendState 0,1,0", 
+        "powercfg -hibernate on", 
+        "rundll32 powrprof.dll,SetSuspendState 1,0,0", 
+        "Windows-%u.%u", 
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", 
+        "Unknown error", 
+        "_matherr(): %s in %s(%g, %g)  (retval=%g)", 
+        "Argument domain error (DOMAIN)", 
+        "Argument singularity (SIGN)", 
+        "Overflow range error (OVERFLOW)", 
+        "The result is too small to be represented (UNDERFLOW)", 
+        "Total loss of significance (TLOSS)", 
+        "Partial loss of significance (PLOSS)", 
+        "Mingw-w64 runtime failure:", 
+        "Address %p has no image-section", 
+        "  VirtualQuery failed for %d bytes at address %p", 
+        "  VirtualProtect failed with code 0x%x", 
+        "  Unknown pseudo relocation protocol version %d.", 
+        "  Unknown pseudo relocation bit size %d.", 
+        "ABCDEF", 
+        "abcdef", 
+        "0123456789", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "GCC: (Rev3, Built by MSYS2 project) 5.2.0", 
+        "AdjustTokenPrivileges", 
+        "LookupPrivilegeValueA", 
+        "OpenProcessToken", 
+        "AllocConsole", 
+        "CloseHandle", 
+        "CopyFileW", 
+        "DeleteCriticalSection", 
+        "EnterCriticalSection", 
+        "FreeConsole", 
+        "FreeLibrary", 
+        "GetCurrentProcess", 
+        "GetCurrentProcessId", 
+        "GetCurrentThreadId", 
+        "GetFileAttributesW", 
+        "GetLastError", 
+        "GetModuleFileNameW", 
+        "GetModuleHandleA", 
+        "GetProcAddress", 
+        "GetStartupInfoA", 
+        "GetSystemTimeAsFileTime", 
+        "GetTickCount", 
+        "GetVersionExA", 
+        "InitializeCriticalSection", 
+        "LeaveCriticalSection", 
+        "LoadLibraryA", 
+        "QueryPerformanceCounter", 
+        "SetEndOfFile", 
+        "SetFilePointer", 
+        "SetFilePointerEx", 
+        "SetUnhandledExceptionFilter", 
+        "TerminateProcess", 
+        "TlsGetValue", 
+        "UnhandledExceptionFilter", 
+        "VirtualProtect", 
+        "VirtualQuery", 
+        "WaitForSingleObject", 
+        "__argc", 
+        "__argv", 
+        "__dllonexit", 
+        "__doserrno", 
+        "__getmainargs", 
+        "__initenv", 
+        "__lconv_init", 
+        "__pioinfo", 
+        "__set_app_type", 
+        "__setusermatherr", 
+        "_acmdln", 
+        "_amsg_exit", 
+        "_beginthreadex", 
+        "_cexit", 
+        "_close", 
+        "_commit", 
+        "_errno", 
+        "_filelengthi64", 
+        "_fileno", 
+        "_fmode", 
+        "_get_osfhandle", 
+        "_initterm", 
+        "_lseeki64", 
+        "_onexit", 
+        "_stricmp", 
+        "_strnicmp", 
+        "_telli64", 
+        "_unlock", 
+        "_vsnprintf", 
+        "_wcreat", 
+        "_wfopen", 
+        "_wmkdir", 
+        "_wopen", 
+        "_wremove", 
+        "_wrename", 
+        "_write", 
+        "_wrmdir", 
+        "_wunlink", 
+        "_wutime", 
+        "bsearch", 
+        "calloc", 
+        "fclose", 
+        "fflush", 
+        "fgetpos", 
+        "fprintf", 
+        "freopen", 
+        "fsetpos", 
+        "fwrite", 
+        "islower", 
+        "isspace", 
+        "isupper", 
+        "localeconv", 
+        "localtime", 
+        "malloc", 
+        "memchr", 
+        "memcmp", 
+        "memmove", 
+        "mktime", 
+        "memcpy", 
+        "printf", 
+        "rewind", 
+        "signal", 
+        "sprintf", 
+        "strcat", 
+        "strchr", 
+        "strcmp", 
+        "strcpy", 
+        "strcspn", 
+        "strlen", 
+        "strncmp", 
+        "strncpy", 
+        "strpbrk", 
+        "strrchr", 
+        "strstr", 
+        "strtoul", 
+        "strtol", 
+        "system", 
+        "vfprintf", 
+        "vsprintf", 
+        "wcslen", 
+        "wcsncpy", 
+        "ShellExecuteA", 
+        "ShellExecuteW", 
+        "Shell_NotifyIconW", 
+        "ExitWindowsEx", 
+        "FindWindowA", 
+        "PlaySoundW", 
+        "WSACleanup", 
+        "WSAGetLastError", 
+        "WSAStartup", 
+        "accept", 
+        "closesocket", 
+        "connect", 
+        "freeaddrinfo", 
+        "getaddrinfo", 
+        "getsockopt", 
+        "ioctlsocket", 
+        "listen", 
+        "select", 
+        "setsockopt", 
+        "shutdown", 
+        "socket", 
+        "__deregister_frame_info", 
+        "__divdi3", 
+        "__register_frame_info", 
+        "__udivdi3", 
+        "cairo_clip", 
+        "cairo_destroy", 
+        "cairo_fill", 
+        "cairo_line_to", 
+        "cairo_move_to", 
+        "cairo_rectangle", 
+        "cairo_set_line_width", 
+        "cairo_set_source_rgb", 
+        "cairo_stroke", 
+        "AES_ctr128_encrypt", 
+        "AES_decrypt", 
+        "AES_set_decrypt_key", 
+        "AES_set_encrypt_key", 
+        "CRYPTO_cbc128_decrypt", 
+        "curl_easy_cleanup", 
+        "curl_easy_getinfo", 
+        "curl_easy_init", 
+        "curl_easy_perform", 
+        "curl_easy_setopt", 
+        "curl_global_cleanup", 
+        "curl_global_init", 
+        "curl_slist_append", 
+        "curl_slist_free_all", 
+        "gdk_cairo_create", 
+        "gdk_cursor_new", 
+        "gdk_device_manager_get_client_pointer", 
+        "gdk_display_get_device_manager", 
+        "gdk_screen_get_default", 
+        "gdk_screen_get_height", 
+        "gdk_screen_get_width", 
+        "gdk_screen_height", 
+        "gdk_screen_width", 
+        "gdk_window_get_device_position", 
+        "gdk_window_get_display", 
+        "gdk_window_get_origin", 
+        "gdk_window_get_state", 
+        "gdk_window_set_cursor", 
+        "gdk_pixbuf_new_from_file_utf8", 
+        "g_settings_get_int", 
+        "g_settings_new", 
+        "g_settings_set_boolean", 
+        "g_settings_set_int", 
+        "g_array_free", 
+        "g_array_new", 
+        "g_array_set_size", 
+        "g_ascii_strcasecmp", 
+        "g_assertion_message_expr", 
+        "g_build_filename", 
+        "g_dir_close", 
+        "g_dir_open_utf8", 
+        "g_dir_read_name_utf8", 
+        "g_error_free", 
+        "g_file_test_utf8", 
+        "g_filename_from_utf8_utf8", 
+        "g_filename_to_utf8_utf8", 
+        "g_free", 
+        "g_get_home_dir", 
+        "g_get_user_config_dir", 
+        "g_hash_table_destroy", 
+        "g_hash_table_insert", 
+        "g_hash_table_lookup", 
+        "g_hash_table_lookup_extended", 
+        "g_hash_table_new_full", 
+        "g_hash_table_remove", 
+        "g_hash_table_size", 
+        "g_hash_table_steal", 
+        "g_io_channel_new_file_utf8", 
+        "g_io_channel_read_chars", 
+        "g_io_channel_read_line", 
+        "g_io_channel_seek_position", 
+        "g_io_channel_set_encoding", 
+        "g_io_channel_unref", 
+        "g_io_channel_write_chars", 
+        "g_list_free", 
+        "g_list_free_full", 
+        "g_list_prepend", 
+        "g_list_remove_all", 
+        "g_list_reverse", 
+        "g_locale_to_utf8", 
+        "g_malloc", 
+        "g_malloc0", 
+        "g_path_get_dirname", 
+        "g_print", 
+        "g_ptr_array_add", 
+        "g_ptr_array_set_size", 
+        "g_ptr_array_sized_new", 
+        "g_random_int", 
+        "g_realloc", 
+        "g_regex_match", 
+        "g_regex_new", 
+        "g_regex_unref", 
+        "g_return_if_fail_warning", 
+        "g_slice_alloc", 
+        "g_slice_alloc0", 
+        "g_slice_free1", 
+        "g_slist_free", 
+        "g_source_remove", 
+        "g_str_equal", 
+        "g_str_hash", 
+        "g_strconcat", 
+        "g_strdup", 
+        "g_strdup_printf", 
+        "g_string_append", 
+        "g_string_free", 
+        "g_string_insert_c", 
+        "g_string_new", 
+        "g_string_sized_new", 
+        "g_string_truncate", 
+        "g_strndup", 
+        "g_timeout_add", 
+        "g_timeout_add_full", 
+        "g_timeout_add_seconds_full", 
+        "g_uri_escape_string", 
+        "g_uri_parse_scheme", 
+        "g_usleep", 
+        "g_utf16_to_utf8", 
+        "g_utf8_to_utf16", 
+        "g_utf8_validate", 
+        "g_object_new", 
+        "g_object_set", 
+        "g_object_unref", 
+        "g_signal_connect_data", 
+        "g_signal_emit_by_name", 
+        "g_signal_handler_disconnect", 
+        "g_signal_handlers_block_matched", 
+        "g_signal_handlers_unblock_matched", 
+        "g_type_add_interface_static", 
+        "g_type_check_instance_cast", 
+        "g_type_check_instance_is_a", 
+        "g_type_class_peek_parent", 
+        "g_type_register_static", 
+        "g_value_init", 
+        "g_value_set_pointer", 
+        "gtk_about_dialog_new", 
+        "gtk_accel_group_new", 
+        "gtk_accel_map_add_entry", 
+        "gtk_adjustment_new", 
+        "gtk_bin_get_child", 
+        "gtk_bin_get_type", 
+        "gtk_box_get_type", 
+        "gtk_box_new", 
+        "gtk_box_pack_end", 
+        "gtk_box_pack_start", 
+        "gtk_button_new_with_label", 
+        "gtk_button_new_with_mnemonic", 
+        "gtk_cell_layout_get_cells", 
+        "gtk_cell_layout_get_type", 
+        "gtk_cell_renderer_pixbuf_new", 
+        "gtk_cell_renderer_progress_new", 
+        "gtk_cell_renderer_text_new", 
+        "gtk_cell_renderer_toggle_new", 
+        "gtk_check_button_new_with_label", 
+        "gtk_check_button_new_with_mnemonic", 
+        "gtk_check_menu_item_get_active", 
+        "gtk_check_menu_item_new_with_mnemonic", 
+        "gtk_check_menu_item_set_active", 
+        "gtk_clipboard_get", 
+        "gtk_clipboard_request_text", 
+        "gtk_clipboard_set_text", 
+        "gtk_clipboard_wait_for_text", 
+        "gtk_clipboard_wait_is_text_available", 
+        "gtk_combo_box_get_active", 
+        "gtk_combo_box_get_type", 
+        "gtk_combo_box_set_active", 
+        "gtk_combo_box_text_append_text", 
+        "gtk_combo_box_text_get_type", 
+        "gtk_combo_box_text_insert_text", 
+        "gtk_combo_box_text_new", 
+        "gtk_combo_box_text_new_with_entry", 
+        "gtk_container_add", 
+        "gtk_container_get_type", 
+        "gtk_container_remove", 
+        "gtk_container_set_border_width", 
+        "gtk_dialog_add_button", 
+        "gtk_dialog_get_content_area", 
+        "gtk_dialog_get_type", 
+        "gtk_dialog_get_widget_for_response", 
+        "gtk_dialog_new", 
+        "gtk_dialog_new_with_buttons", 
+        "gtk_dialog_response", 
+        "gtk_dialog_run", 
+        "gtk_dialog_set_default_response", 
+        "gtk_dialog_set_response_sensitive", 
+        "gtk_drawing_area_new", 
+        "gtk_editable_get_type", 
+        "gtk_entry_get_text", 
+        "gtk_entry_get_type", 
+        "gtk_entry_new", 
+        "gtk_entry_set_activates_default", 
+        "gtk_entry_set_icon_from_icon_name", 
+        "gtk_entry_set_icon_tooltip_text", 
+        "gtk_entry_set_max_length", 
+        "gtk_entry_set_placeholder_text", 
+        "gtk_entry_set_text", 
+        "gtk_entry_set_visibility", 
+        "gtk_entry_set_width_chars", 
+        "gtk_event_box_new", 
+        "gtk_file_chooser_add_filter", 
+        "gtk_file_chooser_dialog_new", 
+        "gtk_file_chooser_get_filename", 
+        "gtk_file_chooser_get_type", 
+        "gtk_file_chooser_select_filename", 
+        "gtk_file_filter_add_mime_type", 
+        "gtk_file_filter_add_pattern", 
+        "gtk_file_filter_new", 
+        "gtk_file_filter_set_name", 
+        "gtk_frame_get_type", 
+        "gtk_frame_new", 
+        "gtk_frame_set_label_widget", 
+        "gtk_get_current_event_time", 
+        "gtk_grid_attach", 
+        "gtk_grid_new", 
+        "gtk_grid_set_row_homogeneous", 
+        "gtk_image_menu_item_get_type", 
+        "gtk_image_menu_item_new_from_stock", 
+        "gtk_image_menu_item_new_with_label", 
+        "gtk_image_menu_item_new_with_mnemonic", 
+        "gtk_image_menu_item_set_image", 
+        "gtk_image_new_from_icon_name", 
+        "gtk_image_new_from_stock", 
+        "gtk_init_abi_check", 
+        "gtk_label_get_type", 
+        "gtk_label_new", 
+        "gtk_label_new_with_mnemonic", 
+        "gtk_label_set_mnemonic_widget", 
+        "gtk_label_set_text", 
+        "gtk_list_store_append", 
+        "gtk_list_store_clear", 
+        "gtk_list_store_new", 
+        "gtk_list_store_remove", 
+        "gtk_list_store_set", 
+        "gtk_main", 
+        "gtk_main_quit", 
+        "gtk_menu_bar_new", 
+        "gtk_menu_get_type", 
+        "gtk_menu_item_new_with_mnemonic", 
+        "gtk_menu_item_set_accel_path", 
+        "gtk_menu_item_set_submenu", 
+        "gtk_menu_new", 
+        "gtk_menu_popdown", 
+        "gtk_menu_popup", 
+        "gtk_menu_set_accel_group", 
+        "gtk_menu_set_screen", 
+        "gtk_menu_shell_append", 
+        "gtk_menu_shell_get_type", 
+        "gtk_menu_tool_button_new", 
+        "gtk_menu_tool_button_set_arrow_tooltip_text", 
+        "gtk_menu_tool_button_set_menu", 
+        "gtk_message_dialog_format_secondary_text", 
+        "gtk_message_dialog_new", 
+        "gtk_misc_get_type", 
+        "gtk_misc_set_alignment", 
+        "gtk_notebook_append_page", 
+        "gtk_notebook_get_current_page", 
+        "gtk_notebook_new", 
+        "gtk_notebook_set_current_page", 
+        "gtk_notebook_set_show_border", 
+        "gtk_notebook_set_show_tabs", 
+        "gtk_paned_get_child1", 
+        "gtk_paned_get_position", 
+        "gtk_paned_new", 
+        "gtk_paned_pack1", 
+        "gtk_paned_pack2", 
+        "gtk_paned_set_position", 
+        "gtk_radio_button_new_with_mnemonic", 
+        "gtk_radio_button_new_with_mnemonic_from_widget", 
+        "gtk_radio_menu_item_new_with_mnemonic", 
+        "gtk_radio_menu_item_new_with_mnemonic_from_widget", 
+        "gtk_scrolled_window_get_type", 
+        "gtk_scrolled_window_new", 
+        "gtk_scrolled_window_set_policy", 
+        "gtk_scrolled_window_set_shadow_type", 
+        "gtk_separator_menu_item_new", 
+        "gtk_separator_new", 
+        "gtk_separator_tool_item_new", 
+        "gtk_size_group_add_widget", 
+        "gtk_size_group_new", 
+        "gtk_spin_button_get_value", 
+        "gtk_spin_button_get_value_as_int", 
+        "gtk_spin_button_new", 
+        "gtk_spin_button_new_with_range", 
+        "gtk_spin_button_set_value", 
+        "gtk_status_icon_get_screen", 
+        "gtk_status_icon_new_from_icon_name", 
+        "gtk_status_icon_set_from_icon_name", 
+        "gtk_status_icon_set_tooltip_text", 
+        "gtk_status_icon_set_visible", 
+        "gtk_statusbar_get_context_id", 
+        "gtk_statusbar_new", 
+        "gtk_statusbar_pop", 
+        "gtk_statusbar_push", 
+        "gtk_style_context_get_background_color", 
+        "gtk_style_context_get_color", 
+        "gtk_text_buffer_create_tag", 
+        "gtk_text_buffer_get_end_iter", 
+        "gtk_text_buffer_get_iter_at_offset", 
+        "gtk_text_buffer_get_selection_bounds", 
+        "gtk_text_buffer_get_start_iter", 
+        "gtk_text_buffer_get_text", 
+        "gtk_text_buffer_insert", 
+        "gtk_text_buffer_insert_with_tags", 
+        "gtk_text_buffer_new", 
+        "gtk_text_buffer_set_text", 
+        "gtk_text_iter_get_offset", 
+        "gtk_text_iter_get_tags", 
+        "gtk_text_view_get_buffer", 
+        "gtk_text_view_get_iter_at_location", 
+        "gtk_text_view_get_type", 
+        "gtk_text_view_get_window", 
+        "gtk_text_view_new", 
+        "gtk_text_view_new_with_buffer", 
+        "gtk_text_view_set_cursor_visible", 
+        "gtk_text_view_set_editable", 
+        "gtk_text_view_set_wrap_mode", 
+        "gtk_text_view_window_to_buffer_coords", 
+        "gtk_toggle_button_get_active", 
+        "gtk_toggle_button_get_type", 
+        "gtk_toggle_button_set_active", 
+        "gtk_toggle_button_toggled", 
+        "gtk_tool_button_new", 
+        "gtk_tool_item_set_homogeneous", 
+        "gtk_tool_item_set_tooltip_text", 
+        "gtk_toolbar_get_type", 
+        "gtk_toolbar_insert", 
+        "gtk_toolbar_new", 
+        "gtk_toolbar_set_icon_size", 
+        "gtk_toolbar_set_style", 
+        "gtk_tree_iter_copy", 
+        "gtk_tree_iter_free", 
+        "gtk_tree_model_get", 
+        "gtk_tree_model_get_iter", 
+        "gtk_tree_model_get_iter_first", 
+        "gtk_tree_model_get_path", 
+        "gtk_tree_model_get_type", 
+        "gtk_tree_model_iter_n_children", 
+        "gtk_tree_model_iter_next", 
+        "gtk_tree_model_row_changed", 
+        "gtk_tree_model_row_deleted", 
+        "gtk_tree_model_row_inserted", 
+        "gtk_tree_path_append_index", 
+        "gtk_tree_path_copy", 
+        "gtk_tree_path_free", 
+        "gtk_tree_path_get_depth", 
+        "gtk_tree_path_get_indices", 
+        "gtk_tree_path_new", 
+        "gtk_tree_path_new_first", 
+        "gtk_tree_path_new_from_indices", 
+        "gtk_tree_path_new_from_string", 
+        "gtk_tree_path_prepend_index", 
+        "gtk_tree_path_prev", 
+        "gtk_tree_selection_count_selected_rows", 
+        "gtk_tree_selection_get_selected_rows", 
+        "gtk_tree_selection_path_is_selected", 
+        "gtk_tree_selection_select_iter", 
+        "gtk_tree_selection_set_mode", 
+        "gtk_tree_selection_unselect_all", 
+        "gtk_tree_view_append_column", 
+        "gtk_tree_view_column_get_sort_indicator", 
+        "gtk_tree_view_column_get_sort_order", 
+        "gtk_tree_view_column_get_width", 
+        "gtk_tree_view_column_new", 
+        "gtk_tree_view_column_new_with_attributes", 
+        "gtk_tree_view_column_pack_start", 
+        "gtk_tree_view_column_set_alignment", 
+        "gtk_tree_view_column_set_cell_data_func", 
+        "gtk_tree_view_column_set_clickable", 
+        "gtk_tree_view_column_set_expand", 
+        "gtk_tree_view_column_set_fixed_width", 
+        "gtk_tree_view_column_set_min_width", 
+        "gtk_tree_view_column_set_resizable", 
+        "gtk_tree_view_column_set_sizing", 
+        "gtk_tree_view_column_set_sort_indicator", 
+        "gtk_tree_view_column_set_sort_order", 
+        "gtk_tree_view_column_set_title", 
+        "gtk_tree_view_column_set_visible", 
+        "gtk_tree_view_get_column", 
+        "gtk_tree_view_get_cursor", 
+        "gtk_tree_view_get_model", 
+        "gtk_tree_view_get_path_at_pos", 
+        "gtk_tree_view_get_selection", 
+        "gtk_tree_view_get_type", 
+        "gtk_tree_view_insert_column_with_attributes", 
+        "gtk_tree_view_new", 
+        "gtk_tree_view_new_with_model", 
+        "gtk_tree_view_scroll_to_cell", 
+        "gtk_tree_view_scroll_to_point", 
+        "gtk_tree_view_set_cursor", 
+        "gtk_tree_view_set_fixed_height_mode", 
+        "gtk_tree_view_set_headers_visible", 
+        "gtk_tree_view_set_model", 
+        "gtk_widget_add_events", 
+        "gtk_widget_destroy", 
+        "gtk_widget_get_allocation", 
+        "gtk_widget_get_direction", 
+        "gtk_widget_get_pango_context", 
+        "gtk_widget_get_parent_window", 
+        "gtk_widget_get_preferred_size", 
+        "gtk_widget_get_sensitive", 
+        "gtk_widget_get_size_request", 
+        "gtk_widget_get_style_context", 
+        "gtk_widget_get_type", 
+        "gtk_widget_get_visible", 
+        "gtk_widget_get_window", 
+        "gtk_widget_hide", 
+        "gtk_widget_is_sensitive", 
+        "gtk_widget_queue_draw", 
+        "gtk_widget_set_sensitive", 
+        "gtk_widget_set_size_request", 
+        "gtk_widget_set_visible", 
+        "gtk_widget_show", 
+        "gtk_widget_show_all", 
+        "gtk_window_add_accel_group", 
+        "gtk_window_get_focus", 
+        "gtk_window_get_modal", 
+        "gtk_window_get_position", 
+        "gtk_window_get_size", 
+        "gtk_window_get_title", 
+        "gtk_window_get_transient_for", 
+        "gtk_window_get_type", 
+        "gtk_window_maximize", 
+        "gtk_window_move", 
+        "gtk_window_new", 
+        "gtk_window_present", 
+        "gtk_window_resize", 
+        "gtk_window_set_default_icon_name", 
+        "gtk_window_set_destroy_with_parent", 
+        "gtk_window_set_focus", 
+        "gtk_window_set_keep_above", 
+        "gtk_window_set_modal", 
+        "gtk_window_set_title", 
+        "gtk_window_set_transient_for", 
+        "__printf__", 
+        "libintl_bind_textdomain_codeset", 
+        "libintl_bindtextdomain", 
+        "libintl_gettext", 
+        "libintl_textdomain", 
+        "pango_context_get_font_description", 
+        "pango_layout_get_pixel_size", 
+        "pango_layout_new", 
+        "pango_layout_set_font_description", 
+        "pango_layout_set_text", 
+        "pango_cairo_create_layout", 
+        "pango_cairo_show_layout", 
+        "pango_cairo_update_layout", 
+        "ADVAPI32.dll", 
+        "KERNEL32.dll", 
+        "msvcrt.dll", 
+        "SHELL32.dll", 
+        "USER32.dll", 
+        "WINMM.DLL", 
+        "WS2_32.dll", 
+        "libgcc_s_dw2-1.dll", 
+        "libcairo-2.dll", 
+        "LIBEAY32.dll", 
+        "libcurl-4.dll", 
+        "libgdk-3-0.dll", 
+        "libgdk_pixbuf-2.0-0.dll", 
+        "libgio-2.0-0.dll", 
+        "libglib-2.0-0.dll", 
+        "libgobject-2.0-0.dll", 
+        "libgtk-3-0.dll", 
+        "libintl-8.dll", 
+        "libpango-1.0-0.dll", 
+        "libpangocairo-1.0-0.dll", 
+        "(A2h755", 
+        "{PJ{KgN=z", 
+        "\\(5_<y", 
+        "\\9qoN$d", 
+        "iW(}F!", 
+        "qNpuu&", 
+        "w3P\"(\\", 
+        "]|>C\u001f[", 
+        "p0^C\\-", 
+        "sjPhE'", 
+        "f(?<rA", 
+        "^6ORDl", 
+        "|,2+ya", 
+        "eY}y8;", 
+        "&{uwo^y?", 
+        " &^QG9", 
+        "I?01J5", 
+        "\"X& .5 .", 
+        "\\69[@\\&`", 
+        "K?j,1?Y", 
+        "&,\"?eG5", 
+        "=FM-$p#\u001fO", 
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", 
+        "<assembly xmlns=\"urn:schemas-microsoft-com:asm.v1\" manifestVersion=\"1.0\">", 
+        "  <trustInfo xmlns=\"urn:schemas-microsoft-com:asm.v3\">", 
+        "    <security>", 
+        "      <requestedPrivileges>", 
+        "        <requestedExecutionLevel level=\"asInvoker\"/>", 
+        "      </requestedPrivileges>", 
+        "    </security>", 
+        "  </trustInfo>", 
+        "  <compatibility xmlns=\"urn:schemas-microsoft-com:compatibility.v1\">", 
+        "    <application>", 
+        "      <!--The ID below indicates application support for Windows Vista -->", 
+        "      <supportedOS Id=\"{e2011457-1546-43c5-a5fe-008deee3d3f0}\"/>", 
+        "      <!--The ID below indicates application support for Windows 7 -->", 
+        "      <supportedOS Id=\"{35138b9a-5d96-4fbd-8e2d-a2440225f93a}\"/>", 
+        "      <!--The ID below indicates application support for Windows 8 -->", 
+        "      <supportedOS Id=\"{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}\"/>", 
+        "      <!--The ID below indicates application support for Windows 8.1 -->", 
+        "      <supportedOS Id=\"{1f676c76-80e1-4239-95bb-83d0f6d0da78}\"/> ", 
+        "      <!--The ID below indicates application support for Windows 10 -->", 
+        "      <supportedOS Id=\"{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}\"/> ", 
+        "    </application>", 
+        "  </compatibility>", 
+        "</assembly>", 
+        "explorer", 
+        "MAINICON", 
+        "VS_VERSION_INFO", 
+        "StringFileInfo", 
+        "040904E4", 
+        "CompanyName", 
+        "uget.ugetdm.com", 
+        "FileDescription", 
+        "uGet download manager", 
+        "FileVersion", 
+        "InternalName", 
+        "LegalCopyright", 
+        "Copyright (C) 2005-2018 by C.H. Huang", 
+        "OriginalFilename", 
+        "uget.exe", 
+        "ProductName", 
+        "ProductVersion", 
+        "VarFileInfo", 
+        "Translation"
+    ], 
+    "metadata": {
+        "output": {
+            "pcap": {
+                "basename": "dump.pcap", 
+                "sha256": "b9832c020ab0f05ef19371c9a88c3dba29774ed7524a4ee328f1968ff5dd47d1", 
+                "dirname": ""
+            }
+        }
+    }
+}
