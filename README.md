@@ -1,14 +1,15 @@
 <img src="https://github.com/AvinashSingh786/W2RC/blob/master/data/logo.png?raw=true" height="150" width="350"/>
   
  
-## Windows Registry and RAM Collector
+## Windows Registry and RAM Collector (W2RC)
 This tool was designed for research in the field of Digital Forensics.
 
-This tool is the user client for the overall framework Ransomware Readiness Framework (2RF) publications below. There is some significant setup that needs to be done in order to get the analysis and storage engine up and running. The [`installation guide`](https://github.com/AvinashSingh786/W3RS/raw/master/Installation_Guide.pdf) can be found under the [`W3RS setup`](https://github.com/AvinashSingh786/W3RS).  
+This prototype tool is the user client for the overall framework Ransomware Readiness Framework (2RF) (publications below). There is some significant setup that needs to be done in order to get the analysis and storage engine up and running. The [`installation guide`](https://github.com/AvinashSingh786/W3RS/raw/master/Installation_Guide.pdf) can be found under the [`W3RS setup`](https://github.com/AvinashSingh786/W3RS).  
 
 ## Installation
 
 Install the MSI file [`W2RC-1.2-amd64.msi`](https://github.com/AvinashSingh786/W2RC/releases/download/1.2/W2RC-1.2-amd64.msi)
+
 Install [`openSSL`](https://wiki.openssl.org/index.php/Binaries)
 
 ## Usage

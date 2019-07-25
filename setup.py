@@ -37,7 +37,7 @@ options = {
 setup(
     name="W2RC",
     options=options,
-    version="1.2",
+    version="1.3",
     author="Avinash Singh",
     description='Windows Registry and RAM Collector',
     executables=executables

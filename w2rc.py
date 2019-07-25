@@ -24,7 +24,7 @@ import threading
 import time
 from tkinter import *
 from tkinter import ttk
-
+from memory_profiler import profile
 
 # Winlogbear
 # CMD                   = r"C:\Windows\System32\cmd.exe"
@@ -45,8 +45,8 @@ BLACKLIST_DB          = []
 HEADERS               = {"Authorization": "Bearer S4MPL3"}
 MONITOR               = True
 # IP                    = "http://192.168.1.127:8090"
-IP                    = "137.215.38.240:8080"
-IPS                   = "137.215.38.240:8082"
+IP                    = "137.215.38.212:8080"
+IPS                   = "137.215.38.212:8082"
 CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser() + " ("+socket.gethostname() + ")", 'machine': socket.gethostname(),
                          "ip": socket.gethostbyname_ex(socket.gethostname())[2][-1]}
                                   # if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),
@@ -67,7 +67,7 @@ def is_running_as_admin():
 
 if not is_running_as_admin():
     messagebox.showerror('W2RC', 'Please run as administrator')
-    sys.exit(1)
+    # sys.exit(1) @TODO
 
 OWNER_ID = getpass.getuser()
 
@@ -121,30 +121,6 @@ def is_running_as_admin():
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
-
-#
-# def create_reg_key(key, value):
-#     '''
-#     Creates a reg key
-#     '''
-#     try:
-#         winreg.CreateKey(winreg.HKEY_CURRENT_USER, REG_PATH)
-#         registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, REG_PATH, 0, winreg.KEY_WRITE)
-#         winreg.SetValueEx(registry_key, key, 0, winreg.REG_SZ, value)
-#         winreg.CloseKey(registry_key)
-#     except WindowsError:
-#         raise
-
-#
-# def bypass_uac(cmd):
-#     '''
-#     Tries to bypass the UAC
-#     '''
-#     try:
-#         create_reg_key(DELEGATE_EXEC_REG_KEY, '')
-#         create_reg_key(None, cmd)
-#     except WindowsError:
-#         raise
 
 
 def gen_safe_db():
@@ -315,7 +291,7 @@ def monitor():
     log.info("Monitoring has been started: " + IP, extra=CONFIG)
     iter = 0
     while MONITOR:
-        log.info("Entering new iteration "+ str(iter), extra=CONFIG)
+        # log.info("Entering new iteration "+ str(iter), extra=CONFIG)
         iter += 1
         for p in psutil.process_iter():
 
@@ -449,12 +425,12 @@ def check_online():
             messagebox.showerror('W2RC', "Analysis machine is not configured properly")
         elif r.status_code == 200:
             if s.status_code != 404:
-                messagebox.showinfo('W2RC', "Monitor started successfully.")
                 t.setDaemon(True)
                 MONITOR = True
                 if not t.is_alive():
                     t.start()
                 mon_btn.config(state="disabled")
+                messagebox.showinfo('W2RC', "Monitor started successfully.")
             else:
                 log.error("ERROR!!! \t Storage machine is not online or configured properly", extra=CONFIG)
                 messagebox.showerror('W2RC', "Storage machine is not online or configured properly")
@@ -470,15 +446,15 @@ def send_cuckoo(proc, data, entry):
     global SEEN_DB, WHITELIST_DB, BLACKLIST_DB
     log.debug(data, extra=CONFIG)
     try:
+        proc.suspend()
         messagebox.showinfo("W3RC", "We are currently analysing " + proc.name() + " please wait. We will not take long")
 
-        proc.suspend()
 
         log.info("\n\n\nSuspended -> " + proc.name() + " [" + str(proc.__hash__()) + "]", extra=CONFIG)
         log.info("Sending data to cuckoo analysis machine", extra=CONFIG)
 
         r = requests.post(IP+"/tasks/create/submit", files=data['files'],
-                      headers=HEADERS, data={"timeout": 15, "owner": OWNER_ID, "unique": True,
+                      headers=HEADERS, data={"timeout": 10, "owner": OWNER_ID, "unique": True,
                                              "options": {"arguments": data["args"]}})
     except Exception as e:
         log.error("ERROR!!! \t Analysis machine is not online " + str(e), extra=CONFIG)
@@ -521,6 +497,8 @@ def send_cuckoo(proc, data, entry):
             time.sleep(5)
         else:
             poll = False
+            mon_tv.set(proc.pid, 'STATUS', "Analysing ...")
+
             log.info("Found report " + str(task_id), extra=CONFIG)
             d = json.loads(r.content.decode('utf-8'))
             cklfil = ["crypt", "kernel", "wow", "shell", "advapi", "msvc"]
@@ -543,24 +521,26 @@ def send_cuckoo(proc, data, entry):
                 break
 
             if "behavior" not in d.keys():
-                log.error("Failed to calculate CAT: " + proc.name(), extra=CONFIG)
+                log.error("No behaviour detected for " + proc.name(), extra=CONFIG)
                 log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
-                res = messagebox.askyesno("W2RC",
-                                     "Analysis failed, could not perform behavioural analysis."
-                                     "\n Do you want to leave " + proc.name() + " process suspended ?")
-                log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
-                with rlock:
-                    SEEN_DB.remove(entry)
-                mon_tv.delete(proc.pid)
-                if not res:
-                    proc.resume()
-                    log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+                # res = messagebox.askyesno("W2RC",
+                #                      "Analysis failed, could not perform behavioural analysis."
+                #                      "\n Do you want to leave " + proc.name() + " process suspended ?")
+                # log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
+                # with rlock:
+                #     SEEN_DB.remove(entry)
+                # mon_tv.delete(proc.pid)
+                # if not res:
+                #     try:
+                #         proc.resume()
+                #         log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
+                #     except psutil._exceptions.NoSuchProcess as e:
+                #         log.info("Process " + proc.name() + " not found.", extra=CONFIG)
                 LOCAL_FAILED.append(entry)
-                break
+                # break
             log.info("Found behaviour and static going to calculate CAT for " + str(task_id), extra=CONFIG)
             static = d["static"]
-            data = d["behavior"]["processes"]
-            summary = d["behavior"]
+
 
             x = 0
             p = {"reg": 0, "reps": 0, "kd": 0, "kr": 0, "kq": 0, "kc": 0, "ko": 0, "regtime": 0.0,
@@ -573,76 +553,81 @@ def send_cuckoo(proc, data, entry):
             first = True
 
             try:
-                if "summary" in summary.keys():
-                    if summary["summary"]["dll_loaded"]:
-                        x = len(summary["summary"]["dll_loaded"])
-                        p["N"] = x
+                if "behavior" in d.keys():
+                    data = d["behavior"]["processes"]
+                    summary = d["behavior"]
+                    if "summary" in summary.keys():
+                        if summary["summary"]["dll_loaded"]:
+                            x = len(summary["summary"]["dll_loaded"])
+                            p["N"] = x
 
-                        for dll in summary["summary"]["dll_loaded"]:
-                                if dll.lower() in cklfil:
-                                    p["ckl"] += 1
-                                    break
-                    else:
-                        p["N"] = static["imported_dll_count"]
-
-                        if static["pe_imports"]:
-                            for dll in static["pe_imports"]:
-                                if dll["dll"].lower() in cklfil:
-                                   p["ckl"] += 1
-                                   break
-                log.info("Looping through events  " + str(task_id), extra=CONFIG)
-                for dat in data:
-                    for d in dat["calls"]:
-                        if d["category"] == "registry":
-                            if not flag:
-                                tmpr = d["time"]
-                                flag = True
-                            p["reg"] = p["reg"] + 1
-                            p["regtime"] = d["time"] - tmpr
-
-                            if d["time"] - tmpr < 1.00:
-                                p["reps"] += 1
-
-                            if d["api"] == "RegCreateKeyExW" or d["api"] == "RegCreateKeyExA" or d["api"] == "RegCreateKeyA":
-                                p["kr"] += 1
-
-                            if d["api"] == "RegCloseKey":
-                                p["kc"] += 1
-
-                            if d["api"] == "RegOpenKeyExW" or d["api"] == "RegOpenKeyExA" or d["api"] == "RegOpenKeyA":
-                                p["ko"] += 1
-
-                            if d["api"] == "RegDeleteKeyExA" or d["api"] == "RegDeleteKeyExW" or d["api"] == "RegDeleteKeyA":
-                                p["kd"] += 1
-
-                            if d["api"] == "RegQueryInfoKeyW" or d["api"] == "RegQueryInfoKeyA":
-                                p["kq"] += 1
-
-                            if d["api"] == "RegOpenKeyExW":
-                                p["ko"] += 1
-
+                            for dll in summary["summary"]["dll_loaded"]:
+                                    if dll.lower() in cklfil:
+                                        p["ckl"] += 1
+                                        break
                         else:
-                            if first:
-                                tmpa = d["time"]
-                                first = False
-                            p["nf"] = p["nf"] + 1
-                            p["deltac"] = d["time"] - tmpa
+                            p["N"] = static["imported_dll_count"]
 
-                        p["DM"] = ((p["ckl"]) / (1+p["N"]))
-                        if p["deltac"] == 0:
-                            p["deltac"] = 1
-                        p["AM"] = (p["nf"] / (p["deltac"] * p["N"]))
-                        p["RM"] = (p["reps"] * ((1+p["kd"]) / (1+p["kr"])) + (p["kq"]) * (1+p["kc"] / (1+p["ko"])))
+                            if static["pe_imports"]:
+                                for dll in static["pe_imports"]:
+                                    if dll["dll"].lower() in cklfil:
+                                       p["ckl"] += 1
+                                       break
+                    log.info("Looping through events  " + str(task_id), extra=CONFIG)
+                    for dat in data:
+                        for d in dat["calls"]:
+                            if d["category"] == "registry":
+                                if not flag:
+                                    tmpr = d["time"]
+                                    flag = True
+                                p["reg"] = p["reg"] + 1
+                                p["regtime"] = d["time"] - tmpr
 
-                        if static["pe_sections"]:
-                            for s in static["pe_sections"]:
-                                p["Npes"] += 1
-                                p["pes"] += s["entropy"]
-                                p["EM"] = p["pes"] / p["Npes"]
-                        p["CAT"] = float(p["EM"])+float(p["DM"])+float(p["AM"])+float(p["RM"])
-                        p["CAT"] = (p["CAT"] / p["CATN"])
-                        p["CAT"] = round(p["CAT"], 2)
+                                if d["time"] - tmpr < 1.00:
+                                    p["reps"] += 1
+
+                                if d["api"] == "RegCreateKeyExW" or d["api"] == "RegCreateKeyExA" or d["api"] == "RegCreateKeyA":
+                                    p["kr"] += 1
+
+                                if d["api"] == "RegCloseKey":
+                                    p["kc"] += 1
+
+                                if d["api"] == "RegOpenKeyExW" or d["api"] == "RegOpenKeyExA" or d["api"] == "RegOpenKeyA":
+                                    p["ko"] += 1
+
+                                if d["api"] == "RegDeleteKeyExA" or d["api"] == "RegDeleteKeyExW" or d["api"] == "RegDeleteKeyA":
+                                    p["kd"] += 1
+
+                                if d["api"] == "RegQueryInfoKeyW" or d["api"] == "RegQueryInfoKeyA":
+                                    p["kq"] += 1
+
+                                if d["api"] == "RegOpenKeyExW":
+                                    p["ko"] += 1
+
+                            else:
+                                if first:
+                                    tmpa = d["time"]
+                                    first = False
+                                p["nf"] = p["nf"] + 1
+                                p["deltac"] = d["time"] - tmpa
+
+                            p["DM"] = ((p["ckl"]) / (1+p["N"]))
+                            if p["deltac"] == 0:
+                                p["deltac"] = 1
+                            p["AM"] = (p["nf"] / (p["deltac"] * p["N"]))
+                            p["RM"] = (p["reps"] * ((1+p["kd"]) / (1+p["kr"])) + (p["kq"]) * (1+p["kc"] / (1+p["ko"])))
+
+                if static["pe_sections"]:
+                    for s in static["pe_sections"]:
+                        p["Npes"] += 1
+                        p["pes"] += s["entropy"]
+                        p["EM"] = p["pes"] / p["Npes"]
+                p["CAT"] = float(p["EM"])+float(p["DM"])+float(p["AM"])+float(p["RM"])
+                p["CAT"] = (p["CAT"] / p["CATN"])
+                p["CAT"] = round(p["CAT"], 2)
+                entry["CAT"] = p["CAT"]
             except Exception as e:
+                log.error(e, extra=CONFIG)
                 log.error("Failed to calculate CAT: " + proc.name(), extra=CONFIG)
                 log.error("Error: " + str(e), extra=CONFIG)
                 log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
@@ -653,17 +638,21 @@ def send_cuckoo(proc, data, entry):
                     proc.resume()
                     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
                 # mon_tv.delete(proc.pid)
-                log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
-                with rlock:
-                    SEEN_DB.remove(entry)
+                # log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
+                # with rlock:
+                #     SEEN_DB.remove(entry)
 
             log.info(proc.name() + " = CAT = [" + str(p["CAT"]) + "]", extra=CONFIG)
-            w3rs = threading.Thread(target=w3rs_store, args=(task_id, entry, r.text,))
-
-
-            log.debug(p, extra=CONFIG)
             entry = {'pid': proc.pid, 'name': proc.name(), 'md5': md5(proc.exe()), 'time': str(datetime.datetime.now()),
                      'exe': proc.exe(), "CAT": p["CAT"]}
+            mon_tv.set(proc.pid, 'STATUS', "Storing ...")
+            mon_tv.item(proc.pid, tags=('success'))
+
+            w3rs = threading.Thread(target=w3rs_store, args=(task_id, entry, r.text,))
+            w3rs.start()
+
+            log.debug(p, extra=CONFIG)
+
             if p["CAT"] > 50:
                 proc.kill()
                 BLACKLIST_DB.append(entry)
@@ -680,12 +669,15 @@ def send_cuckoo(proc, data, entry):
             #                 see.update(CAT=p["CAT"])
             #                 entry['CAT'] = p["CAT"]
 
-            proc.resume()
+            try:
+                proc.resume()
+            except Exception as e:
+                continue
             messagebox.showinfo('W2RC', entry['exe'] + " has been analysed successfully and appears safe with CAT ["
                                 + str(entry['CAT']) + "]")
             mon_tv.delete(proc.pid)
             update_state()
-            w3rs.start()
+
 
     log.info("Finish -> " + proc.name(), extra=CONFIG)
 
@@ -744,14 +736,17 @@ def w3rs_store(task_id, entry, report):
         'ip': CONFIG['ip'],
         'machine': CONFIG['machine'],
         'user': CONFIG['user'],
-        'cat': entry['CAT'] if entry['CAT'] == "N/A" else None,
+        'cat': entry['CAT'] ,
         'exe': entry['exe'],
         # 'task_id': task_id,
         # 'pde': open(str(task_id) + ".json", 'rb')
     }
-
+    if entry['CAT'] == "N/A":
+        data['CAT'] = None
     files = {'pde': open(str(task_id)+".json", 'rb')}
-    headers = { 'Api-Secret-Key': 'Zm4QsmdXsobX', 'Api-Token': 'f8000c5bb202edd77e994658f02949a2'}
+    # headers = { 'Api-Secret-Key': 'Zm4QsmdXsobX', 'Api-Token': 'f8000c5bb202edd77e994658f02949a2'} #old
+    headers = { 'Api-Secret-Key': 'aZUwb0an', 'Api-Token': 'PfUBRL13hVcdW4mwL893s5JFGsInTOHk',
+                'Api-Key': 'PfUBRL13hVcdW4mwL893s5JFGsInTOHk', 'Authorization': 'Api-Key aZUwb0an.PfUBRL13hVcdW4mwL893s5JFGsInTOHk'}
     # 'content-type': 'multipart/form-data',
     if "http" not in IPS:
         IPS = "https://" + IPS
@@ -928,39 +923,40 @@ def alert(title, message):
 
 
 if __name__ == '__main__':
-
-    if not is_running_as_admin():
-        messagebox.showerror('W2RC', 'Please run as administrator')
-        sys.exit(1)
+    # if not is_running_as_admin():
+    #    messagebox.showerror('W2RC', 'Please run as administrator')
+    #    sys.exit(1)
     # test()
     welcome()
 
     main = Tk()
+    main.withdraw()  # hide the window
     main.title('W2RC - Windows Registry and RAM collector')
     main.geometry('465x590')
     main.iconbitmap("data/icon.ico")
 
+    main.after(0, main.deiconify)  # as soon as possible (after app starts) show again
     # send_test_cuckoo()
-
-    # TODO REMOVE not
-    # if is_running_as_admin():
-        # Get User
-        # answer = simpledialog.askstring("W2RC", "What is your full name?",
-        #                                 parent=main)
-        # if answer is not None:
-        #     print("Your first name is ", answer)
-        #     CONFIG[""]
-        # else:
-        #     print("You don't have a first name?")
-
-    rows = 0
+    #
+    # # TODO REMOVE not
+    # # if is_running_as_admin():
+    #     # Get User
+    #     # answer = simpledialog.askstring("W2RC", "What is your full name?",
+    #     #                                 parent=main)
+    #     # if answer is not None:
+    #     #     print("Your first name is ", answer)
+    #     #     CONFIG[""]
+    #     # else:
+    #     #     print("You don't have a first name?")
+    #
+    # rows = 0
     main_frame = Frame(main, width=600, height=200, bg="white")
     main_frame.grid(row=0, column=0, sticky="nsew")
     HASHLIST = {"SEEN": StringVar(), "WHITELIST": StringVar(), "BLACKLIST": StringVar(), "FAILED": StringVar()}
     whitelist_pid = StringVar()
     load_safe_db()
-    photo = PhotoImage(file="data/logo.png")
-    photo.zoom(80, 80)
+    photo = PhotoImage(master=main_frame, file="data/logo.png")
+    # photo.zoom(80, 80)
     label = Label(main_frame, image=photo, bg="white")
     label.image = photo
     label.grid(row=0, column=0, columnspan=3, sticky="nesw")
@@ -985,10 +981,10 @@ if __name__ == '__main__':
     q_btn = Button(main_frame, text="Stop", command=stop_monitoring)
     q_btn.grid(row=2, column=2, sticky="nsew")
 
-    while rows < 50:
-        main.rowconfigure(rows, weight=1)
-        main.columnconfigure(rows, weight=1)
-        rows += 1
+    # while rows < 50:
+    #     main.rowconfigure(rows, weight=1)
+    #     main.columnconfigure(rows, weight=1)
+    #     rows += 1
 
     # Defines and places the notebook widget
 
@@ -997,7 +993,8 @@ if __name__ == '__main__':
     b = Button(main, image=image, bg='grey', compound=LEFT, text="Reload databases", command=refresh_db)
     b.image = image
     b.grid(row=51, columnspan=50, sticky="nsew")
-    Label(main, text="Disclaimer: Once the monitor has started the GUI may take some time to respond.",
+    Label(main, text="Disclaimer: Once the monitor has started the GUI may take some time to respond. \n" +
+                     "Since this is a prototype tool please run in a VM when testing against malicious samples",
           font="Arial 7 bold") \
         .grid(row=52, column=0, sticky="w")
 
@@ -1018,7 +1015,7 @@ if __name__ == '__main__':
     mon_tv.heading("#0", text='PID')
     mon_tv.column('#0', minwidth=10, width=60, stretch=True)
     mon_tv.heading('NAME', text='Name')
-    mon_tv.column('NAME', minwidth=10, width=200, stretch=False)
+    mon_tv.column('NAME', minwidth=10, width=120, stretch=False)
     mon_tv.heading('TIME', text='Timestamp')
     mon_tv.column('TIME', minwidth=10, width=120, stretch=False)
     mon_tv.heading('TASK', text='Task ID')
@@ -1250,7 +1247,7 @@ if __name__ == '__main__':
 
     main.protocol("WM_DELETE_WINDOW", safe_quit)
     main.mainloop()
-messagebox.showerror('W2RC', 'Please run as administrator.')
+# messagebox.showerror('W2RC', 'Please run as administrator.')
 # root = tkinter.Tk()
 # root.withdraw()
 # from ctypes import windll, byref
@@ -1302,3 +1299,5 @@ messagebox.showerror('W2RC', 'Please run as administrator.')
 # print(failed)
 # print(whitelist)
 # print(len(whitelist))
+
+
