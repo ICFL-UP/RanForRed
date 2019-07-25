@@ -8,7 +8,9 @@ This prototype tool is the user client for the overall framework Ransomware Read
 
 ## Installation
 
-Install the MSI file [`W2RC-1.2-amd64.msi`](https://github.com/AvinashSingh786/W2RC/releases/download/1.2/W2RC-1.2-amd64.msi)
+NB: SINCE THIS IS A PROTOTYPE, WHEN TESTING MALICIOUS SAMPLES PLEASE USE THIS TOOL WITHIN A VM
+Install the MSI file [`W2RC-1.X-amd64.msi`](https://github.com/AvinashSingh786/W2RC/releases/)
+
 
 Install [`openSSL`](https://wiki.openssl.org/index.php/Binaries)
 
