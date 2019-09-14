@@ -1,6 +1,5 @@
 import tkinter
 from tkinter import messagebox
-from tkinter import simpledialog
 import tkinter.filedialog as fd
 import signal
 import subprocess
@@ -42,11 +41,13 @@ FAILED_DB_PATH        = CWD + r'\db\FAILED.db'
 FAILED_DB             = []
 BLACKLIST_DB_PATH     = CWD + r'\db\BLACKLIST.db'
 BLACKLIST_DB          = []
-HEADERS               = {"Authorization": "Bearer S4MPL3"}
+HEADERS               = {"Authorization": "Bearer oMACdSqsxpjHx55H1ukQ8e"}
 MONITOR               = True
 # IP                    = "http://192.168.1.127:8090"
-IP                    = "137.215.38.212:8080"
-IPS                   = "137.215.38.212:8082"
+IP                    = "https://digifors.cs.up.ac.za/api"
+IPS                   = "https://digifors.cs.up.ac.za/storage"
+API_KEY               = "67b35fcd065f804bcf885ecc91d44f4a"
+API_SECRET            = "TTNu3tfFEdpd"
 CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser() + " ("+socket.gethostname() + ")", 'machine': socket.gethostname(),
                          "ip": socket.gethostbyname_ex(socket.gethostname())[2][-1]}
                                   # if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),
@@ -59,6 +60,7 @@ def is_running_as_admin():
     Checks if the script is running with administrative privileges.
     Returns True if is running as admin, False otherwise.
     '''
+    return True
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
@@ -67,7 +69,7 @@ def is_running_as_admin():
 
 if not is_running_as_admin():
     messagebox.showerror('W2RC', 'Please run as administrator')
-    # sys.exit(1) @TODO
+    sys.exit(1)
 
 OWNER_ID = getpass.getuser()
 
@@ -403,10 +405,12 @@ def monitor():
 
 
 def check_online():
-    global IP, IPS, MONITOR
+    global IP, IPS, MONITOR, t, API_KEY, API_SECRET
     MONITOR = False
     IP = ip.get()
     IPS = ips.get()
+    API_KEY = key.get()
+    API_SECRET = secret.get()
     print(IP)
     print(IPS)
     if "http" not in IP:
@@ -416,19 +420,24 @@ def check_online():
     log.info('Checking if ' + IP + " analysis machine is online.", extra=CONFIG)
     messagebox.showinfo('W2RC', 'Trying to see if ' + IP + " analysis and storage machines are online. This should take a few seconds.")
     try:
-        r = requests.get(IP + "/cuckoo/status", stream=True, timeout=2)
-        s = requests.get(IPS + "/", stream=True, timeout=2, verify=False)
-        log.debug("cuckoo: " + str(r.status_code) + "  W3RS: " + str(s.status_code), extra=CONFIG)
-        log.debug("cuckoo: " + str(r.text) + "  W3RS: " + str(s.text), extra=CONFIG)
+        s = None
+        r = requests.get(IP + "/cuckoo/status", stream=True, timeout=2, headers=HEADERS,)
+        s = requests.get(IPS + "/", stream=False, timeout=5, verify=False)
+        # s = ['status_code': 200, 'text': 'no idea why it does not work'})
+        # s.status_code = 200
+        # s.text = "No Idea why it doesn't work"
+        # log.debug("cuckoo: " + str(r.status_code) + "  W3RS: " + str(s.status_code), extra=CONFIG)
+        log.error("cuckoo: " + str(r.text) + "  W3RS: " + str(s.text), extra=CONFIG)
         if r.status_code != 200:
             log.error("ERROR!!! \t Analysis machine is not configured properly", extra=CONFIG)
             messagebox.showerror('W2RC', "Analysis machine is not configured properly")
         elif r.status_code == 200:
             if s.status_code != 404:
-                t.setDaemon(True)
+
                 MONITOR = True
-                if not t.is_alive():
-                    t.start()
+                t = threading.Thread(target=monitor, args=())
+                t.daemon = True
+                t.start()
                 mon_btn.config(state="disabled")
                 messagebox.showinfo('W2RC', "Monitor started successfully.")
             else:
@@ -454,7 +463,7 @@ def send_cuckoo(proc, data, entry):
         log.info("Sending data to cuckoo analysis machine", extra=CONFIG)
 
         r = requests.post(IP+"/tasks/create/submit", files=data['files'],
-                      headers=HEADERS, data={"timeout": 10, "owner": OWNER_ID, "unique": True,
+                      headers=HEADERS, data={"timeout": 10, "owner": OWNER_ID, "unique": False,
                                              "options": {"arguments": data["args"]}})
     except Exception as e:
         log.error("ERROR!!! \t Analysis machine is not online " + str(e), extra=CONFIG)
@@ -492,7 +501,7 @@ def send_cuckoo(proc, data, entry):
 
     poll = True
     while poll:
-        r = requests.get(IP+"/tasks/report/" + str(task_id))
+        r = requests.get(IP+"/tasks/report/" + str(task_id), headers=HEADERS)
         if "message" in json.loads(r.content.decode('utf-8')).keys():
             time.sleep(5)
         else:
@@ -721,8 +730,8 @@ def remove_seen():
 def test():
     global IP
     IP = "http://" + IP
-    r = requests.get(IP + "/tasks/report/81")
-    w3rs_store(81, {'CAT': 0.0, 'exe': 'test.exe'}, r.text)
+    # r = requests.get(IP + "/tasks/report/150")
+    w3rs_store(81, {'CAT': 0.0, 'exe': 'test.exe'}, "")
 
 
 def w3rs_store(task_id, entry, report):
@@ -745,8 +754,10 @@ def w3rs_store(task_id, entry, report):
         data['CAT'] = None
     files = {'pde': open(str(task_id)+".json", 'rb')}
     # headers = { 'Api-Secret-Key': 'Zm4QsmdXsobX', 'Api-Token': 'f8000c5bb202edd77e994658f02949a2'} #old
-    headers = { 'Api-Secret-Key': 'aZUwb0an', 'Api-Token': 'PfUBRL13hVcdW4mwL893s5JFGsInTOHk',
-                'Api-Key': 'PfUBRL13hVcdW4mwL893s5JFGsInTOHk', 'Authorization': 'Api-Key aZUwb0an.PfUBRL13hVcdW4mwL893s5JFGsInTOHk'}
+    global API_KEY, API_SECRET
+
+    headers = { 'Api-Secret-Key': API_SECRET, 'Api-Token': API_KEY,
+                'Api-Key': API_KEY, 'Authorization': 'Api-Key ' + API_KEY}
     # 'content-type': 'multipart/form-data',
     if "http" not in IPS:
         IPS = "https://" + IPS
@@ -932,7 +943,7 @@ if __name__ == '__main__':
     main = Tk()
     main.withdraw()  # hide the window
     main.title('W2RC - Windows Registry and RAM collector')
-    main.geometry('465x590')
+    main.geometry('465x665')
     main.iconbitmap("data/icon.ico")
 
     main.after(0, main.deiconify)  # as soon as possible (after app starts) show again
@@ -974,12 +985,24 @@ if __name__ == '__main__':
     ips.grid(row=2, column=1, sticky="w", ipadx=10)
     ips.insert(0, IPS)
 
+    Label(main_frame, text="Enter API-SECRET: ", font="Arial 10 bold") \
+        .grid(row=3, column=0, sticky="w")
+    secret = Entry(main_frame, text="", bd=3)
+    secret.grid(row=3, column=1, sticky="w", ipadx=10)
+    secret.insert(0, API_SECRET)
+
+    Label(main_frame, text="Enter API-KEY/TOKEN: ", font="Arial 10 bold") \
+        .grid(row=4, column=0, sticky="w")
+    key = Entry(main_frame, text="", bd=3)
+    key.grid(row=4, column=1, sticky="w", ipadx=10)
+    key.insert(0, API_KEY)
+
     # image = PhotoImage(file="data/system.png", height=50, width=50)
     # image.zoom(50, 50)
     mon_btn = Button(main_frame, text="Start Monitoring",  command=check_online)
     mon_btn.grid(row=1, column=2, sticky="nsew")
     q_btn = Button(main_frame, text="Stop", command=stop_monitoring)
-    q_btn.grid(row=2, column=2, sticky="nsew")
+    q_btn.grid(row=3, column=2, sticky="nsew")
 
     # while rows < 50:
     #     main.rowconfigure(rows, weight=1)
