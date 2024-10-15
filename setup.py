@@ -11,10 +11,10 @@ if sys.platform == 'win32':
     base = "Win32GUI"
 
 if 'bdist_msi' in sys.argv:
-    sys.argv += ['--initial-target-dir', "C:\\Program Files\\W2RC"]
+    sys.argv += ['--initial-target-dir', "C:\\Program Files\\RanForRed"]
 
-executables = [Executable(script="w2rc.py", base=base, shortcutName="W2RC", shortcutDir="DesktopFolder", icon='icon.ico')]
-# executables = [Executable("w2rc.py", base=base, icon="icon.ico", shortcutName="W2RC",shortcutDir="DesktopFolder")]
+executables = [Executable(script="RanForRed.py", base=base, shortcutName="RanForRed", shortcutDir="DesktopFolder", icon='icon.ico')]
+# executables = [Executable("RanForRed.py", base=base, icon="icon.ico", shortcutName="RanForRed",shortcutDir="DesktopFolder")]
 
 packages = ["os", "six", "tkinter", "datetime", "logging", "subprocess", "pickle",
             "hashlib", "psutil", "json", "requests", "getpass", "socket", "threading", "idna", "cryptography"]
@@ -35,10 +35,10 @@ options = {
 }
 
 setup(
-    name="W2RC",
+    name="RanForRed",
     options=options,
-    version="1.5",
+    version="1.0",
     author="Avinash Singh",
-    description='Windows Registry and RAM Collector',
+    description='Ransomware Forensic Readiness Agent',
     executables=executables
 )

@@ -232,6 +232,6 @@ if __name__ == '__main__':
     rect = SMALL_RECT(0, 50, 65, 90)  # (left, top, right, bottom)
     windll.kernel32.SetConsoleWindowInfo(hdl, True, byref(rect))
     windll.kernel32.SetConsoleCursorPosition(hdl, 0)
-    print("W2RC database manager starting ...")
+    print("RanForRed database manager starting ...")
 
     execute()

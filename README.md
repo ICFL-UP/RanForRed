@@ -1,17 +1,16 @@
-<img src="https://github.com/AvinashSingh786/W2RC/blob/master/data/logo.png?raw=true" height="150" width="350"/>
+<img src="https://github.com/ICFL-UP/RanForRed/blob/master/data/logo.png?raw=true" height="150" width="350"/>
   
  
-## Windows Registry and RAM Collector (W2RC)
+## Ransomware Forensic Readiness (RanForRed)
 This tool was designed for research in the field of Digital Forensics.
 
-This prototype tool is the user client for the overall framework Ransomware Readiness Framework (RRF) (publications below). There is some significant setup that needs to be done in order to get the analysis and storage engine up and running. The [`installation guide`](https://github.com/AvinashSingh786/W3RS/raw/master/Installation_Guide.pdf) can be found under the [`W3RS setup`](https://github.com/AvinashSingh786/W3RS). This tool relies of the setup and acts just as a user client to capture new processes and send them for analysis.  
 
 ## Installation
 
 NB: SINCE THIS IS A PROTOTYPE, WHEN TESTING MALICIOUS SAMPLES PLEASE USE THIS TOOL WITHIN A VM.
 
 
-Install the MSI file [`W2RC-1.X-amd64.msi`](https://github.com/AvinashSingh786/W2RC/releases/)
+Install the MSI file [`RanForRed-1.X-amd64.msi`](https://github.com/AvinashSingh786/RanForRed/releases/)
 
 
 Install [`openSSL`](https://wiki.openssl.org/index.php/Binaries)
@@ -20,7 +19,7 @@ Install [`openSSL`](https://wiki.openssl.org/index.php/Binaries)
  
 A Desktop icon will be visible after the installation double-click on it and it will launch the program. Please run the tool with administrator privileges.
 After installing the tool you will need to provide the IP or domain name of the analysis and storage machine as well as the port. Below is a screenshot of the tool.
-<img src="https://github.com/AvinashSingh786/W2RC/blob/master/data/gui.jpg?raw=true"/>
+<img src="https://github.com/AvinashSingh786/RanForRed/blob/master/data/gui.jpg?raw=true"/>
 
 ## Testing environments
   - Windows 10
@@ -47,6 +46,3 @@ After installing the tool you will need to provide the IP or domain name of the 
 MIT License
 
 ## Publications
-*	Singh, A. R. Ikuesan, and H. S. Venter, “Digital Forensic Readiness Framework for Ransomware Investigation,” in Digital Forensics and Cyber Crime, 2019, pp. 91–105.
-
-*	A. Singh, A. Ikuesan, and H. Venter, “A context-aware trigger mechanism for ransomware forensics,” 14th Int. Conf. Cyber Warf. Secur. ICCWS 2019, pp. 629–638, 2019.

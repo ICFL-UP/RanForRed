@@ -7,7 +7,6 @@ import hashlib
 import os
 import sys
 import ctypes
-import winreg
 import psutil
 import datetime
 import pickle
@@ -23,7 +22,7 @@ import threading
 import time
 from tkinter import *
 from tkinter import ttk
-from memory_profiler import profile
+
 
 # Winlogbear
 # CMD                   = r"C:\Windows\System32\cmd.exe"
@@ -68,7 +67,7 @@ def is_running_as_admin():
 
 
 if not is_running_as_admin():
-    messagebox.showerror('W2RC', 'Please run as administrator')
+    messagebox.showerror('RanForRed', 'Please run as administrator')
     sys.exit(1)
 
 OWNER_ID = getpass.getuser()
@@ -80,6 +79,8 @@ logfile = str(date)[0:10]
 log = logging.getLogger(__name__)
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
+if not os.path.exists("log"):
+    os.mkdir("log")
 fh = logging.FileHandler('log\\' + logfile + '.log')
 fh.setLevel(logging.NOTSET)
 formatter = logging.Formatter('%(asctime)s - %(ip)s - %(longuser)-8s [%(levelname)s] --> %(message)s',
@@ -92,23 +93,26 @@ log.setLevel(logging.INFO)
 log = logging.LoggerAdapter(log, CONFIG)
 
 
-log.info('W2RC Started', extra=CONFIG)
-w2rc = ""
+log.info('RanForRed Started', extra=CONFIG)
+RanForRed = ""
 rlock = threading.RLock()
 
 
 def welcome():
-    global w2rc
-    w2rc = "\n\n=======================================================\n" + \
-            "\t  ██╗    ██╗██████╗ ██████╗  ██████╗\n" + \
-            "\t  ██║    ██║╚════██╗██╔══██╗██╔════╝\n" + \
-            "\t  ██║ █╗ ██║ █████╔╝██████╔╝██║\n" + \
-            "\t  ██║███╗██║██╔═══╝ ██╔══██╗██║\n" + \
-            "\t  ╚███╔███╔╝███████╗██║  ██║╚██████╗\n" + \
-            "\t   ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝\n" + \
-            "\n\t  Windows Registry and RAM Collector\n\t\t\t\t     -BY AVINASH SINGH" + \
-            "\n=======================================================\n"
-    print(w2rc)
+    global RanForRed
+    RanForRed = "\n\n===========================================================================================================\n" + \
+    "\n\t8888888b.                    8888888888               8888888b.               888 " + \
+    "\n\t888   Y88b                   888                      888   Y88b              888 " + \
+    "\n\t888    888                   888                      888    888              888 " + \
+    "\n\t888   d88P  8888b.  88888b.  8888888  .d88b.  888d888 888   d88P .d88b.   .d88888 " + \
+    "\n\t8888888P        88b 888  88b 888     d88  88b 888P    8888888P  d8P  Y8b d88  888 " + \
+    "\n\t888 T88b   .d888888 888  888 888     888  888 888     888 T88b  88888888 888  888 " + \
+    "\n\t888  T88b  888  888 888  888 888     Y88..88P 888     888  T88b Y8b.     Y88b 888 " + \
+    "\n\t888   T88b  Y888888 888  888 888       Y88P   888     888   T88b  Y8888    Y88888 " + \
+    "\n" + \
+    "\n\t\t\t  Ransomware Forensic Readiness Agent\n\t\t\t\t\t\t\t     -BY AVINASH SINGH" + \
+    "\n===========================================================================================================\n"
+    print(RanForRed)
     print("\nMonitor now running press <CTRL> C twice to stop monitoring safely.\n\n")
 
     # log.error('[RegSmart] An error occurred', exc_info=True, extra=CONFIG)
@@ -218,7 +222,7 @@ def load_safe_db():
 def refresh_db():
     load_safe_db()
     update_state()
-    messagebox.showinfo('W2RC', 'Successfully reloaded all databases.')
+    messagebox.showinfo('RanForRed', 'Successfully reloaded all databases.')
 
 
 def update_state():
@@ -303,7 +307,7 @@ def monitor():
                              'exe': "", 'CAT': "N/A"}
 
                     try:
-                        # log.info('W2RC', 'Quickly computing md5 for {}'.format(entry['name']), extra=CONFIG)
+                        # log.info('RanForRed', 'Quickly computing md5 for {}'.format(entry['name']), extra=CONFIG)
                         p.suspend()
                         # if "sublime" in p.exe():
                         #     log.debug(p.name() + " suspend...", extra=CONFIG)
@@ -324,7 +328,7 @@ def monitor():
 
                             p.suspend()
                             p.kill()
-                            messagebox.showerror('W2RC ALERT', 'Suspicious executable ' + entry['name'] +
+                            messagebox.showerror('RanForRed ALERT', 'Suspicious executable ' + entry['name'] +
                                                  ' that is blacklisted has been detected and killed.')
                             break
 
@@ -418,7 +422,7 @@ def check_online():
     if "http" not in IPS:
         IPS = "https://"+IPS
     log.info('Checking if ' + IP + " analysis machine is online.", extra=CONFIG)
-    messagebox.showinfo('W2RC', 'Trying to see if ' + IP + " analysis and storage machines are online. This should take a few seconds.")
+    messagebox.showinfo('RanForRed', 'Trying to see if ' + IP + " analysis and storage machines are online. This should take a few seconds.")
     try:
         s = None
         r = requests.get(IP + "/cuckoo/status", stream=True, timeout=2, headers=HEADERS,)
@@ -430,7 +434,7 @@ def check_online():
         log.error("cuckoo: " + str(r.text) + "  W3RS: " + str(s.text), extra=CONFIG)
         if r.status_code != 200:
             log.error("ERROR!!! \t Analysis machine is not configured properly", extra=CONFIG)
-            messagebox.showerror('W2RC', "Analysis machine is not configured properly")
+            messagebox.showerror('RanForRed', "Analysis machine is not configured properly")
         elif r.status_code == 200:
             if s.status_code != 404:
 
@@ -439,14 +443,14 @@ def check_online():
                 t.daemon = True
                 t.start()
                 mon_btn.config(state="disabled")
-                messagebox.showinfo('W2RC', "Monitor started successfully.")
+                messagebox.showinfo('RanForRed', "Monitor started successfully.")
             else:
                 log.error("ERROR!!! \t Storage machine is not online or configured properly", extra=CONFIG)
-                messagebox.showerror('W2RC', "Storage machine is not online or configured properly")
+                messagebox.showerror('RanForRed', "Storage machine is not online or configured properly")
     except Exception as e:
         log.error("ERROR!!! \t Analysis machine is not online" + str(e), extra=CONFIG)
         log.error(e, extra=CONFIG)
-        messagebox.showerror('W2RC', "Analysis machine is not online. Monitoring will not continue.")
+        messagebox.showerror('RanForRed', "Analysis machine is not online. Monitoring will not continue.")
 
     # t.start()
 
@@ -468,7 +472,7 @@ def send_cuckoo(proc, data, entry):
     except Exception as e:
         log.error("ERROR!!! \t Analysis machine is not online " + str(e), extra=CONFIG)
         log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
-        res = messagebox.askyesno('W2RC', "Analysis machine is not online. Do you want to leave process "+proc.name()+" suspended.")
+        res = messagebox.askyesno('RanForRed', "Analysis machine is not online. Do you want to leave process "+proc.name()+" suspended.")
         if not res:
             proc.resume()
 
@@ -481,7 +485,7 @@ def send_cuckoo(proc, data, entry):
         log.error("FAILED to send to cuckoo for analysis: "  + proc.name() + " status: " + str(r.status_code), extra=CONFIG)
         log.error(r.text, extra=CONFIG)
         log.error("Resume the process at your own risk.", extra=CONFIG)
-        res = messagebox.askyesno('W2RC',
+        res = messagebox.askyesno('RanForRed',
                                   "Analysis machine did not respond successfully. Resume at own risk. \n"
                                   "Do you want to leave process " + proc.name() + " suspended.")
         if not res:
@@ -515,7 +519,7 @@ def send_cuckoo(proc, data, entry):
             if "static" not in d.keys():
                 log.error("Failed to perform analysis", extra=CONFIG)
                 log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
-                res = messagebox.askyesno("W2RC",
+                res = messagebox.askyesno("RanForRed",
                                      "Analysis failed, could not perform static analysis."
                                      "\n Do you want to leave " + proc.name() + " process suspended ?")
 
@@ -532,7 +536,7 @@ def send_cuckoo(proc, data, entry):
             if "behavior" not in d.keys():
                 log.error("No behaviour detected for " + proc.name(), extra=CONFIG)
                 log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
-                # res = messagebox.askyesno("W2RC",
+                # res = messagebox.askyesno("RanForRed",
                 #                      "Analysis failed, could not perform behavioural analysis."
                 #                      "\n Do you want to leave " + proc.name() + " process suspended ?")
                 # log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
@@ -640,7 +644,7 @@ def send_cuckoo(proc, data, entry):
                 log.error("Failed to calculate CAT: " + proc.name(), extra=CONFIG)
                 log.error("Error: " + str(e), extra=CONFIG)
                 log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
-                res = messagebox.askyesno("W2RC",
+                res = messagebox.askyesno("RanForRed",
                                      "Analysis failed, could not calculate CAT value."
                                      "\n Do you want to leave " + proc.name() + " process suspended ?")
                 if not res:
@@ -666,7 +670,7 @@ def send_cuckoo(proc, data, entry):
                 proc.kill()
                 BLACKLIST_DB.append(entry)
                 log.info("BLACKLIST: " + str(entry), extra=CONFIG)
-                messagebox.showerror('W2RC ALERT', 'ALERT!!! Suspicious executable '+entry['name'] +
+                messagebox.showerror('RanForRed ALERT', 'ALERT!!! Suspicious executable '+entry['name'] +
                                      ' found and blacklisted.')
                 update_state()
                 break
@@ -682,7 +686,7 @@ def send_cuckoo(proc, data, entry):
                 proc.resume()
             except Exception as e:
                 continue
-            messagebox.showinfo('W2RC', entry['exe'] + " has been analysed successfully and appears safe with CAT ["
+            messagebox.showinfo('RanForRed', entry['exe'] + " has been analysed successfully and appears safe with CAT ["
                                 + str(entry['CAT']) + "]")
             mon_tv.delete(proc.pid)
             update_state()
@@ -771,7 +775,7 @@ def w3rs_store(task_id, entry, report):
 
 def whitelist_gui():
     add_gui = Toplevel()
-    add_gui.title("W2RC: Whitelist Add")
+    add_gui.title("RanForRed: Whitelist Add")
     add_gui.iconbitmap("data/icon.ico")
 
     Label(add_gui, font="Arial 16 bold", fg="black", bg="orange",
@@ -820,9 +824,9 @@ def add_whitelist_path():
         #     i += 1
         #     whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
         #                         tags=('success', 'simple'))
-        messagebox.showinfo('W2RC', 'Successfully added ' + p.name())
+        messagebox.showinfo('RanForRed', 'Successfully added ' + p.name())
     except Exception:
-        messagebox.showerror('W2RC', 'Failed to add executable. ')
+        messagebox.showerror('RanForRed', 'Failed to add executable. ')
 
 
 def add_whitelist_pid():
@@ -840,10 +844,10 @@ def add_whitelist_pid():
             #     i += 1
             #     whitelist_tv.insert('', 'end', i, text=i, values=(d["exe"], d["time"], d["md5"]),
             #                         tags=('success', 'simple'))
-            messagebox.showinfo('W2RC', 'Successfully added ' + p.name())
+            messagebox.showinfo('RanForRed', 'Successfully added ' + p.name())
             whitelist_pid.set("")
     except Exception:
-        messagebox.showerror('W2RC', 'Failed to add process with ID: ' + whitelist_pid.get())
+        messagebox.showerror('RanForRed', 'Failed to add process with ID: ' + whitelist_pid.get())
 
 
 def remove_whitelist():
@@ -858,10 +862,10 @@ def remove_whitelist():
 
 
 def safe_quit():
-    if messagebox.askyesno('W2RC', 'Are you sure you want to quit?'):
+    if messagebox.askyesno('RanForRed', 'Are you sure you want to quit?'):
         global MONITOR
         MONITOR = False
-        messagebox.showinfo('W2RC', 'Shutting down, this may take a few seconds ...')
+        messagebox.showinfo('RanForRed', 'Shutting down, this may take a few seconds ...')
         log.info("Shutting down the monitor. Please wait...", extra=CONFIG)
         update_state()
         main.withdraw()
@@ -880,7 +884,7 @@ def stop_monitoring():
 
 def execute():
     if not is_running_as_admin():
-        print('[!] W2RC is NOT running with administrative privileges')
+        print('[!] RanForRed is NOT running with administrative privileges')
         print('[+] Trying to bypass the UAC')
         try:
             # current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -891,7 +895,7 @@ def execute():
         except WindowsError:
             sys.exit(1)
     else:
-        print('[+] W2RC is running with administrative privileges!')
+        print('[+] RanForRed is running with administrative privileges!')
 
     welcome()
 
@@ -935,15 +939,15 @@ def alert(title, message):
 
 if __name__ == '__main__':
     # if not is_running_as_admin():
-    #    messagebox.showerror('W2RC', 'Please run as administrator')
+    #    messagebox.showerror('RanForRed', 'Please run as administrator')
     #    sys.exit(1)
     # test()
     welcome()
 
     main = Tk()
     main.withdraw()  # hide the window
-    main.title('W2RC - Windows Registry and RAM collector')
-    main.geometry('465x665')
+    main.title('RanForRed - Ransomware Forensic Readiness')
+    main.geometry('665x665')
     main.iconbitmap("data/icon.ico")
 
     main.after(0, main.deiconify)  # as soon as possible (after app starts) show again
@@ -952,7 +956,7 @@ if __name__ == '__main__':
     # # TODO REMOVE not
     # # if is_running_as_admin():
     #     # Get User
-    #     # answer = simpledialog.askstring("W2RC", "What is your full name?",
+    #     # answer = simpledialog.askstring("RanForRed", "What is your full name?",
     #     #                                 parent=main)
     #     # if answer is not None:
     #     #     print("Your first name is ", answer)
@@ -961,7 +965,7 @@ if __name__ == '__main__':
     #     #     print("You don't have a first name?")
     #
     # rows = 0
-    main_frame = Frame(main, width=600, height=200, bg="white")
+    main_frame = Frame(main, width=800, height=200, bg="white")
     main_frame.grid(row=0, column=0, sticky="nsew")
     HASHLIST = {"SEEN": StringVar(), "WHITELIST": StringVar(), "BLACKLIST": StringVar(), "FAILED": StringVar()}
     whitelist_pid = StringVar()
@@ -971,7 +975,7 @@ if __name__ == '__main__':
     label = Label(main_frame, image=photo, bg="white")
     label.image = photo
     label.grid(row=0, column=0, columnspan=3, sticky="nesw")
-    # Label(main_frame, text="W2RC", font="Algerian 14 bold").grid(row=0, column=0, sticky="nesw")
+    # Label(main_frame, text="RanForRed", font="Algerian 14 bold").grid(row=0, column=0, sticky="nesw")
 
     Label(main_frame, text="Enter Analysis Machine IP: ",  font="Arial 10 bold")\
         .grid(row=1, column=0, sticky="w")
@@ -1028,7 +1032,7 @@ if __name__ == '__main__':
     # Monitor GUI
     mon = ttk.Frame(nb)
     nb.add(mon, text='Monitor')
-    txt_frm = Frame(mon, width=450, height=200)
+    txt_frm = Frame(mon, width=650, height=200)
     txt_frm.grid(row=0, column=1, sticky="nsew")
     txt_frm.grid_propagate(False)
     txt_frm.grid_rowconfigure(0, weight=1)
@@ -1270,7 +1274,7 @@ if __name__ == '__main__':
 
     main.protocol("WM_DELETE_WINDOW", safe_quit)
     main.mainloop()
-# messagebox.showerror('W2RC', 'Please run as administrator.')
+# messagebox.showerror('RanForRed', 'Please run as administrator.')
 # root = tkinter.Tk()
 # root.withdraw()
 # from ctypes import windll, byref

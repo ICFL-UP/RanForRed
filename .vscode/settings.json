@@ -1,0 +1,11 @@
+{
+    "workbench.colorCustomizations": {
+        "terminal.tab.activeBorder": "#841616",
+        "terminalCommandDecoration.errorBackground": "#ff0000",
+        "terminalCommandDecoration.successBackground": "#00ff04",
+        "terminal.background": "#000000",
+        "activityBar.background": "#143408",
+        "titleBar.activeBackground": "#1C490B",
+        "titleBar.activeForeground": "#F5FDF2"
+    }
+}
