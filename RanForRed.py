@@ -937,6 +937,19 @@ def alert(title, message):
     box.mainloop()
 
 
+def analyse():
+    filename = fd.askopenfilename(title="Open Cuckoo Report", filetypes=[("JSON File", "*.json")])
+    messagebox.showinfo('RanForRed', 'Selected file: ' + filename)
+
+
+
+# ======================================================================================================================
+# ======================================================================================================================
+#                                                    MAIN
+# ======================================================================================================================
+# ======================================================================================================================
+
+
 if __name__ == '__main__':
     # if not is_running_as_admin():
     #    messagebox.showerror('RanForRed', 'Please run as administrator')
@@ -947,7 +960,7 @@ if __name__ == '__main__':
     main = Tk()
     main.withdraw()  # hide the window
     main.title('RanForRed - Ransomware Forensic Readiness')
-    main.geometry('665x665')
+    main.geometry('620x665')
     main.iconbitmap("data/icon.ico")
 
     main.after(0, main.deiconify)  # as soon as possible (after app starts) show again
@@ -974,39 +987,39 @@ if __name__ == '__main__':
     # photo.zoom(80, 80)
     label = Label(main_frame, image=photo, bg="white")
     label.image = photo
-    label.grid(row=0, column=0, columnspan=3, sticky="nesw")
+    label.grid(row=0, column=1, sticky="ew")
     # Label(main_frame, text="RanForRed", font="Algerian 14 bold").grid(row=0, column=0, sticky="nesw")
 
     Label(main_frame, text="Enter Analysis Machine IP: ",  font="Arial 10 bold")\
         .grid(row=1, column=0, sticky="w")
-    ip = Entry(main_frame, text="", bd=3)
+    ip = Entry(main_frame, text="", bd=3, width=45)
     ip.grid(row=1, column=1, sticky="w", ipadx=10)
     ip.insert(0, IP)
 
     Label(main_frame, text="Enter Storage Machine IP: ", font="Arial 10 bold") \
         .grid(row=2, column=0, sticky="w")
-    ips = Entry(main_frame, text="", bd=3)
+    ips = Entry(main_frame, text="", bd=3, width=45)
     ips.grid(row=2, column=1, sticky="w", ipadx=10)
     ips.insert(0, IPS)
 
     Label(main_frame, text="Enter API-SECRET: ", font="Arial 10 bold") \
         .grid(row=3, column=0, sticky="w")
-    secret = Entry(main_frame, text="", bd=3)
+    secret = Entry(main_frame, text="", bd=3, width=45)
     secret.grid(row=3, column=1, sticky="w", ipadx=10)
     secret.insert(0, API_SECRET)
 
     Label(main_frame, text="Enter API-KEY/TOKEN: ", font="Arial 10 bold") \
         .grid(row=4, column=0, sticky="w")
-    key = Entry(main_frame, text="", bd=3)
+    key = Entry(main_frame, text="", bd=3, width=45)
     key.grid(row=4, column=1, sticky="w", ipadx=10)
     key.insert(0, API_KEY)
 
     # image = PhotoImage(file="data/system.png", height=50, width=50)
     # image.zoom(50, 50)
     mon_btn = Button(main_frame, text="Start Monitoring",  command=check_online)
-    mon_btn.grid(row=1, column=2, sticky="nsew")
+    mon_btn.grid(row=1, column=2, sticky="nsew", pady=10, padx=10)
     q_btn = Button(main_frame, text="Stop", command=stop_monitoring)
-    q_btn.grid(row=3, column=2, sticky="nsew")
+    q_btn.grid(row=3, column=2, sticky="nsew", pady=10, padx=10)
 
     # while rows < 50:
     #     main.rowconfigure(rows, weight=1)
@@ -1025,6 +1038,16 @@ if __name__ == '__main__':
           font="Arial 7 bold") \
         .grid(row=52, column=0, sticky="w")
 
+    manual = Frame(main, width=620, height=200)
+    manual.grid(row=53, column=0, sticky="se")
+    image = PhotoImage(file="data/exe.png", height=30, width=30)
+    image.zoom(50, 50)
+    b = Button(manual, text="Analyse Cuckoo Report", image=image, compound=TOP, command=analyse)
+    b.image = image
+    b.grid(row=0, column=2, sticky="se", padx=10, pady=10)
+
+
+    # Notebook
     nb = ttk.Notebook(main)
     nb.grid(row=3, column=0, columnspan=50, rowspan=49, sticky='NESW')
 
@@ -1032,7 +1055,7 @@ if __name__ == '__main__':
     # Monitor GUI
     mon = ttk.Frame(nb)
     nb.add(mon, text='Monitor')
-    txt_frm = Frame(mon, width=650, height=200)
+    txt_frm = Frame(mon, width=620, height=200)
     txt_frm.grid(row=0, column=1, sticky="nsew")
     txt_frm.grid_propagate(False)
     txt_frm.grid_rowconfigure(0, weight=1)
@@ -1061,7 +1084,7 @@ if __name__ == '__main__':
     mon_tv.tag_configure('success', background='green')
     mon_tv.tag_configure('resumed', background='orange')
 
-    options = Frame(mon, width=550, height=200)
+    options = Frame(mon,  width=620, height=200)
     options.grid(row=1, column=1, sticky="news")
     Label(options, text="MD5 HASH: ").grid(row=0, column=0)
     Entry(options, textvariable=HASHLIST['SEEN'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=80,
@@ -1070,7 +1093,7 @@ if __name__ == '__main__':
     image.zoom(50, 50)
     b = Button(options, text="Resume Selected", image=image, compound=TOP, command=unsuspend)
     b.image = image
-    b.grid(row=0, column=2, sticky="nsew")
+    b.grid(row=0, column=2, sticky="e")
 
 
     # ==================================================================================================
@@ -1078,7 +1101,7 @@ if __name__ == '__main__':
     # Seen
     seen = ttk.Frame(nb)
     nb.add(seen, text='Seen List')
-    txt_frm = Frame(seen, width=450, height=200)
+    txt_frm = Frame(seen, width=620, height=200)
     txt_frm.grid(row=0, column=1, sticky="nsew")
     txt_frm.grid_propagate(False)
     txt_frm.grid_rowconfigure(0, weight=1)
@@ -1112,7 +1135,7 @@ if __name__ == '__main__':
         i += 1
         seen_tv.insert('', 'end', i, text=i, values=(d["exe"], d["CAT"] if "CAT" in d.keys() else "N/A", d["time"], d["md5"]),
                        tags=('success', 'simple'))
-    options = Frame(seen, width=550, height=200)
+    options = Frame(seen, width=620, height=200)
     options.grid(row=1, column=1, sticky="news")
     Label(options, text="MD5 HASH: ").grid(row=0, column=0)
     Entry(options, textvariable=HASHLIST['SEEN'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=80,
@@ -1128,7 +1151,7 @@ if __name__ == '__main__':
     # Whitelist
     whitelist = ttk.Frame(nb)
     nb.add(whitelist, text='Whitelist')
-    txt_frm = Frame(whitelist, width=450, height=200)
+    txt_frm = Frame(whitelist, width=620, height=200)
     txt_frm.grid(row=0, column=1, sticky="nsew")
     txt_frm.grid_propagate(False)
     txt_frm.grid_rowconfigure(0, weight=1)
@@ -1162,7 +1185,7 @@ if __name__ == '__main__':
     Label(options, text="MD5 HASH: ").grid(row=0, column=0)
     Entry(options, textvariable=HASHLIST['WHITELIST'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=100,
                                                                                       sticky="news")
-    options = Frame(whitelist, width=550, height=200)
+    options = Frame(whitelist, width=620, height=200)
     options.grid(row=1, column=1, sticky="news")
     Label(options, text="MD5 HASH: ").grid(row=0, column=0)
     Entry(options, textvariable=HASHLIST['WHITELIST'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=70,
@@ -1183,7 +1206,7 @@ if __name__ == '__main__':
     # Blacklist
     blacklist = ttk.Frame(nb)
     nb.add(blacklist, text='Blacklist')
-    txt_frm = Frame(blacklist, width=450, height=200)
+    txt_frm = Frame(blacklist, width=620, height=200)
     txt_frm.grid(row=0, column=1, sticky="nsew")
     txt_frm.grid_propagate(False)
     txt_frm.grid_rowconfigure(0, weight=1)
@@ -1214,7 +1237,7 @@ if __name__ == '__main__':
         i += 1
         blacklist_tv.insert('', 'end', i, text=i, values=(d["exe"], d['CAT'] if 'CAT' in d.keys() else "N/A", d["time"], d["md5"]),
                             tags=('black', 'simple'))
-    options = Frame(blacklist, width=550, height=200)
+    options = Frame(blacklist, width=620, height=200)
     options.grid(row=1, column=1, sticky="news")
     Label(options, text="MD5 HASH: ").grid(row=0, column=0)
     Entry(options, textvariable=HASHLIST['BLACKLIST'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=100,
@@ -1224,7 +1247,7 @@ if __name__ == '__main__':
     # Failed
     failed = ttk.Frame(nb)
     nb.add(failed, text='Failed List')
-    txt_frm = Frame(failed, width=450, height=200)
+    txt_frm = Frame(failed, width=620, height=200)
     txt_frm.grid(row=0, column=1, sticky="nsew")
     txt_frm.grid_propagate(False)
     txt_frm.grid_rowconfigure(0, weight=1)
@@ -1252,7 +1275,7 @@ if __name__ == '__main__':
         failed_tv.insert('', 'end', i,text=i, values=(d["name"], d["time"]),
                             tags=('failed', 'simple'))
 
-    options = Frame(failed, width=550, height=200)
+    options = Frame(failed, width=620, height=200)
     options.grid(row=1, column=1, sticky="news")
     Label(options, text="MD5 HASH: ").grid(row=0, column=0)
     Entry(options, textvariable=HASHLIST['FAILED'], bg='cyan', state="readonly").grid(row=0, column=1, ipadx=70, sticky="w")
