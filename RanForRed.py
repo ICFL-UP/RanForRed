@@ -938,9 +938,22 @@ def alert(title, message):
 
 
 def analyse():
+    import classification
+    import json
+    global RESULT
     filename = fd.askopenfilename(title="Open Cuckoo Report", filetypes=[("JSON File", "*.json")])
     messagebox.showinfo('RanForRed', 'Selected file: ' + filename)
-
+    f = open(filename, 'r')
+    output = f.read()
+    f.close()
+    del f
+    res, classification = classification.classify(json.loads(output))
+    print(res, classification)
+    RESULT.set(res)
+    if classification == 1:
+        messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
+    else:
+        messagebox.showinfo('RanForRed', filename + "\nHas been classified as Benign")
 
 
 # ======================================================================================================================
@@ -960,7 +973,7 @@ if __name__ == '__main__':
     main = Tk()
     main.withdraw()  # hide the window
     main.title('RanForRed - Ransomware Forensic Readiness')
-    main.geometry('620x665')
+    main.geometry('620x695')
     main.iconbitmap("data/icon.ico")
 
     main.after(0, main.deiconify)  # as soon as possible (after app starts) show again
@@ -981,6 +994,7 @@ if __name__ == '__main__':
     main_frame = Frame(main, width=800, height=200, bg="white")
     main_frame.grid(row=0, column=0, sticky="nsew")
     HASHLIST = {"SEEN": StringVar(), "WHITELIST": StringVar(), "BLACKLIST": StringVar(), "FAILED": StringVar()}
+    RESULT = StringVar()
     whitelist_pid = StringVar()
     load_safe_db()
     photo = PhotoImage(master=main_frame, file="data/logo.png")
@@ -1040,6 +1054,7 @@ if __name__ == '__main__':
 
     manual = Frame(main, width=620, height=200)
     manual.grid(row=53, column=0, sticky="se")
+    Label(manual, textvariable=RESULT).grid(row=0, column=1)
     image = PhotoImage(file="data/exe.png", height=30, width=30)
     image.zoom(50, 50)
     b = Button(manual, text="Analyse Cuckoo Report", image=image, compound=TOP, command=analyse)
