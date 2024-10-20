@@ -4,51 +4,76 @@ import pandas as pd
 from datetime import datetime
 import traceback
 import numpy as np
+import time
+from concurrent.futures import ThreadPoolExecutor
+from sklearn.ensemble import (
+    GradientBoostingClassifier,
+)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import LabelEncoder
 
 MODEL_LIST = ["GBT", "GBT", "GBT", "GBT", "KNN", "NN", "RF"]
 PREFIX = ["ACFM", "PEEM", "PEIM", "PSMTFIDF", "PMM", "ROM", "FOM"]
 
-results = {"ACFM": [], "PEEM": [], "PSMTFIDF": [], "PMM": [], "ROM": [], "FOM": []}
+results = {"ACFM": [], "PEEM": [], "PEIM": [], "PSMTFIDF": [], "PMM": [], "ROM": [], "FOM": []}
+failed = ""
+decision = []
+res = ""
+lat = ""
 
 
 def classify(report):
+    global res, decision, failed, lat, results
+    results = {"ACFM": [], "PEEM": [], "PEIM": [], "PSMTFIDF": [], "PMM": [], "ROM": [], "FOM": []}
     failed = ""
     decision = []
     res = ""
-    for x in range(0, len(MODEL_LIST)):
-        try:
-            print(MODEL_LIST[x], PREFIX[x])
-            model = joblib.load(
-                "Models/{}_{}_model.pkl".format(MODEL_LIST[x], PREFIX[x])
-            )
-            preds = model.predict_proba(getFeatures(PREFIX[x], report))
-            results[PREFIX[x]] = preds
-            print('{:f} \t {:f}'.format(preds[0][0], preds[0][1]))
-            tmp = [0, 0]
-            if len(preds) > 1:
-                for p in preds:
-                    tmp[0] += p[0]
-                    tmp[1] += p[1]
-                tmp[0] = tmp[0] / len(preds) if tmp[0] != 0 else 0
-                tmp[1] = tmp[1] / len(preds) if tmp[1] != 0 else 0
-                des = "Malicious" if tmp.index(max(tmp)) == 1 else "Benign"
-                res += "\n" + PREFIX[x] + ": B:" + str(round(tmp[0] * 100, 2)) + "%\t M:" + str(round(tmp[1] * 100, 2)) + "%\t Result: " + des
-                decision.append(des)
-            else:
-                des = "Malicious" if np.argmax(preds) == 1 else "Benign"
-                res += "\n" + PREFIX[x] + ": B:" + str(np.round(preds[0][0] * 100, 2)) + "%\t M:" + str(np.round(preds[0][1] * 100, 2)) + "%\t Result: " + des
-                decision.append(des)
-        except:
-            failed += PREFIX[x] + "\n"
-            res += "\n" + PREFIX[x] + ": Could not compute"
-            print(traceback.print_exc())
-            continue
-    print(results)
-    print(decision)
+    lat = ""
 
+    with ThreadPoolExecutor(max_workers=7) as executor:
+        executor.map(lambda x: process_model(x, report), range(0, len(MODEL_LIST)))
+        
+    print(results)
+    print(lat)
+    print(decision)
+    res += "\n\n" + lat
     print("\n\n____FAILED___\nn" + failed)
     return res, decision.count("Malicious") > decision.count("Benign")
-    
+
+
+def process_model(x, report):
+    global res, decision, failed, lat, results
+    start = time.time()
+    try: 
+        print(MODEL_LIST[x], PREFIX[x])
+        model = joblib.load(
+            "Models/{}_{}_model.pkl".format(MODEL_LIST[x], PREFIX[x])
+        )
+        preds = model.predict_proba(getFeatures(PREFIX[x], report))
+        results[PREFIX[x]] = preds
+        print('{:f} \t {:f}'.format(preds[0][0], preds[0][1]))
+        tmp = [0, 0]
+        if len(preds) > 1:
+            for p in preds:
+                tmp[0] += p[0]
+                tmp[1] += p[1]
+            tmp[0] = tmp[0] / len(preds) if tmp[0] != 0 else 0
+            tmp[1] = tmp[1] / len(preds) if tmp[1] != 0 else 0
+            des = "Malicious" if tmp.index(max(tmp)) == 1 else "Benign"
+            res += "\n" + PREFIX[x] + ": \tB:" + str(round(tmp[0] * 100, 2)) + "%\t M:" + str(round(tmp[1] * 100, 2)) + "%\t Result: " + des
+            decision.append(des)
+        else:
+            des = "Malicious" if np.argmax(preds) == 1 else "Benign"
+            res += "\n" + PREFIX[x] + ": \tB:" + str(np.round(preds[0][0] * 100, 2)) + "%\t M:" + str(np.round(preds[0][1] * 100, 2)) + "%\tTime: \t"+ str(round((time.time() - start) * 1000, 4)) + " ms\t Result: " + des
+            decision.append(des)
+    except Exception as e:
+        failed += PREFIX[x] + "\n"
+        res += "\n" + PREFIX[x] + ": Could not compute \tTime: \t"+ str(round((time.time() - start) * 1000, 4)) + " ms"
+        print(traceback.print_exc())
+
+
 
 def getFeatures(pre, data):
     if pre == "ACFM":

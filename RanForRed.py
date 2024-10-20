@@ -44,9 +44,9 @@ HEADERS               = {"Authorization": "Bearer oMACdSqsxpjHx55H1ukQ8e"}
 MONITOR               = True
 # IP                    = "http://192.168.1.127:8090"
 IP                    = "https://digifors.cs.up.ac.za/api"
-IPS                   = "https://digifors.cs.up.ac.za/storage"
-API_KEY               = "67b35fcd065f804bcf885ecc91d44f4a"
-API_SECRET            = "TTNu3tfFEdpd"
+IPS                   = "https://localhost:8443"
+API_KEY               = "g8VPr4yj7pWFHfeUMwcuugKEgEufD6FV"
+API_SECRET            = "yIBc9Rev"
 CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser() + " ("+socket.gethostname() + ")", 'machine': socket.gethostname(),
                          "ip": socket.gethostbyname_ex(socket.gethostname())[2][-1]}
                                   # if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),
@@ -515,7 +515,7 @@ def send_cuckoo(proc, data, entry):
             log.info("Found report " + str(task_id), extra=CONFIG)
             d = json.loads(r.content.decode('utf-8'))
             cklfil = ["crypt", "kernel", "wow", "shell", "advapi", "msvc"]
-
+            meta = analyse(d)
             if "static" not in d.keys():
                 log.error("Failed to perform analysis", extra=CONFIG)
                 log.error("Resume the process at your own risk: " + proc.name(), extra=CONFIG)
@@ -650,19 +650,20 @@ def send_cuckoo(proc, data, entry):
                 if not res:
                     proc.resume()
                     log.info("Process " + proc.name() + " has now been resumed.", extra=CONFIG)
-                # mon_tv.delete(proc.pid)
-                # log.info("Removed from SEEN_DB: " + str(entry), extra=CONFIG)
-                # with rlock:
-                #     SEEN_DB.remove(entry)
 
             log.info(proc.name() + " = CAT = [" + str(p["CAT"]) + "]", extra=CONFIG)
             entry = {'pid': proc.pid, 'name': proc.name(), 'md5': md5(proc.exe()), 'time': str(datetime.datetime.now()),
                      'exe': proc.exe(), "CAT": p["CAT"]}
             mon_tv.set(proc.pid, 'STATUS', "Storing ...")
             mon_tv.item(proc.pid, tags=('success'))
-
-            w3rs = threading.Thread(target=w3rs_store, args=(task_id, entry, r.text,))
-            w3rs.start()
+            if not os.path.exists("Reports"):
+                os.mkdir("Reports")
+            
+            f = open(str(task_id)+".json", "w")
+            f.write(r.text)
+            f.close()
+            securers = threading.Thread(target=securers_store, args=(task_id, entry, str(task_id)+".json", meta))
+            securers.start()
 
             log.debug(p, extra=CONFIG)
 
@@ -674,13 +675,6 @@ def send_cuckoo(proc, data, entry):
                                      ' found and blacklisted.')
                 update_state()
                 break
-            # TODO commented out because it causes some time delays
-            # for see in SEEN_DB:
-            #     for k, v in see.items():
-            #         if k == "pid":
-            #             if v == proc.pid:
-            #                 see.update(CAT=p["CAT"])
-            #                 entry['CAT'] = p["CAT"]
 
             try:
                 proc.resume()
@@ -735,33 +729,31 @@ def test():
     global IP
     IP = "http://" + IP
     # r = requests.get(IP + "/tasks/report/150")
-    w3rs_store(81, {'CAT': 0.0, 'exe': 'test.exe'}, "")
 
 
-def w3rs_store(task_id, entry, report):
-    log.info('Sending to W3RS secure storage', extra=CONFIG)
+def securers_store(task_id, entry, filename, meta):
+    log.info('Sending to SecureRS storage', extra=CONFIG)
     global IPS
-    f = open(str(task_id)+".json", "w+")
-    f.write(report)
-    f.close()
 
     data = {
         'ip': CONFIG['ip'],
         'machine': CONFIG['machine'],
         'user': CONFIG['user'],
-        'cat': entry['CAT'] ,
-        'exe': entry['exe'],
+        'rank': entry['rank'],
+        'filename': filename,
+        'meta': meta,
+        'md5sum': entry['md5sum'],
+
         # 'task_id': task_id,
         # 'pde': open(str(task_id) + ".json", 'rb')
     }
-    if entry['CAT'] == "N/A":
-        data['CAT'] = None
-    files = {'pde': open(str(task_id)+".json", 'rb')}
+    
+    files = {'pde': open(filename, 'rb')}
     # headers = { 'Api-Secret-Key': 'Zm4QsmdXsobX', 'Api-Token': 'f8000c5bb202edd77e994658f02949a2'} #old
     global API_KEY, API_SECRET
 
-    headers = { 'Api-Secret-Key': API_SECRET, 'Api-Token': API_KEY,
-                'Api-Key': API_KEY, 'Authorization': 'Api-Key ' + API_KEY}
+    headers = { 'Api-Secret-Key': API_SECRET, 'Api-Token': API_KEY, 'MD5SUM': entry['md5sum'],
+                'X-Api-Key': API_SECRET + "." + API_KEY, 'Authorization': 'Token ' + API_SECRET + "." + API_KEY}
     # 'content-type': 'multipart/form-data',
     if "http" not in IPS:
         IPS = "https://" + IPS
@@ -769,8 +761,8 @@ def w3rs_store(task_id, entry, report):
     # r = requests.post("https://localhost:8000/pde/add/", data=data, headers=headers, files=files, verify=False)
     print(r.text)
     if "Success" not in r.text:
-        messagebox.showerror('W3RS', "Failed to store result on the storage server.")
-    log.info('Message from W3RS: ' + r.text, extra=CONFIG)
+        messagebox.showerror('SecureRS', "Failed to store result on the storage server.")
+    log.info('Message from SecureRS: ' + r.text, extra=CONFIG)
 
 
 def whitelist_gui():
@@ -865,7 +857,7 @@ def safe_quit():
     if messagebox.askyesno('RanForRed', 'Are you sure you want to quit?'):
         global MONITOR
         MONITOR = False
-        messagebox.showinfo('RanForRed', 'Shutting down, this may take a few seconds ...')
+        
         log.info("Shutting down the monitor. Please wait...", extra=CONFIG)
         update_state()
         main.withdraw()
@@ -937,24 +929,33 @@ def alert(title, message):
     box.mainloop()
 
 
-def analyse():
+def analyse(data=None):
     import classification
     import json
     global RESULT
-    filename = fd.askopenfilename(title="Open Cuckoo Report", filetypes=[("JSON File", "*.json")])
-    messagebox.showinfo('RanForRed', 'Selected file: ' + filename)
-    f = open(filename, 'r')
-    output = f.read()
-    f.close()
-    del f
-    res, classification = classification.classify(json.loads(output))
+    if not data:
+        filename = fd.askopenfilename(title="Open Cuckoo Report", filetypes=[("JSON File", "*.json")])
+        # messagebox.showinfo('RanForRed', 'Selected file: ' + filename)
+        f = open(filename, 'r')
+        data = json.loads(f.read())
+        f.close()
+        del f
+    res, classification = classification.classify(data)
     print(res, classification)
-    RESULT.set(res)
+    RESULT.set("File: " + filename.split("/")[-1] + "\n" + res)
     if classification == 1:
         messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
     else:
         messagebox.showinfo('RanForRed', filename + "\nHas been classified as Benign")
 
+#   @TODO REMOVE ONLY for testing
+    entry = {'pid': 5457, 'name': filename.split("/")[-1], 'md5sum': md5(filename), 'time': str(datetime.datetime.now()),
+                    'exe': "TEST", "rank": 10 if classification == 1 else 5}
+    
+    securers_store(entry=entry, task_id=454, filename=filename, meta=res)
+    print(entry)
+            
+    return res
 
 # ======================================================================================================================
 # ======================================================================================================================
@@ -973,7 +974,7 @@ if __name__ == '__main__':
     main = Tk()
     main.withdraw()  # hide the window
     main.title('RanForRed - Ransomware Forensic Readiness')
-    main.geometry('620x695')
+    main.geometry('620x765')
     main.iconbitmap("data/icon.ico")
 
     main.after(0, main.deiconify)  # as soon as possible (after app starts) show again
