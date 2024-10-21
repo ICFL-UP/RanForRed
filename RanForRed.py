@@ -45,8 +45,8 @@ MONITOR               = True
 # IP                    = "http://192.168.1.127:8090"
 IP                    = "https://digifors.cs.up.ac.za/api"
 IPS                   = "https://localhost:8443"
-API_KEY               = "g8VPr4yj7pWFHfeUMwcuugKEgEufD6FV"
-API_SECRET            = "yIBc9Rev"
+API_KEY               = "2oKKcr5Ktbcaki4hEhh0nPeIWuCKMmbR"
+API_SECRET            = "bFF6vOYn"
 CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser() + " ("+socket.gethostname() + ")", 'machine': socket.gethostname(),
                          "ip": socket.gethostbyname_ex(socket.gethostname())[2][-1]}
                                   # if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),
@@ -932,6 +932,8 @@ def alert(title, message):
 def analyse(data=None):
     import classification
     import json
+    from tabulate import tabulate
+    
     global RESULT
     if not data:
         filename = fd.askopenfilename(title="Open Cuckoo Report", filetypes=[("JSON File", "*.json")])
@@ -942,7 +944,9 @@ def analyse(data=None):
         del f
     res, classification = classification.classify(data)
     print(res, classification)
-    RESULT.set("File: " + filename.split("/")[-1] + "\n" + res)
+    r = tabulate(res, headers="firstrow",  tablefmt="psql", numalign="center", stralign="center", floatfmt=".2f")
+
+    RESULT.set("File: " + filename.split("/")[-1] + "\n" + r.replace(" ", '   '))
     if classification == 1:
         messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
     else:
@@ -952,7 +956,7 @@ def analyse(data=None):
     entry = {'pid': 5457, 'name': filename.split("/")[-1], 'md5sum': md5(filename), 'time': str(datetime.datetime.now()),
                     'exe': "TEST", "rank": 10 if classification == 1 else 5}
     
-    securers_store(entry=entry, task_id=454, filename=filename, meta=res)
+    securers_store(entry=entry, task_id=454, filename=filename, meta=str(r))
     print(entry)
             
     return res
@@ -1055,7 +1059,8 @@ if __name__ == '__main__':
 
     manual = Frame(main, width=620, height=200)
     manual.grid(row=53, column=0, sticky="se")
-    Label(manual, textvariable=RESULT).grid(row=0, column=1)
+    Label(manual, textvariable=RESULT, anchor="e", justify=LEFT).grid(row=0, column=0, sticky="w")
+    
     image = PhotoImage(file="data/exe.png", height=30, width=30)
     image.zoom(50, 50)
     b = Button(manual, text="Analyse Cuckoo Report", image=image, compound=TOP, command=analyse)

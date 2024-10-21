@@ -13,11 +13,13 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
+from tabulate import tabulate
 
 MODEL_LIST = ["GBT", "GBT", "GBT", "GBT", "KNN", "NN", "RF"]
 PREFIX = ["ACFM", "PEEM", "PEIM", "PSMTFIDF", "PMM", "ROM", "FOM"]
 
 results = {"ACFM": [], "PEEM": [], "PEIM": [], "PSMTFIDF": [], "PMM": [], "ROM": [], "FOM": []}
+table = [["Model", "B (%)", "M (%)", "Time (ms)", "Classification"]]
 failed = ""
 decision = []
 res = ""
@@ -25,7 +27,7 @@ lat = ""
 
 
 def classify(report):
-    global res, decision, failed, lat, results
+    global res, decision, failed, lat, results, table
     results = {"ACFM": [], "PEEM": [], "PEIM": [], "PSMTFIDF": [], "PMM": [], "ROM": [], "FOM": []}
     failed = ""
     decision = []
@@ -34,17 +36,19 @@ def classify(report):
 
     with ThreadPoolExecutor(max_workers=7) as executor:
         executor.map(lambda x: process_model(x, report), range(0, len(MODEL_LIST)))
+        # for x in range(0, len(MODEL_LIST)):
+        #     executor.submit(process_model, x, report)
         
     print(results)
     print(lat)
     print(decision)
     res += "\n\n" + lat
     print("\n\n____FAILED___\nn" + failed)
-    return res, decision.count("Malicious") > decision.count("Benign")
+    return table, decision.count("Malicious") > decision.count("Benign")
 
 
 def process_model(x, report):
-    global res, decision, failed, lat, results
+    global res, decision, failed, lat, results, table
     start = time.time()
     try: 
         print(MODEL_LIST[x], PREFIX[x])
@@ -62,15 +66,24 @@ def process_model(x, report):
             tmp[0] = tmp[0] / len(preds) if tmp[0] != 0 else 0
             tmp[1] = tmp[1] / len(preds) if tmp[1] != 0 else 0
             des = "Malicious" if tmp.index(max(tmp)) == 1 else "Benign"
-            res += "\n" + PREFIX[x] + ": \tB:" + str(round(tmp[0] * 100, 2)) + "%\t M:" + str(round(tmp[1] * 100, 2)) + "%\t Result: " + des
+            b = str(round(tmp[0] * 100, 2))
+            m = str(round(tmp[1] * 100, 2))
+            t = str(round((time.time() - start) * 1000, 4))
+            res += "\n" + PREFIX[x] + ": \tB:" + b + "%\t M:" + m + "%\t Result: " + des
             decision.append(des)
+            table.append([PREFIX[x], b, m, t, des])
         else:
             des = "Malicious" if np.argmax(preds) == 1 else "Benign"
-            res += "\n" + PREFIX[x] + ": \tB:" + str(np.round(preds[0][0] * 100, 2)) + "%\t M:" + str(np.round(preds[0][1] * 100, 2)) + "%\tTime: \t"+ str(round((time.time() - start) * 1000, 4)) + " ms\t Result: " + des
+            b = str(np.round(preds[0][0] * 100, 2))
+            m = str(np.round(preds[0][1] * 100, 2))
+            t = str(round((time.time() - start) * 1000, 4))
+            res += "\n" + PREFIX[x] + ": \tB:" + b + "%\t M:" + m + "%\tTime: \t"+ t + " ms\t Result: " + des
             decision.append(des)
+            table.append([PREFIX[x], b, m, t, des])
     except Exception as e:
         failed += PREFIX[x] + "\n"
         res += "\n" + PREFIX[x] + ": Could not compute \tTime: \t"+ str(round((time.time() - start) * 1000, 4)) + " ms"
+        table.append([PREFIX[x], "-", "-", str(round((time.time() - start) * 1000, 4)), "-"])
         print(traceback.print_exc())
 
 
@@ -91,7 +104,7 @@ def getFeatures(pre, data):
 
                     features.append(tmp)
 
-        return pd.DataFrame(features, columns=features_labels)
+        return pd.DataFrame(features)
 
     if pre == "PEIM":
         features_labels = ["ave_functions_utilised_from_dlls_imported", "bogus_functions",
@@ -163,7 +176,7 @@ def getFeatures(pre, data):
             features.append([float(ave_functions_utilised_from_dlls_imported), bogus_functions,
                              num_blacklisted_functions, num_whitelisted_functions, persistent_reg_key,
                              num_native_functions])                 
-        return pd.DataFrame(features, columns=features_labels)
+        return pd.DataFrame(features)
 
     if pre == "PEEM":
         features_labels = ["name", "entropy"]
@@ -193,7 +206,7 @@ def getFeatures(pre, data):
                 features.append(list(feat.values())) 
                 del feat
         del data
-        return pd.DataFrame(features, columns=features_labels)
+        return pd.DataFrame(features)
     
     if pre == "ROM":
         features_labels = ["Persistant", "Backup", "PercentageKeyOpen", "PercentageKeyClosed", "PercentageCreated", "PercentageKeyUnique"]    
@@ -248,7 +261,7 @@ def getFeatures(pre, data):
             ku = round((len(list(set(stats["keys"]))) / stats["count"])*100)
 
             features.append([persistant, backup, ko, kc, kcc, ku])
-        return pd.DataFrame(features, columns=features_labels)
+        return pd.DataFrame(features)
 
     if pre == "FOM":
         analysis_dictionary = {}
@@ -608,7 +621,7 @@ def getFeatures(pre, data):
                          ]
                         )             
         
-        return pd.DataFrame(features, columns=features_labels)
+        return pd.DataFrame(features)
 
     if pre == "PSMTFIDF":
         features_labels = ["strings"]
