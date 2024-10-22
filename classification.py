@@ -33,6 +33,7 @@ def classify(report):
     decision = []
     res = ""
     lat = ""
+    table = [["Model", "B (%)", "M (%)", "Time (ms)", "Classification"]]
 
     with ThreadPoolExecutor(max_workers=7) as executor:
         executor.map(lambda x: process_model(x, report), range(0, len(MODEL_LIST)))
