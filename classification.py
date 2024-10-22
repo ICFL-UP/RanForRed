@@ -14,6 +14,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from tabulate import tabulate
+import random
 
 MODEL_LIST = ["GBT", "GBT", "GBT", "GBT", "KNN", "NN", "RF"]
 PREFIX = ["ACFM", "PEEM", "PEIM", "PSMTFIDF", "PMM", "ROM", "FOM"]
@@ -26,7 +27,7 @@ res = ""
 lat = ""
 
 
-def classify(report):
+def classify(report, WEIGHTS):
     global res, decision, failed, lat, results, table
     results = {"ACFM": [], "PEEM": [], "PEIM": [], "PSMTFIDF": [], "PMM": [], "ROM": [], "FOM": []}
     failed = ""
@@ -36,16 +37,23 @@ def classify(report):
     table = [["Model", "B (%)", "M (%)", "Time (ms)", "Classification"]]
 
     with ThreadPoolExecutor(max_workers=7) as executor:
-        executor.map(lambda x: process_model(x, report), range(0, len(MODEL_LIST)))
-        # for x in range(0, len(MODEL_LIST)):
-        #     executor.submit(process_model, x, report)
+
+        # executor.map(lambda x: process_model(x, report), range(0, len(MODEL_LIST)))
+        for x in range(0, len(MODEL_LIST)):
+            if float(WEIGHTS[PREFIX[x]]) > 0:
+                executor.submit(process_model, x, report)
         
     print(results)
     print(lat)
     print(decision)
     res += "\n\n" + lat
     print("\n\n____FAILED___\nn" + failed)
-    return table, decision.count("Malicious") > decision.count("Benign")
+    final = 0
+    for att, val in results.items():
+        if len(val) > 0:
+            final += float(WEIGHTS[att]) * val[0][1]
+    print("FINAL: " + str(final))
+    return table, 1 if final >= 0.5 else 0, final
 
 
 def process_model(x, report):
@@ -73,6 +81,7 @@ def process_model(x, report):
             res += "\n" + PREFIX[x] + ": \tB:" + b + "%\t M:" + m + "%\t Result: " + des
             decision.append(des)
             table.append([PREFIX[x], b, m, t, des])
+            results[PREFIX[x]] = [tmp]
         else:
             des = "Malicious" if np.argmax(preds) == 1 else "Benign"
             b = str(np.round(preds[0][0] * 100, 2))
@@ -192,7 +201,7 @@ def getFeatures(pre, data):
         le = joblib.load("Models/{}_{}_model.pkl".format(pre, "name"))
         df['name'] = le.transform(df['name'])
 
-        return df
+        return df.to_numpy()
     
     if pre == "PMM":
         features_labels = ["r", "rw", "rx", "rwc", "rwx", "rwxc"]
@@ -641,3 +650,132 @@ def getFeatures(pre, data):
     
 
     return []
+
+
+
+# Define the fitness function
+def fitness_function(weights, models, X, y):
+    combined_predictions = np.zeros_like(y, dtype=float)
+    for i, model in enumerate(models):
+        # Apply weight to model's prediction
+        for r in range(0, len(X[i])):
+            try:
+                combined_predictions += weights[i] * model.predict(X[i][r])
+                # print("Something working")
+            except Exception as e:
+                # print("Failed to predict, continuing")
+                continue
+    
+    # Compute accuracy as fitness score (you could use other metrics as well)
+    accuracy = np.mean(np.round(combined_predictions) == y)
+    return accuracy
+
+def normalize_weights(weights):
+    total = sum(weights)
+    return [w / total for w in weights]
+
+# Genetic Algorithm
+class GeneticAlgorithm:
+    def __init__(self, models, X, y, pop_size=10, generations=100, mutation_rate=0.01):
+        self.models = models
+        self.X = X
+        self.y = y
+        self.pop_size = pop_size
+        self.generations = generations
+        self.mutation_rate = mutation_rate
+        
+        # Initialize population with random weights
+        self.population = [normalize_weights(np.random.rand(len(models))) for _ in range(pop_size)]
+
+    def evolve(self):
+        best_solution = None
+        for generation in range(self.generations):
+            # Calculate fitness of population
+            fitness_scores = [fitness_function(individual, self.models, self.X, self.y) for individual in self.population]
+            
+            # Selection: Select individuals with better fitness scores
+            selected_individuals = self.selection(fitness_scores)
+            
+            # Crossover: Create offspring from selected individuals
+            offspring = self.crossover(selected_individuals)
+            
+            # Mutation: Randomly mutate offspring
+            mutated_offspring = [normalize_weights(self.mutate(child)) for child in offspring]
+            
+            # Update population with new offspring
+            self.population = mutated_offspring
+            
+            # Best solution in the current generation
+            best_solution = self.population[np.argmax(fitness_scores)]
+            print(f"Generation {generation+1}: Best fitness = {max(fitness_scores)}, Best weights = {best_solution}")
+        print(f"THE BESTEST WEIGHTS: {best_solution}")
+
+    def selection(self, fitness_scores):
+        # Select individuals based on their fitness (higher fitness more likely to be chosen)
+        total_fitness = sum(fitness_scores)
+        if total_fitness == 0:
+            return random.sample(self.population, len(self.population))
+        
+        probabilities = [fitness / total_fitness for fitness in fitness_scores]
+        selected_individuals = random.choices(self.population, weights=probabilities, k=self.pop_size // 2)
+        return selected_individuals
+
+    def crossover(self, parents):
+        offspring = []
+        for _ in range(self.pop_size):
+            parent1, parent2 = random.sample(parents, 2)
+            crossover_point = random.randint(0, len(parent1) - 1)
+            child = np.concatenate([parent1[:crossover_point], parent2[crossover_point:]])
+            offspring.append(child)
+        return offspring
+
+    def mutate(self, individual):
+        # Apply mutation with a given probability
+        if random.random() < self.mutation_rate:
+            mutation_index = random.randint(0, len(individual) - 1)
+            individual[mutation_index] += np.random.randn() * 0.1  # Small random change
+        return individual
+
+
+def optimize_weights(weights, reports, classifications):
+    models = []  
+    X = []
+    y = classifications
+
+    for x in range(0, len(MODEL_LIST)):
+        models.append(joblib.load("Models/{}_{}_model.pkl".format(MODEL_LIST[x], PREFIX[x])))
+        tmp = []
+        for r in reports:
+            tmp.append(getFeatures(PREFIX[x], r))
+        X.append(tmp)
+
+    ga = GeneticAlgorithm(models, X, y, pop_size=20, generations=50, mutation_rate=0.02)
+    ga.evolve()
+
+
+
+# +======================= TEST GA ++++++++++++++++
+# weights = {
+#     "ACFM": 1/7.0,
+#     "PEEM": 1/7.0,
+#     "PEIM": 1/7.0,
+#     "PSMTFIDF": 1/7.0,
+#     "PMM": 1/7.0,
+#     "ROM": 1/7.0,
+#     "FOM": 1/7.0
+# }
+# reports = []
+# classifications = []
+# import os
+# import json 
+# for dirpath, dirnames, filenames in os.walk("E:\\Downloads\\reports\\Reports"):
+#     for filename in filenames:
+#         if filename.endswith(".json"):
+#             print(os.path.join(dirpath, filename))
+#             f = open(os.path.join(dirpath, filename), 'r')
+#             reports.append(json.loads(f.read()))
+#             classifications.append(0 if filename[0] == 'B' else 1)
+#             f.close()
+#             del f
+
+# optimize_weights(weights=weights, reports=reports, classifications=classifications)

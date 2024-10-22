@@ -45,14 +45,16 @@ MONITOR               = True
 # IP                    = "http://192.168.1.127:8090"
 IP                    = "https://digifors.cs.up.ac.za/api"
 IPS                   = "https://localhost:8443"
-API_KEY               = "2oKKcr5Ktbcaki4hEhh0nPeIWuCKMmbR"
-API_SECRET            = "bFF6vOYn"
+API_KEY               = "8Am7dIfsRKdFTr2cvkUJxarbr7mj1Qyj"
+API_SECRET            = "7i9WxovE"
+# API_KEY               = "2oKKcr5Ktbcaki4hEhh0nPeIWuCKMmbR"
+# API_SECRET            = "bFF6vOYn"
 CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser() + " ("+socket.gethostname() + ")", 'machine': socket.gethostname(),
                          "ip": socket.gethostbyname_ex(socket.gethostname())[2][-1]}
                                   # if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),
                                   #             s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET,
                                   #                            socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]}
-
+WEIGHTS = None
 
 def is_running_as_admin():
     '''
@@ -114,8 +116,55 @@ def welcome():
     "\n===========================================================================================================\n"
     print(RanForRed)
     print("\nMonitor now running press <CTRL> C twice to stop monitoring safely.\n\n")
-
+    loadSettings()
     # log.error('[RegSmart] An error occurred', exc_info=True, extra=CONFIG)
+
+
+def loadSettings():
+    global WEIGHTS
+    try:
+        with open("settings.json", "r") as f:
+            WEIGHTS = json.load(f)
+    except FileNotFoundError:
+        WEIGHTS = {
+            "ACFM": 1/7.0,
+            "PEEM": 1/7.0,
+            "PEIM": 1/7.0,
+            "PSMTFIDF": 1/7.0,
+            "PMM": 1/7.0,
+            "ROM": 1/7.0,
+            "FOM": 1/7.0
+        }
+
+
+def saveSettings(ips, sp):
+    global WEIGHTS
+    for attribute, value in ips.items():
+        WEIGHTS[attribute] = value.get()
+    with open("settings.json", "w") as f:
+        json.dump(WEIGHTS, f, indent=4)
+    messagebox.showinfo('RanForRed', 'Successfully saved settings.')
+    # sp.destroy()
+    
+def settingsPage():
+    settings_window = Toplevel()
+    settings_window.title("Settings")
+    settings_window.geometry("600x600")
+
+    Label(settings_window, text="Adjust the weights for classification. If a Model is set to 0, it will not be used.", font="Arial 10 bold") \
+        .grid(row=0, columnspan=2, sticky="w")
+
+    i = 1
+    ips = {}
+    for attribute, value in WEIGHTS.items():
+        Label(settings_window, text=attribute + ": ").grid(row=i, column=0, sticky='w')
+        ips[attribute] = Entry(settings_window, text="", bd=3, width=45)
+        ips[attribute].grid(row=i, column=1, sticky="w", ipadx=10)
+        ips[attribute].insert(0, value)
+        i += 1
+
+    b = Button(settings_window, text="Save", compound=TOP, command=lambda: saveSettings(ips, settings_window), font="Arial 10 bold")
+    b.grid(row=i, column=1, sticky="se", padx=10, pady=10)
 
 
 def is_running_as_admin():
@@ -942,11 +991,11 @@ def analyse(data=None):
         data = json.loads(f.read())
         f.close()
         del f
-    res, classification = classification.classify(data)
+    res, classification, score = classification.classify(data, WEIGHTS)
     print(res, classification)
     r = tabulate(res, headers="firstrow",  tablefmt="rst", numalign="left", stralign="center", floatfmt=".2f")
-
-    RESULT.set("File: " + filename.split("/")[-1] + "\n")
+    cs = "Malicious" if classification == 1 else "Benign"
+    RESULT.set("File: " + filename.split("/")[-1] + "\n" + "Classification: " + cs + "\nPercentage Malicious: " + str(round(score*100, 4)) + " %")
     if classification == 1:
         messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
     else:
@@ -958,11 +1007,15 @@ def analyse(data=None):
     
     securers_store(entry=entry, task_id=454, filename=filename, meta=str(r))
     print(entry)
-    ml_tv.destroy()
+    # ml_tv.destroy()
+    ml_tv.delete(*ml_tv.get_children())
     i = 0
     for re in res:
         if i != 0:
-            ml_tv.insert('', 'end', i, text=i, values=(re[0], re[1], re[2], re[3], re[4]))
+            if re[4] == "Malicious":
+                ml_tv.insert('', 'end', i, text=i, values=(re[0], re[1], re[2], re[3], re[4]), tags=('malicious'))
+            else:
+                ml_tv.insert('', 'end', i, text=i, values=(re[0], re[1], re[2], re[3], re[4]))
         i += 1
     
     return res
@@ -984,7 +1037,7 @@ if __name__ == '__main__':
     main = Tk()
     main.withdraw()  # hide the window
     main.title('RanForRed - Ransomware Forensic Readiness')
-    main.geometry('620x765')
+    main.geometry('620x880')
     main.iconbitmap("data/icon.ico")
 
     main.after(0, main.deiconify)  # as soon as possible (after app starts) show again
@@ -1063,9 +1116,9 @@ if __name__ == '__main__':
           font="Arial 7 bold") \
         .grid(row=52, column=0, sticky="w")
 
-    manual = Frame(main, width=620, height=200)
+    manual = Frame(main, width=620, height=150)
     manual.grid(row=53, column=0, sticky="se")
-    Label(manual, textvariable=RESULT, justify=LEFT).grid(row=0, column=0, sticky="w")
+    Label(manual, textvariable=RESULT, justify=LEFT, wraplength=300).grid(row=0, column=0, sticky="w")
     
     image = PhotoImage(file="data/exe.png", height=30, width=30)
     image.zoom(50, 50)
@@ -1073,12 +1126,18 @@ if __name__ == '__main__':
     b.image = image
     b.grid(row=0, column=2, sticky="se", padx=10, pady=10)
 
+    image = PhotoImage(file="data/settings.png", height=30, width=30)
+    image.zoom(50, 50)
+    b = Button(manual, text="", image=image, compound=TOP, command=settingsPage)
+    b.image = image
+    b.grid(row=0, column=1, sticky="se", padx=10, pady=10)
+
     ml_tv = ttk.Treeview(manual)
     ml_tv['columns'] = ("MODEL", "B", "M", "T", "C")
     ml_tv.heading("#0", text='#')
-    ml_tv.column('#0', minwidth=10, width=40, stretch=True)
+    ml_tv.column('#0', minwidth=10, width=40, stretch=False)
     ml_tv.heading("MODEL", text='MODEL')
-    ml_tv.column('MODEL', minwidth=10, width=60, stretch=True)
+    ml_tv.column('MODEL', minwidth=10, width=60, stretch=False)
     ml_tv.heading('B', text='B(%)')
     ml_tv.column('B', minwidth=10, width=60, stretch=False)    
     ml_tv.heading('M', text='M(%)')
@@ -1087,7 +1146,8 @@ if __name__ == '__main__':
     ml_tv.column('T', minwidth=10, width=60, stretch=False)
     ml_tv.heading('C', text='Classification')
     ml_tv.column('C', minwidth=10, width=120, stretch=False)
-    ml_tv.grid(row=0, column=0, sticky="nsew")
+    ml_tv.tag_configure('malicious', background='red')
+    ml_tv.grid(row=1, column=0, sticky="nsew")
 
 
     # Notebook
