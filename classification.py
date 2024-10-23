@@ -197,11 +197,12 @@ def getFeatures(pre, data):
                 for pe in data["static"]["pe_sections"]:
                     features.append([pe["name"], pe["entropy"]])    
 
-        df = pd.DataFrame(features, columns=features_labels)
-        le = joblib.load("Models/{}_{}_model.pkl".format(pre, "name"))
-        df['name'] = le.transform(df['name'])
+        df = pd.DataFrame(features)
+        if not df.empty:
+            le = joblib.load("Models/{}_{}_model.pkl".format(pre, "name"))
+            df[0] = le.transform(df[0])
 
-        return df.to_numpy()
+        return df
     
     if pre == "PMM":
         features_labels = ["r", "rw", "rx", "rwc", "rwx", "rwxc"]
@@ -565,15 +566,15 @@ def getFeatures(pre, data):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         features_labels = [
-                           "PercentageOfFileAPICalls",
-                           "PercentageOfUniqueFiles",
-                           "PercentageOfUniqueFileLocations",
-                           "PercentageOfUniqueFileExtensions",
-                           "PercentageOfPotentialCustomExtensions",
-                           "PercentageOfRansomwareExtensions",
-                           "PercentageOfFileExtensionsDocuments", "PercentageOfFileExtensionsImages", "PercentageOfFileExtensionsVideos", "PercentageOfFileExtensionsAudio", "PercentageOfFileExtensionsDatabase","PercentageOfFileExtensionsArchives","PercentageOfFileExtensionsExecutables","PercentageOfFileExtensionsSystem", "PercentageOfFileExtensionsBackup","PercentageOfFileExtensionsEmail", "PercentageOfFileExtensionsVMImages","PercentageOfFileExtensionsGames","PercentageOfFileExtensionsDevelopment",
-                           "APICallsPerSecond"
-                           ]
+                        "PercentageOfFileAPICalls",
+                        "PercentageOfUniqueFiles",
+                        "PercentageOfUniqueFileLocations",
+                        "PercentageOfUniqueFileExtensions",
+                        "PercentageOfPotentialCustomExtensions",
+                        "PercentageOfRansomwareExtensions",
+                        "PercentageOfFileExtensionsDocuments", "PercentageOfFileExtensionsImages", "PercentageOfFileExtensionsVideos", "PercentageOfFileExtensionsAudio", "PercentageOfFileExtensionsDatabase","PercentageOfFileExtensionsArchives","PercentageOfFileExtensionsExecutables","PercentageOfFileExtensionsSystem", "PercentageOfFileExtensionsBackup","PercentageOfFileExtensionsEmail", "PercentageOfFileExtensionsVMImages","PercentageOfFileExtensionsGames","PercentageOfFileExtensionsDevelopment",
+                        "APICallsPerSecond"
+                        ]
         features = []
 
         F1_totalAPICalls = 0 if "totalAPICalls" not in analysis_dictionary['stats'] else analysis_dictionary['stats']['totalAPICalls']
@@ -620,15 +621,15 @@ def getFeatures(pre, data):
         RansomwareExtensions = round((F7_1_percentgeOfFileExtensionPy + F7_2_percentgeOfFileExtensionPng + F7_3_percentgeOfFileExtensionTxt + F7_4_percentgeOfFileExtensionTlc + F7_5_percentgeOfFileExtensionMsg + F7_6_percentgeOfFileExtensionExe + F7_7_percentageOfFileExtensionDll ) / 7)
         
         features.append([
-                         F2_percentageOfFileAPICalls,
-                         F4_percentageOfUniqueFilesTouched,
-                         F6_percentageOfUniqueFileLocationsTouched,
-                         F5_percentageOfUniqueFileExtensionsTouched,
-                         F10_percentageOfPotentialCustomExtensionsUsed,
-                         RansomwareExtensions,
-                         F11_1_percentageOfFileExtensionsDocuments, F11_2_percentageOfFileExtensionsImages, F11_3_percentageOfFileExtensionsVideos, F11_4_percentageOfFileExtensionsAudio, F11_5_percentageOfFileExtensionsDatabase, F11_6_percentageOfFileExtensionsArchives, F11_7_percentageOfFileExtensionsExecutables, F11_8_percentageOfFileExtensionsSystem, F11_9_percentageOfFileExtensionsBackup, F11_10_percentageOfFileExtensionsEmail, F11_11_percentageOfFileExtensionsVMImages, F11_12_percentageOfFileExtensionsGames, F11_13_percentageOfFileExtensionsDevelopment,
-                         F9_APICallsPerSecond
-                         ]
+                        F2_percentageOfFileAPICalls,
+                        F4_percentageOfUniqueFilesTouched,
+                        F6_percentageOfUniqueFileLocationsTouched,
+                        F5_percentageOfUniqueFileExtensionsTouched,
+                        F10_percentageOfPotentialCustomExtensionsUsed,
+                        RansomwareExtensions,
+                        F11_1_percentageOfFileExtensionsDocuments, F11_2_percentageOfFileExtensionsImages, F11_3_percentageOfFileExtensionsVideos, F11_4_percentageOfFileExtensionsAudio, F11_5_percentageOfFileExtensionsDatabase, F11_6_percentageOfFileExtensionsArchives, F11_7_percentageOfFileExtensionsExecutables, F11_8_percentageOfFileExtensionsSystem, F11_9_percentageOfFileExtensionsBackup, F11_10_percentageOfFileExtensionsEmail, F11_11_percentageOfFileExtensionsVMImages, F11_12_percentageOfFileExtensionsGames, F11_13_percentageOfFileExtensionsDevelopment,
+                        F9_APICallsPerSecond
+                        ]
                         )             
         
         return pd.DataFrame(features)
@@ -649,26 +650,71 @@ def getFeatures(pre, data):
         return features
     
 
-    return []
+    return pd.DataFrame()
 
 
 
-# Define the fitness function
+# def fitness_function(weights, models, X, y):
+#     combined_predictions = np.zeros_like(y, dtype=float)
+#     for i, model in enumerate(models):
+#         for r in range(0, len(X[i])):
+#             try:
+#                 combined_predictions[r] += weights[i] * model.predict(X[i][r])
+
+#             except Exception as e:
+#                 continue
+#         # combined_predictions[i] /= len(X[i])
+    
+#     accuracy = np.mean(np.round(combined_predictions) == y)
+#     # print("Accuracy: " + str(accuracy) + " len: " + str(len(combined_predictions)))
+#     # print(combined_predictions)
+#     return accuracy
+
 def fitness_function(weights, models, X, y):
     combined_predictions = np.zeros_like(y, dtype=float)
-    for i, model in enumerate(models):
-        # Apply weight to model's prediction
-        for r in range(0, len(X[i])):
-            try:
-                combined_predictions += weights[i] * model.predict(X[i][r])
-                # print("Something working")
-            except Exception as e:
-                # print("Failed to predict, continuing")
-                continue
     
-    # Compute accuracy as fitness score (you could use other metrics as well)
-    accuracy = np.mean(np.round(combined_predictions) == y)
+    for i, model in enumerate(models):
+        model_predictions = []
+        
+        # Loop through each sample in X[i] (for model i)
+        for r in range(len(X[i])):
+            try:
+                # Get model's prediction for the r-th input in X[i]
+                prediction = 0
+                if X[i][r].shape[0] != 0:
+                    prediction = model.predict(X[i][r])
+                    tmp = 0
+                    if len(prediction) > 1:
+                        for p in prediction:
+                            tmp += p
+                        tmp /= len(prediction)
+                        prediction = tmp
+                model_predictions.append(np.round(prediction))
+
+            except Exception as e:
+                print(f"Error in model {i} for sample {r}: {e}")
+                print(traceback.print_exc())
+
+                continue
+        
+        # Ensure that predictions are properly weighted
+        tmp = 0
+        if len(model_predictions) > 0:
+            for p in model_predictions:
+                tmp += weights[i] * p
+            combined_predictions[i] = tmp
+    
+    # Normalize combined predictions to avoid skewing
+    # combined_predictions /= sum(weights)
+    
+    # Convert combined predictions to binary class labels
+    final_predictions = np.round(combined_predictions)
+    
+    # Calculate accuracy as fitness score
+    accuracy = np.mean(final_predictions == y)
+    
     return accuracy
+
 
 def normalize_weights(weights):
     total = sum(weights)
@@ -676,7 +722,7 @@ def normalize_weights(weights):
 
 # Genetic Algorithm
 class GeneticAlgorithm:
-    def __init__(self, models, X, y, pop_size=10, generations=100, mutation_rate=0.01):
+    def __init__(self, models, X, y, pop_size=10, generations=100, mutation_rate=0.08):
         self.models = models
         self.X = X
         self.y = y
@@ -708,7 +754,7 @@ class GeneticAlgorithm:
             # Best solution in the current generation
             best_solution = self.population[np.argmax(fitness_scores)]
             print(f"Generation {generation+1}: Best fitness = {max(fitness_scores)}, Best weights = {best_solution}")
-        print(f"THE BESTEST WEIGHTS: {best_solution}")
+        print(f"\n\nTHE BESTEST WEIGHTS: {best_solution}")
 
     def selection(self, fitness_scores):
         # Select individuals based on their fitness (higher fitness more likely to be chosen)
@@ -746,7 +792,10 @@ def optimize_weights(weights, reports, classifications):
         models.append(joblib.load("Models/{}_{}_model.pkl".format(MODEL_LIST[x], PREFIX[x])))
         tmp = []
         for r in reports:
-            tmp.append(getFeatures(PREFIX[x], r))
+            feat = getFeatures(PREFIX[x], r)
+            if feat.shape[0] == 0:
+                print("FEATURES EMPTY: " + PREFIX[x] + " " + r["target"]["file"]["name"])
+            tmp.append(feat)
         X.append(tmp)
 
     ga = GeneticAlgorithm(models, X, y, pop_size=20, generations=50, mutation_rate=0.02)
