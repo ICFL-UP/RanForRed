@@ -12,7 +12,9 @@ import datetime
 import pickle
 import logging
 import datetime as dt
+import classification
 
+from tabulate import tabulate
 import json
 import requests
 import getpass
@@ -55,6 +57,7 @@ CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser(
                                   #             s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET,
                                   #                            socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]}
 WEIGHTS = None
+WEIGHTS_INPUTS = {}
 
 def is_running_as_admin():
     '''
@@ -143,28 +146,75 @@ def saveSettings(ips, sp):
         WEIGHTS[attribute] = value.get()
     with open("settings.json", "w") as f:
         json.dump(WEIGHTS, f, indent=4)
-    messagebox.showinfo('RanForRed', 'Successfully saved settings.')
+    messagebox.showinfo('RanForRed', 'Successfully saved settings.', parent=sp)
     # sp.destroy()
     
+
 def settingsPage():
     settings_window = Toplevel()
     settings_window.title("Settings")
     settings_window.geometry("600x600")
-
+    global WEIGHTS_INPUTS
     Label(settings_window, text="Adjust the weights for classification. If a Model is set to 0, it will not be used.", font="Arial 10 bold") \
         .grid(row=0, columnspan=2, sticky="w")
 
     i = 1
-    ips = {}
+    
     for attribute, value in WEIGHTS.items():
         Label(settings_window, text=attribute + ": ").grid(row=i, column=0, sticky='w')
-        ips[attribute] = Entry(settings_window, text="", bd=3, width=45)
-        ips[attribute].grid(row=i, column=1, sticky="w", ipadx=10)
-        ips[attribute].insert(0, value)
+        WEIGHTS_INPUTS[attribute] = Entry(settings_window, text="", bd=3, width=45)
+        WEIGHTS_INPUTS[attribute].grid(row=i, column=1, sticky="w", ipadx=10)
+        WEIGHTS_INPUTS[attribute].insert(0, value)
         i += 1
 
-    b = Button(settings_window, text="Save", compound=TOP, command=lambda: saveSettings(ips, settings_window), font="Arial 10 bold")
+    b = Button(settings_window, text="Save", compound=TOP, command=lambda: saveSettings(WEIGHTS_INPUTS, settings_window), font="Arial 10 bold")
     b.grid(row=i, column=1, sticky="se", padx=10, pady=10)
+    i += 2
+    Label(settings_window, wraplength=500, text="To optimize the weights a Genetic Algorithm is used with 50 generations. Please select the Cuckoo reports when prompted after clicking on optimize weights. The filenames should have the prefix of the classification (B, M),", font="Arial 10 bold") \
+        .grid(row=i, columnspan=2, sticky="w")
+    i += 2
+    out = StringVar()
+    Label(settings_window, textvariable=out, anchor="w", wraplength=500) \
+        .grid(row=i, columnspan=2, sticky="w")
+    i += 1
+    b = Button(settings_window, text="Optimize Weights", compound=TOP, command=threading.Thread(target=getReports, args=(settings_window, out,)).start, font="Arial 10 bold")
+    b.grid(row=i, column=1, sticky="se", padx=10, pady=10)
+
+
+def getReports(settings_window, output):
+    global WEIGHTS, WEIGHTS_INPUTS
+    files = fd.askopenfilenames(parent=settings_window, title="Select reports", filetypes=[("Cuckoo Report", "*.json")])
+    reports = []
+    classifications = []
+    
+    output.set("Processing Data ...")
+    settings_window.update_idletasks()
+    for file in files:
+        try:
+            if file is not None:
+                print(file)
+                f = open(file, 'r')
+                reports.append(json.loads(f.read()))
+                classifications.append(0 if file.split("/")[-1][0] == 'B' else 1)
+                f.close()
+                del f
+                output.set("Adding " + file)
+        except Exception:
+            output.set("FAILED TO add " + file)
+            continue
+    
+    if len(files) < 2:
+        messagebox.showerror("RanForRed", "Please select 2 or more Cuckoo reports", parent=settings_window)
+    else:
+        
+        # with ThreadPoolExecutor(max_workers=7) as executor:
+        #     future = executor.submit(classification.optimize_weights,  WEIGHTS, reports, classifications, output, settings_window)
+        #     newWeights = future.result()
+        #     for i, v in WEIGHTS.items():
+        #         WEIGHTS[i].set(newWeights[i])
+
+        threading.Thread(target=classification.optimize_weights, args=(WEIGHTS_INPUTS, reports, classifications, output, settings_window,)).start()
+        # classification.optimize_weights(weights=WEIGHTS, reports=reports, classifications=classifications, out=output, window=settings_window)
 
 
 def is_running_as_admin():
@@ -979,9 +1029,6 @@ def alert(title, message):
 
 
 def analyse(data=None):
-    import classification
-    import json
-    from tabulate import tabulate
     global RESULT
     RESULT.set("Loading ... Please wait...")
     if not data:
@@ -991,19 +1038,19 @@ def analyse(data=None):
         data = json.loads(f.read())
         f.close()
         del f
-    res, classification, score = classification.classify(data, WEIGHTS)
-    print(res, classification)
+    res, cl, score = classification.classify(data, WEIGHTS)
+    print(res, cl)
     r = tabulate(res, headers="firstrow",  tablefmt="rst", numalign="left", stralign="center", floatfmt=".2f")
-    cs = "Malicious" if classification == 1 else "Benign"
+    cs = "Malicious" if cl == 1 else "Benign"
     RESULT.set("File: " + filename.split("/")[-1] + "\n" + "Classification: " + cs + "\nPercentage Malicious: " + str(round(score*100, 4)) + " %")
-    if classification == 1:
+    if cl == 1:
         messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
     else:
         messagebox.showinfo('RanForRed', filename + "\nHas been classified as Benign")
 
 #   @TODO REMOVE ONLY for testing
     entry = {'pid': 5457, 'name': filename.split("/")[-1], 'md5sum': md5(filename), 'time': str(datetime.datetime.now()),
-                    'exe': "TEST", "rank": 10 if classification == 1 else 5}
+                    'exe': "TEST", "rank": 10 if cl == 1 else 5}
     
     securers_store(entry=entry, task_id=454, filename=filename, meta=str(r))
     print(entry)

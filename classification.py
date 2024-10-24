@@ -15,6 +15,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from tabulate import tabulate
 import random
+from tkinter import messagebox
+from tkinter import *
 
 MODEL_LIST = ["GBT", "GBT", "GBT", "GBT", "KNN", "NN", "RF"]
 PREFIX = ["ACFM", "PEEM", "PEIM", "PSMTFIDF", "PMM", "ROM", "FOM"]
@@ -662,55 +664,48 @@ def getFeatures(pre, data):
 #                 combined_predictions[r] += weights[i] * model.predict(X[i][r])
 
 #             except Exception as e:
+#                 print(f"Error in model {i} for sample {r}: {e}")
+#                 print(traceback.print_exc())
 #                 continue
 #         # combined_predictions[i] /= len(X[i])
     
 #     accuracy = np.mean(np.round(combined_predictions) == y)
 #     # print("Accuracy: " + str(accuracy) + " len: " + str(len(combined_predictions)))
 #     # print(combined_predictions)
-#     return accuracy
+    # return accuracy
 
 def fitness_function(weights, models, X, y):
     combined_predictions = np.zeros_like(y, dtype=float)
     
     for i, model in enumerate(models):
         model_predictions = []
-        
-        # Loop through each sample in X[i] (for model i)
-        for r in range(len(X[i])):
+        for r in range(0, len(X[i])): # reports
             try:
-                # Get model's prediction for the r-th input in X[i]
                 prediction = 0
                 if X[i][r].shape[0] != 0:
                     prediction = model.predict(X[i][r])
-                    tmp = 0
+                    
                     if len(prediction) > 1:
-                        for p in prediction:
-                            tmp += p
-                        tmp /= len(prediction)
-                        prediction = tmp
-                model_predictions.append(np.round(prediction))
+                        prediction = np.round(np.mean(prediction))
+                combined_predictions[r] += float(weights[i]) * prediction
 
             except Exception as e:
                 print(f"Error in model {i} for sample {r}: {e}")
                 print(traceback.print_exc())
 
                 continue
-        
-        # Ensure that predictions are properly weighted
-        tmp = 0
-        if len(model_predictions) > 0:
-            for p in model_predictions:
-                tmp += weights[i] * p
-            combined_predictions[i] = tmp
-    
-    # Normalize combined predictions to avoid skewing
+
     # combined_predictions /= sum(weights)
-    
-    # Convert combined predictions to binary class labels
+    # [[0,1], [1,1], [1,1], [0,1], [0,1], [0,1], [0,1]]
+    # [[0*0.14, 1*0.14], [1*0.14,1*0.14], [1*0.14,1*0.14], [0*0.14,1*0.14], [0,1], [0,1], [0,1]]
+    # [[0.444, 0.9743]]
+    # [[0, 1]] - weighted
+
+    # [0, 1] - truth
+    # [1, 1]
+    # 1 
     final_predictions = np.round(combined_predictions)
-    
-    # Calculate accuracy as fitness score
+
     accuracy = np.mean(final_predictions == y)
     
     return accuracy
@@ -722,42 +717,36 @@ def normalize_weights(weights):
 
 # Genetic Algorithm
 class GeneticAlgorithm:
-    def __init__(self, models, X, y, pop_size=10, generations=100, mutation_rate=0.08):
+    def __init__(self, models, X, y, pop_size=10, generations=100, mutation_rate=0.08, output=None):
         self.models = models
         self.X = X
         self.y = y
         self.pop_size = pop_size
         self.generations = generations
         self.mutation_rate = mutation_rate
+        self.output = output
         
-        # Initialize population with random weights
+        self.output.set("Setting up the initial population.")
+        
         self.population = [normalize_weights(np.random.rand(len(models))) for _ in range(pop_size)]
 
     def evolve(self):
         best_solution = None
         for generation in range(self.generations):
-            # Calculate fitness of population
+            
             fitness_scores = [fitness_function(individual, self.models, self.X, self.y) for individual in self.population]
-            
-            # Selection: Select individuals with better fitness scores
-            selected_individuals = self.selection(fitness_scores)
-            
-            # Crossover: Create offspring from selected individuals
-            offspring = self.crossover(selected_individuals)
-            
-            # Mutation: Randomly mutate offspring
-            mutated_offspring = [normalize_weights(self.mutate(child)) for child in offspring]
-            
-            # Update population with new offspring
-            self.population = mutated_offspring
-            
-            # Best solution in the current generation
+            selected_individuals = self.selection(fitness_scores)            
+            offspring = self.crossover(selected_individuals)            
+            mutated_offspring = [normalize_weights(self.mutate(child)) for child in offspring]            
+            self.population = mutated_offspring            
+        
             best_solution = self.population[np.argmax(fitness_scores)]
             print(f"Generation {generation+1}: Best fitness = {max(fitness_scores)}, Best weights = {best_solution}")
+            self.output.set(f"Generation {generation+1}: Best fitness = {max(fitness_scores)}, Best weights = {best_solution}")
         print(f"\n\nTHE BESTEST WEIGHTS: {best_solution}")
+        return best_solution
 
     def selection(self, fitness_scores):
-        # Select individuals based on their fitness (higher fitness more likely to be chosen)
         total_fitness = sum(fitness_scores)
         if total_fitness == 0:
             return random.sample(self.population, len(self.population))
@@ -776,30 +765,41 @@ class GeneticAlgorithm:
         return offspring
 
     def mutate(self, individual):
-        # Apply mutation with a given probability
         if random.random() < self.mutation_rate:
             mutation_index = random.randint(0, len(individual) - 1)
             individual[mutation_index] += np.random.randn() * 0.1  # Small random change
         return individual
 
 
-def optimize_weights(weights, reports, classifications):
+def optimize_weights(weights, reports, classifications, out, window):
     models = []  
     X = []
     y = classifications
-
+    
     for x in range(0, len(MODEL_LIST)):
         models.append(joblib.load("Models/{}_{}_model.pkl".format(MODEL_LIST[x], PREFIX[x])))
         tmp = []
         for r in reports:
-            feat = getFeatures(PREFIX[x], r)
-            if feat.shape[0] == 0:
-                print("FEATURES EMPTY: " + PREFIX[x] + " " + r["target"]["file"]["name"])
-            tmp.append(feat)
+            try:
+                feat = getFeatures(PREFIX[x], r)
+                if feat.shape[0] == 0:
+                    print("FEATURES EMPTY: " + PREFIX[x] + " " + r["target"]["file"]["name"])
+                    out.set(out.get() + "\nFEATURES EMPTY: " + PREFIX[x] + " " + r["target"]["file"]["name"])
+                    window.update_idletasks()
+                tmp.append(feat)
+            except Exception as e:
+                print("FAILED to get process Features for " + PREFIX[x] + " " + r["target"]["file"]["name"])
         X.append(tmp)
 
-    ga = GeneticAlgorithm(models, X, y, pop_size=20, generations=50, mutation_rate=0.02)
-    ga.evolve()
+    ga = GeneticAlgorithm(models, X, y, pop_size=20, generations=50, mutation_rate=0.02, output=out)
+    newWeights = ga.evolve()
+    c = 0
+    for i, v in weights.items():
+        weights[i].delete(0, END)
+        weights[i].insert(0, newWeights[c])
+        c += 1
+    
+    messagebox.showinfo("RanForRed", "GA completed optimization, please click save to persist the new weights!", parent=window)
 
 
 
@@ -817,7 +817,7 @@ def optimize_weights(weights, reports, classifications):
 # classifications = []
 # import os
 # import json 
-# for dirpath, dirnames, filenames in os.walk("E:\\Downloads\\reports\\Reports"):
+# for dirpath, dirnames, filenames in os.walk("C:\\Users\\u14043778.UP\Downloads\\reports\\Reports"):
 #     for filename in filenames:
 #         if filename.endswith(".json"):
 #             print(os.path.join(dirpath, filename))
@@ -826,5 +826,4 @@ def optimize_weights(weights, reports, classifications):
 #             classifications.append(0 if filename[0] == 'B' else 1)
 #             f.close()
 #             del f
-
 # optimize_weights(weights=weights, reports=reports, classifications=classifications)
