@@ -45,12 +45,12 @@ BLACKLIST_DB          = []
 HEADERS               = {"Authorization": "Bearer oMACdSqsxpjHx55H1ukQ8e"}
 MONITOR               = True
 # IP                    = "http://192.168.1.127:8090"
-IP                    = "https://digifors.cs.up.ac.za/api"
+IP                    = "http://localhost/api"
 IPS                   = "https://localhost:8443"
-API_KEY               = "8Am7dIfsRKdFTr2cvkUJxarbr7mj1Qyj"
-API_SECRET            = "7i9WxovE"
-# API_KEY               = "2oKKcr5Ktbcaki4hEhh0nPeIWuCKMmbR"
-# API_SECRET            = "bFF6vOYn"
+# API_KEY               = "8Am7dIfsRKdFTr2cvkUJxarbr7mj1Qyj"
+# API_SECRET            = "7i9WxovE"
+API_KEY               = "2oKKcr5Ktbcaki4hEhh0nPeIWuCKMmbR"
+API_SECRET            = "bFF6vOYn"
 CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser() + " ("+socket.gethostname() + ")", 'machine': socket.gethostname(),
                          "ip": socket.gethostbyname_ex(socket.gethostname())[2][-1]}
                                   # if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),
@@ -1031,31 +1031,33 @@ def alert(title, message):
 def analyse(data=None):
     global RESULT
     RESULT.set("Loading ... Please wait...")
+    start = time.time()
+    ml_tv.delete(*ml_tv.get_children())
     if not data:
         filename = fd.askopenfilename(title="Open Cuckoo Report", filetypes=[("JSON File", "*.json")])
         # messagebox.showinfo('RanForRed', 'Selected file: ' + filename)
-        f = open(filename, 'r')
-        data = json.loads(f.read())
-        f.close()
-        del f
+        start = time.time()
+        try:
+            f = open(filename, 'r')
+            data = json.loads(f.read())
+            f.close()
+            del f
+        except Exception:
+            RESULT.set("Error " + filename + " is not a valid JSON file")
     res, cl, score = classification.classify(data, WEIGHTS)
+    end = time.time()
+    print(end)
     print(res, cl)
-    r = tabulate(res, headers="firstrow",  tablefmt="rst", numalign="left", stralign="center", floatfmt=".2f")
+    r = tabulate(res, headers="firstrow",  tablefmt="html", numalign="left", stralign="center", floatfmt=".2f")
+    print(r)
     cs = "Malicious" if cl == 1 else "Benign"
-    RESULT.set("File: " + filename.split("/")[-1] + "\n" + "Classification: " + cs + "\nPercentage Malicious: " + str(round(score*100, 4)) + " %")
-    if cl == 1:
-        messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
-    else:
-        messagebox.showinfo('RanForRed', filename + "\nHas been classified as Benign")
+    RESULT.set("File: " + filename.split("/")[-1] + "\n" + "Classification: " + cs + "\nDetection Time: " + str(round((end - start), 4)) + "s\nPercentage Malicious: " + str(round(score*100, 4)) + "%")
+
 
 #   @TODO REMOVE ONLY for testing
-    entry = {'pid': 5457, 'name': filename.split("/")[-1], 'md5sum': md5(filename), 'time': str(datetime.datetime.now()),
-                    'exe': "TEST", "rank": 10 if cl == 1 else 5}
-    
-    securers_store(entry=entry, task_id=454, filename=filename, meta=str(r))
-    print(entry)
-    # ml_tv.destroy()
-    ml_tv.delete(*ml_tv.get_children())
+    entry = {'pid': data['info']['id'], 'name': filename.split("/")[-1], 'md5sum': md5(filename), 'time': str(datetime.datetime.now()),
+                    'exe': data['target']['file']['name'], "rank": 10 if cl == 1 else 5}
+
     i = 0
     for re in res:
         if i != 0:
@@ -1064,7 +1066,13 @@ def analyse(data=None):
             else:
                 ml_tv.insert('', 'end', i, text=i, values=(re[0], re[1], re[2], re[3], re[4]))
         i += 1
-    
+    if cl == 1:
+        messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
+    else:
+        messagebox.showinfo('RanForRed', filename + "\nHas been classified as Benign")
+    threading.Thread(target=securers_store, args=(data['info']['id'], entry, filename, json.dumps(res),)).start()
+    print(entry)
+
     return res
 
 # ======================================================================================================================
@@ -1165,7 +1173,7 @@ if __name__ == '__main__':
 
     manual = Frame(main, width=620, height=150)
     manual.grid(row=53, column=0, sticky="se")
-    Label(manual, textvariable=RESULT, justify=LEFT, wraplength=300).grid(row=0, column=0, sticky="w")
+    Label(manual, textvariable=RESULT, justify=LEFT, wraplength=400).grid(row=0, column=0, sticky="w")
     
     image = PhotoImage(file="data/exe.png", height=30, width=30)
     image.zoom(50, 50)
