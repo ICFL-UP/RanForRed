@@ -47,10 +47,10 @@ MONITOR               = True
 # IP                    = "http://192.168.1.127:8090"
 IP                    = "http://localhost/api"
 IPS                   = "https://localhost:8443"
-# API_KEY               = "8Am7dIfsRKdFTr2cvkUJxarbr7mj1Qyj"
-# API_SECRET            = "7i9WxovE"
-API_KEY               = "2oKKcr5Ktbcaki4hEhh0nPeIWuCKMmbR"
-API_SECRET            = "bFF6vOYn"
+API_KEY               = "8Am7dIfsRKdFTr2cvkUJxarbr7mj1Qyj"
+API_SECRET            = "7i9WxovE"
+# API_KEY               = "2oKKcr5Ktbcaki4hEhh0nPeIWuCKMmbR"
+# API_SECRET            = "bFF6vOYn"
 CONFIG                = {"user": getpass.getuser(), "longuser": getpass.getuser() + " ("+socket.gethostname() + ")", 'machine': socket.gethostname(),
                          "ip": socket.gethostbyname_ex(socket.gethostname())[2][-1]}
                                   # if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),

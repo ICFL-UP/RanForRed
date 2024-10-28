@@ -692,18 +692,8 @@ def fitness_function(weights, models, X, y):
             except Exception as e:
                 print(f"Error in model {i} for sample {r}: {e}")
                 print(traceback.print_exc())
-
                 continue
-
-    # combined_predictions /= sum(weights)
-    # [[0,1], [1,1], [1,1], [0,1], [0,1], [0,1], [0,1]]
-    # [[0*0.14, 1*0.14], [1*0.14,1*0.14], [1*0.14,1*0.14], [0*0.14,1*0.14], [0,1], [0,1], [0,1]]
-    # [[0.444, 0.9743]]
-    # [[0, 1]] - weighted
-
-    # [0, 1] - truth
-    # [1, 1]
-    # 1 
+ 
     final_predictions = np.round(combined_predictions)
 
     accuracy = np.mean(final_predictions == y)
