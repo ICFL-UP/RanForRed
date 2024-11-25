@@ -1053,7 +1053,7 @@ def analyse(data=None):
     cs = "Malicious" if cl == 1 else "Benign"
     RESULT.set("File: " + filename.split("/")[-1] + "\n" + "Classification: " + cs + "\nDetection Time: " + str(round((end - start), 4)) + "s\nPercentage Malicious: " + str(round(score*100, 4)) + "%")
 
-
+    
 #   @TODO REMOVE ONLY for testing
     entry = {'pid': data['info']['id'], 'name': filename.split("/")[-1], 'md5sum': md5(filename), 'time': str(datetime.datetime.now()),
                     'exe': data['target']['file']['name'], "rank": 10 if cl == 1 else 5}
@@ -1070,10 +1070,58 @@ def analyse(data=None):
         messagebox.showerror('ATTENTION!!!!', filename + "\nHas been flagged as MALICIOUS")
     else:
         messagebox.showinfo('RanForRed', filename + "\nHas been classified as Benign")
+    res.append([])
+    res.append(["CLASSIFICATION", "", str(round(score*100, 2)), str(round((end - start), 2)*1000), cs])
     threading.Thread(target=securers_store, args=(data['info']['id'], entry, filename, json.dumps(res),)).start()
     print(entry)
 
     return res
+
+
+def trans(M):
+    return [[M[j][i] for j in range(len(M))] for i in range(len(M[0]))]
+
+
+def analyse_from_folder(folder=None):
+    start = time.time()
+    results = []
+    if folder:
+        for filename in os.listdir(folder):
+            if filename.endswith(".json"):     
+                start = time.time()
+                try:
+                    f = open(os.path.join(folder, filename), 'r')
+                    data = json.loads(f.read())
+                    f.close()
+                    del f
+                except Exception:
+                    RESULT.set("Error " + filename + " is not a valid JSON file")
+            res, cl, score = classification.classify(data, WEIGHTS)
+            end = time.time()
+            tmp = []
+            tres = trans(res[1:])
+            tres = tres[1:]
+            for rr in tres:
+                
+                    
+                        # B_development_Database_Sqliteman Portable.exe
+                        # [['Model', 'B (%)', 'M (%)', 'Time (ms)', 'Classification'], ['ROM', '5.44', '94.56', '19.0811', 'Malicious'], ['PMM', '100.0', '0.0', '45.8174', 'Benign'], ['PEIM', '5.92', '94.08', '59.0475', 'Malicious'], ['ACFM', '-', '-', '64.0361', '-'], ['FOM', '17.95', '82.05', '62.9795', 'Malicious'], ['PEEM', '55.95', '44.05', '80.6975', 'Benign'], ['PSMTFIDF', '100.0', '0.0', '2602.0229', 'Benign']]
+                    tmp = [filename.split("_")[-1], filename.split("_")[1], rr[1], rr[2]]
+
+            results.append(tmp)
+        r = tabulate(results, headers=["Sample", "Category", "ROM", "PMM", "PEIM", "ACFM", "FOM", "PEEM", "PSMTFIDF", "TIME", "CLASSIFICATION"],  tablefmt="latex", numalign="left", stralign="center", floatfmt=".2f")
+        print(r)
+        cs = "Malicious" if cl == 1 else "Benign"
+    #   @TODO REMOVE ONLY for testing
+        res.append([])
+        res.append(["CLASSIFICATION", "", str(round(score*100, 2)), str(round((end - start), 2)*1000), cs])
+        entry = {'pid': data['info']['id'], 'name': filename.split("/")[-1], 'md5sum': md5(filename), 'time': str(datetime.datetime.now()),
+                        'exe': data['target']['file']['name'], "rank": 10 if cl == 1 else 5}
+        threading.Thread(target=securers_store, args=(data['info']['id'], entry, filename, json.dumps(res),)).start()
+        print(entry)
+
+        return res
+
 
 # ======================================================================================================================
 # ======================================================================================================================
