@@ -319,7 +319,8 @@ def getFeatures(pre, data):
                     analysis_dictionary["summary"]["file_moved"] = {}
                     analysis_dictionary["summary"]["file_moved"]["data"] = data["behavior"]["summary"]["file_moved"]
                     analysis_dictionary["summary"]["file_moved"]["total"] = len(data["behavior"]["summary"]["file_moved"])
-                    analysis_dictionary["summary"]["file_moved"]["uniqueTotal"] = len(list(set(data["behavior"]["summary"]["file_moved"])))
+                    fm = [x for xs in data["behavior"]["summary"]["file_moved"] for x in xs]
+                    analysis_dictionary["summary"]["file_moved"]["uniqueTotal"] = len(list(set(fm)))
                 if "file_written" in data["behavior"]["summary"]:
                     analysis_dictionary["summary"]["file_written"] = {}
                     analysis_dictionary["summary"]["file_written"]["data"] = data["behavior"]["summary"]["file_written"]
