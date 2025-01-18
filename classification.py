@@ -773,31 +773,3 @@ def optimize_weights(weights, reports, classifications, out, window):
     
     messagebox.showinfo("RanForRed", "GA completed optimization, please click save to persist the new weights!", parent=window)
 
-
-
-# +======================= TEST GA ++++++++++++++++
-def test_GA():
-    weights = {
-        "ACFM": 1/7.0,
-        "PEEM": 1/7.0,
-        "PEIM": 1/7.0,
-        "PSMTFIDF": 1/7.0,
-        "PMM": 1/7.0,
-        "ROM": 1/7.0,
-        "FOM": 1/7.0
-    }
-    reports = []
-    classifications = []
-    import os
-    import json 
-    reports_dir = "C:\\Users\\XXXXX\Downloads\\reports\\Reports"
-    for dirpath, dirnames, filenames in os.walk(reports_dir):
-        for filename in filenames:
-            if filename.endswith(".json"):
-                print(os.path.join(dirpath, filename))
-                f = open(os.path.join(dirpath, filename), 'r')
-                reports.append(json.loads(f.read()))
-                classifications.append(0 if filename[0] == 'B' else 1)
-                f.close()
-                del f
-    optimize_weights(weights=weights, reports=reports, classifications=classifications)

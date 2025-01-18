@@ -259,12 +259,12 @@ def is_running_as_admin():
 
 
 def gen_safe_db():
-    procList = psutil.pids()
+    proc_list = psutil.pids()
     failed = 0
     global WHITELIST_DB
     WHITELIST_DB = []
 
-    for ps in procList:
+    for ps in proc_list:
         try:
             p = psutil.Process(ps)
             entry = {
@@ -481,195 +481,128 @@ def update_state():
 
 
 def monitor():
+    def is_blacklisted(entry):
+        return any(d["md5"] == entry["md5"] and d["name"] == entry["name"] for d in BLACKLIST_DB)
+
+    def handle_blacklisted_process(p, entry):
+        log.warning(
+            f"DANGER !!!!!! {p.name()} has been blacklisted and the process has been killed.",
+            extra=CONFIG,
+        )
+        p.suspend()
+        p.kill()
+        messagebox.showerror(
+            "RanForRed ALERT",
+            f"Suspicious executable {entry['name']} that is blacklisted has been detected and killed.",
+        )
+
+    def should_process_entry(entry):
+        return (
+            not any(d["name"] == entry["name"] and d["exe"] == entry["exe"] for d in FAILED_DB) and
+            not any(d["exe"] == entry["exe"] for d in SEEN_DB) and
+            not any(d["exe"] == entry["exe"] for d in LOCAL_FAILED) and
+            not any(d["name"] == entry["name"] and d["exe"] == entry["exe"] for d in WHITELIST_DB)
+        )
+
+    def collect_files(cmdline):
+        files = []
+        for c in cmdline:
+            if "\\" in c:
+                try:
+                    files.append(("files", open(c, "rb")))
+                except Exception:
+                    continue
+        if not files:
+            try:
+                files.append(("files", open(os.path.join("C:/Windows/System32/", entry["exe"]), "rb")))
+            except Exception:
+                pass
+        return files
+
     failed = 0
     path_list = []
-
-    global WHITELIST_DB
-    global FAILED_DB
-    global SEEN_DB
-    global BLACKLIST_DB, MONITOR
     log.info("Monitoring has been started: " + IP, extra=CONFIG)
-    iter = 0
+
+    iter_count = 0
     while MONITOR:
-        # log.info("Entering new iteration "+ str(iter), extra=CONFIG)
-        iter += 1
+        iter_count += 1
         for p in psutil.process_iter():
+            if p.pid == os.getpid():
+                continue
 
-            if p.pid != os.getpid():
+            try:
+                entry = {
+                    "pid": p.pid,
+                    "name": p.name(),
+                    "md5": "",
+                    "time": str(datetime.datetime.now()),
+                    "exe": "",
+                    "CAT": "N/A",
+                }
+
                 try:
-                    entry = {
-                        "pid": p.pid,
-                        "name": p.name(),
-                        "md5": "",
-                        "time": str(datetime.datetime.now()),
-                        "exe": "",
-                        "CAT": "N/A",
-                    }
-
-                    try:
-                        # log.info('RanForRed', 'Quickly computing md5 for {}'.format(entry['name']), extra=CONFIG)
-                        p.suspend()
-                        # if "sublime" in p.exe():
-                        #     log.debug(p.name() + " suspend...", extra=CONFIG)
-                        entry["md5"] = ""
-                        # entry['md5'] = md5(p.exe()) // TODO
-                        # entry['exe'] = p.exe()
-
-                    except Exception:
-                        p.resume()
-                        # if "sublime" in p.name():
-                        #     log.debug(p.name() + " resumed Exception ...", extra=CONFIG)
-                        pass
-
-                    if any(d["md5"] == entry["md5"] for d in BLACKLIST_DB):
-                        if any(d["name"] == entry["name"] for d in BLACKLIST_DB):
-                            log.warning(
-                                "DANGER !!!!!! "
-                                + p.name()
-                                + " has been blacklisted and the process has been killed.",
-                                extra=CONFIG,
-                            )
-
-                            p.suspend()
-                            p.kill()
-                            messagebox.showerror(
-                                "RanForRed ALERT",
-                                "Suspicious executable "
-                                + entry["name"]
-                                + " that is blacklisted has been detected and killed.",
-                            )
-                            break
-
+                    p.suspend()
+                except Exception:
                     p.resume()
+                    continue
 
-                    # if "sublime" in p.exe():
-                    #     log.info("Found Sublime after blacklist", extra=CONFIG)
+                entry["md5"] = ""  # Placeholder for MD5 hash logic
 
+                if is_blacklisted(entry):
+                    handle_blacklisted_process(p, entry)
+                    break
+
+                p.resume()
+
+                entry["exe"] = p.exe()
+                if should_process_entry(entry):
+                    log.debug(entry, extra=CONFIG)
+                    log.debug(p.cmdline(), extra=CONFIG)
+
+                    cmdline = p.cmdline()
+                    files = collect_files(cmdline)
+
+                    data = {"files": files, "args": cmdline[1:]}
+                    path_list.append(p.exe())
+
+                    entry.update({
+                        "md5": md5(p.exe()),
+                        "exe": p.exe(),
+                    })
+
+                    with rlock:
+                        log.info("Sending to cuckoo", extra=CONFIG)
+                        SEEN_DB.append(entry)
+                        mon_tv.insert(
+                            "", "end", entry["pid"],
+                            text=entry["pid"],
+                            values=(entry["name"], entry["time"], "N/A", "Submitting"),
+                            tags=("submitted", "simple"),
+                        )
+                    
+                    update_state()
+                    cuckoo_thread = threading.Thread(
+                        target=send_cuckoo,
+                        args=(p, data, entry),
+                    )
+                    cuckoo_thread.daemon = True
+                    cuckoo_thread.start()
+
+            except Exception as e:
+                try:
                     if not any(d["name"] == p.name() for d in FAILED_DB):
-                        entry["md5"] = ""
-                        entry["exe"] = p.exe()
-
-                        if not any(
-                            d["name"] == entry["name"] for d in FAILED_DB
-                        ) or not any(d["exe"] == entry["exe"] for d in FAILED_DB):
-                            if not any(d["exe"] == entry["exe"] for d in SEEN_DB):
-                                if not any(
-                                    d["exe"] == entry["exe"] for d in LOCAL_FAILED
-                                ):
-                                    if not any(
-                                        d["name"] == entry["name"] for d in WHITELIST_DB
-                                    ) or not any(
-                                        d["exe"] == entry["exe"] for d in WHITELIST_DB
-                                    ):
-                                        if not MONITOR:
-                                            return
-                                        log.debug(entry, extra=CONFIG)
-                                        log.debug(p.cmdline(), extra=CONFIG)
-                                        if "sublime" in p.exe():
-                                            log.info(
-                                                "Found Sublime after all searches",
-                                                extra=CONFIG,
-                                            )
-                                        data = {}
-                                        cmdline = p.cmdline()
-                                        log.info(cmdline, extra=CONFIG)
-                                        files = []
-                                        for c in cmdline:
-                                            if "\\" in c:
-                                                try:
-                                                    files.append(
-                                                        ("files", open(c, "rb"))
-                                                    )
-                                                except Exception:
-                                                    continue
-                                        if len(files) == 0:
-                                            try:
-                                                files.append(
-                                                    (
-                                                        "files",
-                                                        open(
-                                                            os.path.join(
-                                                                "C:/Windows/System32/",
-                                                                entry["exe"],
-                                                            ),
-                                                            "rb",
-                                                        ),
-                                                    )
-                                                )
-                                            except Exception:
-                                                continue
-
-                                        data["files"] = files
-                                        data["args"] = cmdline[1:]
-                                        print(files)
-
-                                        path_list.append(p.exe())
-                                        entry = {
-                                            "pid": p.pid,
-                                            "name": p.name(),
-                                            "md5": md5(p.exe()),
-                                            "time": str(datetime.datetime.now()),
-                                            "exe": p.exe(),
-                                            "CAT": "N/A",
-                                        }
-                                        with rlock:
-                                            log.info("Sending to cuckoo", extra=CONFIG)
-                                            SEEN_DB.append(entry)
-                                            mon_tv.insert(
-                                                "",
-                                                "end",
-                                                entry["pid"],
-                                                text=entry["pid"],
-                                                values=(
-                                                    entry["name"],
-                                                    entry["time"],
-                                                    "N/A",
-                                                    "Submitting",
-                                                ),
-                                                tags=("submitted", "simple"),
-                                            )
-
-                                        update_state()
-                                        if "sublime" in p.exe():
-                                            log.info(
-                                                "Found Sublime and now sending to cuckoo",
-                                                extra=CONFIG,
-                                            )
-                                        cuckoo = threading.Thread(
-                                            target=send_cuckoo,
-                                            args=(
-                                                p,
-                                                data,
-                                                entry,
-                                            ),
-                                        )
-                                        cuckoo.daemon = True
-                                        cuckoo.start()
-
-                except Exception as e:
-                    try:
-
-                        if not any(d["name"] == p.name() for d in FAILED_DB):
-                            FAILED_DB.append(
-                                {
-                                    "pid": p.pid,
-                                    "name": p.name(),
-                                    "time": str(datetime.datetime.now()),
-                                }
-                            )
-                            failed += 1
-                            log.info(
-                                "Trying to add entry to failed list, " + p.name(),
-                                extra=CONFIG,
-                            )
-
-                            update_state()
-                            print(e)
-
-                    except Exception as e:
-                        log.error("Error at Monitor", exc_info=True, extra=CONFIG)
-                        continue
-
+                        FAILED_DB.append({
+                            "pid": p.pid,
+                            "name": p.name(),
+                            "time": str(datetime.datetime.now()),
+                        })
+                        failed += 1
+                        log.info(f"Added {p.name()} to failed list.", extra=CONFIG)
+                        update_state()
+                except Exception:
+                    log.error("Error at Monitor", exc_info=True, extra=CONFIG)
+                finally:
+                    log.error(f"Exception: {e}", exc_info=True, extra=CONFIG)
 
 def check_online():
     global IP, IPS, MONITOR, t, API_KEY, API_SECRET
