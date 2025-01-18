@@ -10,22 +10,38 @@ This tool was designed for research in the field of Digital Forensics.
 NB: SINCE THIS IS A PROTOTYPE, WHEN TESTING MALICIOUS SAMPLES PLEASE USE THIS TOOL WITHIN A VM.
 
 
-Install the MSI file [`RanForRed-1.X-amd64.msi`](https://github.com/AvinashSingh786/RanForRed/releases/)
-
+Install the dependencies:
+```bash
+pip install -r requirements.txt
+```
 
 Install [`openSSL`](https://wiki.openssl.org/index.php/Binaries)
 
+
 ## Usage
- 
-A Desktop icon will be visible after the installation double-click on it and it will launch the program. Please run the tool with administrator privileges.
-After installing the tool you will need to provide the IP or domain name of the analysis and storage machine as well as the port. Below is a screenshot of the tool.
-<img src="https://github.com/AvinashSingh786/RanForRed/blob/master/data/gui.jpg?raw=true"/>
+ To run the application simply run the python file ``RanForRed.py``
+
+ ```bash
+ python RanForRed.py
+ ```
+Create an ``.env`` file and configure the following variables
+```json
+TOKEN = "Bearer XXXXXXXXXXX"
+IP = "http://localhost/api"
+IPS = "https://localhost:8443"
+API_KEY = "XXXXXXXXXXX"
+API_SECRET = "XXXXXXXXXXX"
+```
+
+<img src="https://github.com/ICFL-UP/RanForRed/blob/master/data/gui.jpg?raw=true"/>
+
+## Uploading a Cuckoo Report
+<img src="https://github.com/ICFL-UP/RanForRed/blob/master/data/detect.jpg?raw=true"/>
 
 ## Testing environments
+  - Windows 11
   - Windows 10
-  - Windows 8.1
-  - Windows 7
-  - Windows XP
+
 
 ## Contributing
  
@@ -45,4 +61,3 @@ After installing the tool you will need to provide the IP or domain name of the 
  
 MIT License
 
-## Publications
