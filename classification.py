@@ -1,5 +1,4 @@
 import joblib
-import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import datetime
 import traceback
@@ -16,7 +15,7 @@ from sklearn.preprocessing import LabelEncoder
 from tabulate import tabulate
 import random
 from tkinter import messagebox
-from tkinter import *
+
 
 MODEL_LIST = ["GBT", "GBT", "GBT", "GBT", "KNN", "NN", "RF"]
 PREFIX = ["ACFM", "PEEM", "PEIM", "PSMTFIDF", "PMM", "ROM", "FOM"]
@@ -29,7 +28,7 @@ res = ""
 lat = ""
 
 
-def classify(report, WEIGHTS):
+def classify(report, weights):
     global res, decision, failed, lat, results, table
     results = {"ACFM": [], "PEEM": [], "PEIM": [], "PSMTFIDF": [], "PMM": [], "ROM": [], "FOM": []}
     failed = ""
@@ -42,7 +41,7 @@ def classify(report, WEIGHTS):
 
         # executor.map(lambda x: process_model(x, report), range(0, len(MODEL_LIST)))
         for x in range(0, len(MODEL_LIST)):
-            if float(WEIGHTS[PREFIX[x]]) > 0:
+            if float(weights[PREFIX[x]]) > 0:
                 executor.submit(process_model, x, report)
         
     print(results)
@@ -53,7 +52,7 @@ def classify(report, WEIGHTS):
     final = 0
     for att, val in results.items():
         if len(val) > 0:
-            final += float(WEIGHTS[att]) * val[0][1]
+            final += float(weights[att]) * val[0][1]
     print("FINAL: " + str(final))
     return table, 1 if final >= 0.5 else 0, final
 
@@ -66,7 +65,7 @@ def process_model(x, report):
         model = joblib.load(
             "Models/{}_{}_model.pkl".format(MODEL_LIST[x], PREFIX[x])
         )
-        preds = model.predict_proba(getFeatures(PREFIX[x], report))
+        preds = model.predict_proba(get_features(PREFIX[x], report))
         results[PREFIX[x]] = preds
         print('{:f} \t {:f}'.format(preds[0][0], preds[0][1]))
         tmp = [0, 0]
@@ -92,7 +91,7 @@ def process_model(x, report):
             res += "\n" + PREFIX[x] + ": \tB:" + b + "%\t M:" + m + "%\tTime: \t"+ t + " ms\t Result: " + des
             decision.append(des)
             table.append([PREFIX[x], b, m, t, des])
-    except Exception as e:
+    except Exception:
         failed += PREFIX[x] + "\n"
         res += "\n" + PREFIX[x] + ": Could not compute \tTime: \t"+ str(round((time.time() - start) * 1000, 4)) + " ms"
         table.append([PREFIX[x], "-", "-", str(round((time.time() - start) * 1000, 4)), "-"])
@@ -100,7 +99,7 @@ def process_model(x, report):
 
 
 
-def getFeatures(pre, data):
+def get_features(pre, data):
     if pre == "ACFM":
         features_labels = ["GetUserNameExW", "NtDuplicateObject", "NtOpenSection", "GetVolumePathNameW", "RegCloseKey", "GetNativeSystemInfo", "GetSystemInfo", "MoveFileWithProgressW", "CoUninitialize", "GetSystemWindowsDirectoryW", "NtQueryValueKey", "NtOpenProcess", "GetForegroundWindow", "GetFileAttributesW", "RegQueryValueExW", "NtFreeVirtualMemory", "GetVolumePathNamesForVolumeNameW", "NtMapViewOfSection", "NtCreateThreadEx", "RegEnumKeyW", "RegOpenKeyExW", "GetVolumeNameForVolumeMountPointW", "SetErrorMode", "NtResumeThread", "NtAllocateVirtualMemory", "RegOpenKeyExA", "DeleteFileW", "LdrGetDllHandle", "LdrUnloadDll", "ShellExecuteExW", "CoCreateInstance", "NtReadFile", "NtOpenFile", "GetFileSizeEx", "NtUnmapViewOfSection", "RegQueryInfoKeyW", "SetFilePointer", "GetSystemDirectoryW", "NtQueryDirectoryFile", "SHGetFolderPathW", "RegEnumKeyExW", "SetUnhandledExceptionFilter", "NtCreateFile", "GetFileAttributesExW", "GetSystemTimeAsFileTime", "FindFirstFileExW", "NtCreateMutant", "CoInitializeEx", "GetFileInformationByHandleEx", "NtCreateSection", "LoadStringW", "RegDeleteValueW", "NtOpenKey", "RegSetValueExW", "LdrGetProcedureAddress", "NtOpenThread", "CreateDirectoryW", "NtOpenDirectoryObject", "GetFileType", "LdrLoadDll", "NtTerminateProcess", "OleInitialize", "NtQueryInformationFile", "CreateProcessInternalW", "WriteConsoleW", "NtClose", "RegCreateKeyExW", "NtQueryKey", "RegQueryValueExA", "GetFileVersionInfoSizeW", "GetSystemMetrics", "RegEnumKeyExA", "CreateActCtxW", "GetFileSize", "CoGetClassObject", "CryptAcquireContextA", "CreateThread", "GlobalMemoryStatus", "GetSystemDirectoryA", "RegEnumValueW", "CoInitializeSecurity", "GetFileVersionInfoW", "GetBestInterfaceEx", "InternetOpenA", "WSAStartup", "RegCreateKeyExA", "GetAdaptersAddresses", "CopyFileW", "WriteProcessMemory", "InternetCloseHandle", "NtDelayExecution", "NtDeviceIoControlFile", "NtWriteFile", "CreateRemoteThread", "LoadStringA", "InternetReadFile", "__exception__", "NtQueryAttributesFile", "closesocket", "NtProtectVirtualMemory", "GetAddrInfoW", "setsockopt", "InternetOpenUrlA", "socket", "RegSetValueExA", "LookupPrivilegeValueW", "CoCreateInstanceEx", "IsDebuggerPresent", "IWbemServices_ExecQuery", "GetComputerNameW", "WriteConsoleA", "InternetCrackUrlW", "LookupAccountSidW", "GetComputerNameA", "EnumWindows", "FindWindowExW", "UuidCreate", "DrawTextExW", "FindResourceW", "SizeofResource", "FindResourceExW", "GetTempPathW", "GetTimeZoneInformation", "NtOpenMutant", "LoadResource", "SHGetSpecialFolderLocation", "SetFileTime", "SetFileAttributesW", "CryptProtectMemory", "NtQuerySystemInformation", "CryptAcquireContextW", "GlobalMemoryStatusEx", "SetEndOfFile", "CryptUnprotectMemory", "HttpOpenRequestA", "NtSetInformationFile", "NetShareEnum", "OpenServiceW", "InternetConnectA", "HttpSendRequestA", "OpenSCManagerW", "DeviceIoControl", "GetShortPathNameW", "RtlAddVectoredContinueHandler", "RtlAddVectoredExceptionHandler", "NtOpenKeyEx", "NtCreateKey", "MessageBoxTimeoutW", "NtEnumerateValueKey", "NtSetValueKey", "SearchPathW", "CryptEncrypt", "WSAConnect", "WSASocketW", "FindResourceA", "SendNotifyMessageW", "SetFilePointerEx", "FindWindowW", "RegDeleteKeyW", "GetKeyState", "GetCursorPos", "CreateToolhelp32Snapshot", "Process32NextW", "Process32FirstW", "GetUserNameA", "GetDiskFreeSpaceExW", "NtEnumerateKey", "OpenServiceA", "OpenSCManagerA", "NtQueryMultipleValueKey", "CryptExportKey", "HttpOpenRequestW", "InternetConnectW", "CryptGenKey", "GetUserNameW", "GetDiskFreeSpaceW", "HttpSendRequestW", "InternetOpenW", "getaddrinfo", "select", "send", "connect", "bind", "OutputDebugStringA", "FindWindowA", "GetFileInformationByHandle", "recv", "ioctlsocket", "gethostbyname", "CopyFileA", "NtReadVirtualMemory", "CryptCreateHash", "CryptHashData", "NtLoadDriver", "CopyFileExW", "ReadProcessMemory", "NtDeleteValueKey", "Module32FirstW", "Module32NextW", "NtGetContextThread", "SetWindowsHookExW", "GetAdaptersInfo", "MessageBoxTimeoutA", "FindWindowExA", "SetWindowsHookExA", "RemoveDirectoryW", "NtDeleteFile", "CryptDecodeObjectEx", "StartServiceW", "GetUserNameExA", "GetFileVersionInfoExW", "InternetGetConnectedState", "GetFileVersionInfoSizeExW", "InternetQueryOptionA", "CryptDecrypt", "timeGetTime", "DrawTextExA", "NtSetContextThread", "NtSuspendThread", "ControlService", "SetStdHandle", "RegisterHotKey", "CreateServiceW", "InternetSetOptionA", "InternetCrackUrlA", "GetAsyncKeyState", "NtDeleteKey", "FindResourceExA", "RegEnumValueA", "NetGetJoinInformation", "getsockname", "NtQueueApcThread", "listen", "accept", "NtTerminateThread", "Thread32Next", "Thread32First", "SetFileInformationByHandle", "EnumServicesStatusA", "__anomaly__", "UnhookWindowsHookEx", "ObtainUserAgentString", "StartServiceA", "IWbemServices_ExecMethod", "CryptProtectData", "EnumServicesStatusW", "sendto", "RtlDecompressBuffer", "CreateJobObjectW", "NetUserGetInfo", "DeleteService", "InternetSetStatusCallback", "CreateServiceA", "CertOpenStore", "CertControlStore", "SendNotifyMessageA", "RegQueryInfoKeyA", "SetInformationJobObject", "GetKeyboardState", "RemoveDirectoryA", "URLDownloadToFileW", "RegDeleteKeyA", "HttpQueryInfoA", "JsGlobalObjectDefaultEvalHelper", "CertOpenSystemStoreW", "RtlRemoveVectoredExceptionHandler", "NtWriteVirtualMemory", "DecryptMessage", "EncryptMessage", "shutdown", "DnsQuery_A", "DeleteUrlCacheEntryA", "CreateRemoteThreadEx", "RegDeleteValueA", "InternetOpenUrlW", "CryptUnprotectData", "system", "CertCreateCertificateContext", "AssignProcessToJobObject"]
         features = []
@@ -249,9 +248,9 @@ def getFeatures(pre, data):
                                     stats["create"].append(call["arguments"]["regkey"])
                                 try:
                                     stats["keys"].append(call["arguments"]["regkey"])
-                                except:
+                                except Exception:
                                     continue
-                            except:
+                            except Exception:
                                 continue
             persistant = 0
             backup = 0
@@ -361,10 +360,10 @@ def getFeatures(pre, data):
                             if "category" in call:
                                 if call["category"] == "file":
 
-                                    if "totalFileCategoryAPICalls" not in analysis_dictionary['stats']:
-                                        analysis_dictionary['stats']['totalFileCategoryAPICalls'] = 1
+                                    if "total_file_category_api_calls" not in analysis_dictionary['stats']:
+                                        analysis_dictionary['stats']['total_file_category_api_calls'] = 1
                                     else:
-                                        analysis_dictionary['stats']['totalFileCategoryAPICalls'] = analysis_dictionary['stats']['totalFileCategoryAPICalls'] + 1
+                                        analysis_dictionary['stats']['total_file_category_api_calls'] = analysis_dictionary['stats']['total_file_category_api_calls'] + 1
 
                                     if "api" in call:
 
@@ -397,33 +396,33 @@ def getFeatures(pre, data):
                             if 'arguments' in call:
                                 if 'filepath' in call['arguments']:
 
-                                    filePath = call['arguments']['filepath']
-                                    file = filePath.split('\\')[-1]
-                                    filePathExludingFileName = filePath.rsplit('\\', 1)[0]
-                                    fileSplit = file.split('.')
-                                    if len(fileSplit) >= 2:
-                                        fileName = ''.join(fileSplit[:-1]) 
-                                        fileExtension = fileSplit[-1]
+                                    file_path = call['arguments']['filepath']
+                                    file = file_path.split('\\')[-1]
+                                    file_path_exluding_file_name = file_path.rsplit('\\', 1)[0]
+                                    file_split = file.split('.')
+                                    if len(file_split) >= 2:
+                                        file_name = ''.join(file_split[:-1]) 
+                                        file_extension = file_split[-1]
 
-                                        if fileName not in analysis_dictionary['uniqueFiles']:
-                                            analysis_dictionary['uniqueFiles'][fileName] = 1
+                                        if file_name not in analysis_dictionary['uniqueFiles']:
+                                            analysis_dictionary['uniqueFiles'][file_name] = 1
                                             analysis_dictionary['uniqueFilesTotal'] = analysis_dictionary['uniqueFilesTotal'] + 1
                                         else:
-                                            analysis_dictionary['uniqueFiles'][fileName] = analysis_dictionary['uniqueFiles'][fileName] +1
+                                            analysis_dictionary['uniqueFiles'][file_name] = analysis_dictionary['uniqueFiles'][file_name] +1
                                             analysis_dictionary['uniqueFilesTotal'] = analysis_dictionary['uniqueFilesTotal'] + 1
 
-                                        if fileExtension not in analysis_dictionary['uniqueFileExtensions']:
-                                            analysis_dictionary['uniqueFileExtensions'][fileExtension] = 1
+                                        if file_extension not in analysis_dictionary['uniqueFileExtensions']:
+                                            analysis_dictionary['uniqueFileExtensions'][file_extension] = 1
                                             analysis_dictionary['uniqueFileExtensionsTotal'] = analysis_dictionary['uniqueFileExtensionsTotal'] + 1
                                         else:
-                                            analysis_dictionary['uniqueFileExtensions'][fileExtension] = analysis_dictionary['uniqueFileExtensions'][fileExtension] +1
+                                            analysis_dictionary['uniqueFileExtensions'][file_extension] = analysis_dictionary['uniqueFileExtensions'][file_extension] +1
                                             analysis_dictionary['uniqueFileExtensionsTotal'] = analysis_dictionary['uniqueFileExtensionsTotal'] + 1
 
-                                        if filePathExludingFileName not in analysis_dictionary['uniqueFileLocations']:
-                                            analysis_dictionary['uniqueFileLocations'][filePathExludingFileName] = 1
+                                        if file_path_exluding_file_name not in analysis_dictionary['uniqueFileLocations']:
+                                            analysis_dictionary['uniqueFileLocations'][file_path_exluding_file_name] = 1
                                             analysis_dictionary['uniqueFileLocationsTotal'] = analysis_dictionary['uniqueFileLocationsTotal'] + 1
                                         else:
-                                            analysis_dictionary['uniqueFileLocations'][filePathExludingFileName] = analysis_dictionary['uniqueFileLocations'][filePathExludingFileName] +1
+                                            analysis_dictionary['uniqueFileLocations'][file_path_exluding_file_name] = analysis_dictionary['uniqueFileLocations'][file_path_exluding_file_name] +1
                                             analysis_dictionary['uniqueFileLocationsTotal'] = analysis_dictionary['uniqueFileLocationsTotal'] + 1
 
                             # ***********************************************************************************
@@ -431,9 +430,9 @@ def getFeatures(pre, data):
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        totalFileCategoryAPICalls = 0 if "totalFileCategoryAPICalls" not in analysis_dictionary['stats'] else analysis_dictionary['stats']['totalFileCategoryAPICalls']
+        total_file_category_api_calls = 0 if "total_file_category_api_calls" not in analysis_dictionary['stats'] else analysis_dictionary['stats']['total_file_category_api_calls']
 
-        knownExtensions = {
+        known_extensions = {
             "documents": [".123",".602",".abw",".accdb",".doc",".docm",".docx",".dot",".dotm",".dotx",".eps",".fb2",".htm",".html",".lrf",".mobi",".odc",".odf",".odg",".odi",".odm",".odp",".ods",".odt",".otg",".oth",".otp",".ots",".ott",".pdb",".pdf",".pot",".potm",".potx",".pps",".ppsx",".ppt",".pptm",".pptx",".ps",".pub",".qpw",".rtf",".sdc",".sdd",".sdw",".sgml",".sla",".slk",".stw",".sxg",".sxi",".sxm",".sxw",".txt",".uop",".uot",".uof",".wdb",".wks",".wpd",".wps",".xhtml",".xml",".xps",".xwp",".csv",".tsv",".ods",".xls",".xlsm",".xlsx",".xlt",".xltm",".xltx",".ods",".numbers",".odg",".pub",".md",".epub",".key",".odt",".sxi",".tex",".wpd",".pages",".txt",".rtf"],
             "images": [".ai",".bmp",".cdr",".cmx",".djvu",".eps",".gif",".ico",".jpeg",".jpg",".png",".ps",".psd",".svg",".tif",".tiff",".wmf",".xbm",".xpm",".webp",".tga",".dds",".j2k",".jfif",".jif",".jpe",".jfif-tbnl",".jpeg-tbnl",".jpg-tbnl",".jpe-tbnl",".jpg-large",".png-large",".webp-large",".gif-large",".jpeg-large",".jpg-large",".raw"],
             "videos": [".3g2",".3gp",".amv",".asf",".avi",".drc",".flv",".flv",".flv",".flv",".flv",".gifv",".m2v",".m4p",".m4v",".mkv",".mkv",".mng",".mov",".mp2",".mp4",".mpe",".mpeg",".mpg",".mpv",".mvv",".ogv",".qt",".rm",".rmvb",".roq",".srt",".svi",".swf",".vob",".webm",".wmv",".yuv"],
@@ -476,10 +475,10 @@ def getFeatures(pre, data):
                 else:
                     analysis_dictionary["fileLocationCounter"]["Other"] = analysis_dictionary["fileLocationCounter"]["Other"] + analysis_dictionary['uniqueFileLocations'][val]
 
-        timeDiff = 0
+        time_diff = 0
         if "timeOfCall" in analysis_dictionary["stats"]:
             analysis_dictionary["stats"]["timeOfCall"].sort()
-            timeDiff = analysis_dictionary["stats"]["timeOfCall"][-1] - analysis_dictionary["stats"]["timeOfCall"][1]
+            time_diff = analysis_dictionary["stats"]["timeOfCall"][-1] - analysis_dictionary["stats"]["timeOfCall"][1]
 
         analysis_dictionary["fileExtensionsCounter"] = {
             "documents": 0,
@@ -500,31 +499,31 @@ def getFeatures(pre, data):
 
         if "uniqueFileExtensions" in analysis_dictionary:
             for val in analysis_dictionary['uniqueFileExtensions']:
-                if "."+val in knownExtensions['documents']:
+                if "."+val in known_extensions['documents']:
                     analysis_dictionary["fileExtensionsCounter"]["documents"] = analysis_dictionary["fileExtensionsCounter"]["documents"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['images']:
+                elif "."+val in known_extensions['images']:
                     analysis_dictionary["fileExtensionsCounter"]["images"] = analysis_dictionary["fileExtensionsCounter"]["images"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['videos']:
+                elif "."+val in known_extensions['videos']:
                     analysis_dictionary["fileExtensionsCounter"]["videos"] = analysis_dictionary["fileExtensionsCounter"]["videos"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['audio']:
+                elif "."+val in known_extensions['audio']:
                     analysis_dictionary["fileExtensionsCounter"]["audio"] = analysis_dictionary["fileExtensionsCounter"]["audio"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['databases']:
+                elif "."+val in known_extensions['databases']:
                     analysis_dictionary["fileExtensionsCounter"]["databases"] = analysis_dictionary["fileExtensionsCounter"]["databases"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['archives']:
+                elif "."+val in known_extensions['archives']:
                     analysis_dictionary["fileExtensionsCounter"]["archives"] = analysis_dictionary["fileExtensionsCounter"]["archives"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['executable']:
+                elif "."+val in known_extensions['executable']:
                     analysis_dictionary["fileExtensionsCounter"]["executable"] = analysis_dictionary["fileExtensionsCounter"]["executable"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['system']:
+                elif "."+val in known_extensions['system']:
                     analysis_dictionary["fileExtensionsCounter"]["system"] = analysis_dictionary["fileExtensionsCounter"]["system"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['backup']:
+                elif "."+val in known_extensions['backup']:
                     analysis_dictionary["fileExtensionsCounter"]["backup"] = analysis_dictionary["fileExtensionsCounter"]["backup"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['virtualMachine']:
+                elif "."+val in known_extensions['virtualMachine']:
                     analysis_dictionary["fileExtensionsCounter"]["virtualMachine"] = analysis_dictionary["fileExtensionsCounter"]["virtualMachine"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['email']:
+                elif "."+val in known_extensions['email']:
                     analysis_dictionary["fileExtensionsCounter"]["email"] = analysis_dictionary["fileExtensionsCounter"]["email"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['games']:
+                elif "."+val in known_extensions['games']:
                     analysis_dictionary["fileExtensionsCounter"]["games"] = analysis_dictionary["fileExtensionsCounter"]["games"] + analysis_dictionary['uniqueFileExtensions'][val]
-                elif "."+val in knownExtensions['development']:
+                elif "."+val in known_extensions['development']:
                     analysis_dictionary["fileExtensionsCounter"]["development"] = analysis_dictionary["fileExtensionsCounter"]["development"] + analysis_dictionary['uniqueFileExtensions'][val]
                 else:
                     analysis_dictionary["fileExtensionsCounter"]["unknown"] = analysis_dictionary["fileExtensionsCounter"]["unknown"] + analysis_dictionary['uniqueFileExtensions'][val]
@@ -582,7 +581,7 @@ def getFeatures(pre, data):
 
         F1_totalAPICalls = 0 if "totalAPICalls" not in analysis_dictionary['stats'] else analysis_dictionary['stats']['totalAPICalls']
 
-        F2_percentageOfFileAPICalls = 0 if F1_totalAPICalls == 0 else round((totalFileCategoryAPICalls / F1_totalAPICalls) * 100)
+        F2_percentageOfFileAPICalls = 0 if F1_totalAPICalls == 0 else round((total_file_category_api_calls / F1_totalAPICalls) * 100)
 
         if "uniqueFiles" in analysis_dictionary and "uniqueFilesTotal" in analysis_dictionary and analysis_dictionary['uniqueFilesTotal'] != 0:
             F4_percentageOfUniqueFilesTouched = round((len(analysis_dictionary['uniqueFiles']) / analysis_dictionary['uniqueFilesTotal']) * 100)
@@ -600,8 +599,8 @@ def getFeatures(pre, data):
             F7_6_percentgeOfFileExtensionExe = 0 if 'exe' not in analysis_dictionary['uniqueFileExtensions'] else round((analysis_dictionary['uniqueFileExtensions']['exe'] / analysis_dictionary['uniqueFileExtensionsTotal']) * 100)
             F7_7_percentageOfFileExtensionDll = 0 if 'dll' not in analysis_dictionary['uniqueFileExtensions'] else round((analysis_dictionary['uniqueFileExtensions']['dll'] / analysis_dictionary['uniqueFileExtensionsTotal']) * 100)
 
-        if "stats" in analysis_dictionary and "timeOfCall" in analysis_dictionary["stats"] and timeDiff != 0:
-            F9_APICallsPerSecond = round((len(analysis_dictionary["stats"]["timeOfCall"]) / timeDiff))
+        if "stats" in analysis_dictionary and "timeOfCall" in analysis_dictionary["stats"] and time_diff != 0:
+            F9_APICallsPerSecond = round((len(analysis_dictionary["stats"]["timeOfCall"]) / time_diff))
 
         if "fileExtensionsCounter" in analysis_dictionary and "uniqueFileExtensionsTotal" in analysis_dictionary and analysis_dictionary['uniqueFileExtensionsTotal'] != 0:
             F10_percentageOfPotentialCustomExtensionsUsed = round((analysis_dictionary["fileExtensionsCounter"]["unknown"] / analysis_dictionary['uniqueFileExtensionsTotal']) * 100)
@@ -645,7 +644,7 @@ def getFeatures(pre, data):
             try:
                 strings = " ".join([s.replace('\n', ' ').replace(',', ' ') for s in data["strings"]])
                 features.append(strings)
-            except:
+            except Exception:
                 features.append(["Key error"])  
         vectorizer = joblib.load("Models/{}_model.pkl".format("TFIDF"))
         features = vectorizer.transform(features)
@@ -656,24 +655,6 @@ def getFeatures(pre, data):
     return pd.DataFrame()
 
 
-
-# def fitness_function(weights, models, X, y):
-#     combined_predictions = np.zeros_like(y, dtype=float)
-#     for i, model in enumerate(models):
-#         for r in range(0, len(X[i])):
-#             try:
-#                 combined_predictions[r] += weights[i] * model.predict(X[i][r])
-
-#             except Exception as e:
-#                 print(f"Error in model {i} for sample {r}: {e}")
-#                 print(traceback.print_exc())
-#                 continue
-#         # combined_predictions[i] /= len(X[i])
-    
-#     accuracy = np.mean(np.round(combined_predictions) == y)
-#     # print("Accuracy: " + str(accuracy) + " len: " + str(len(combined_predictions)))
-#     # print(combined_predictions)
-    # return accuracy
 
 def fitness_function(weights, models, X, y):
     combined_predictions = np.zeros_like(y, dtype=float)
@@ -694,7 +675,7 @@ def fitness_function(weights, models, X, y):
                 print(f"Error in model {i} for sample {r}: {e}")
                 print(traceback.print_exc())
                 continue
- 
+
     final_predictions = np.round(combined_predictions)
 
     accuracy = np.mean(final_predictions == y)
@@ -734,7 +715,7 @@ class GeneticAlgorithm:
             best_solution = self.population[np.argmax(fitness_scores)]
             print(f"Generation {generation+1}: Best fitness = {max(fitness_scores)}, Best weights = {best_solution}")
             self.output.set(f"Generation {generation+1}: Best fitness = {max(fitness_scores)}, Best weights = {best_solution}")
-        print(f"\n\nTHE BESTEST WEIGHTS: {best_solution}")
+        print(f"\n\nTHE BESTEST weights: {best_solution}")
         return best_solution
 
     def selection(self, fitness_scores):
@@ -772,7 +753,7 @@ def optimize_weights(weights, reports, classifications, out, window):
         tmp = []
         for r in reports:
             try:
-                feat = getFeatures(PREFIX[x], r)
+                feat = get_features(PREFIX[x], r)
                 if feat.shape[0] == 0:
                     print("FEATURES EMPTY: " + PREFIX[x] + " " + r["target"]["file"]["name"])
                     out.set(out.get() + "\nFEATURES EMPTY: " + PREFIX[x] + " " + r["target"]["file"]["name"])
@@ -795,26 +776,28 @@ def optimize_weights(weights, reports, classifications, out, window):
 
 
 # +======================= TEST GA ++++++++++++++++
-# weights = {
-#     "ACFM": 1/7.0,
-#     "PEEM": 1/7.0,
-#     "PEIM": 1/7.0,
-#     "PSMTFIDF": 1/7.0,
-#     "PMM": 1/7.0,
-#     "ROM": 1/7.0,
-#     "FOM": 1/7.0
-# }
-# reports = []
-# classifications = []
-# import os
-# import json 
-# for dirpath, dirnames, filenames in os.walk("C:\\Users\\u14043778.UP\Downloads\\reports\\Reports"):
-#     for filename in filenames:
-#         if filename.endswith(".json"):
-#             print(os.path.join(dirpath, filename))
-#             f = open(os.path.join(dirpath, filename), 'r')
-#             reports.append(json.loads(f.read()))
-#             classifications.append(0 if filename[0] == 'B' else 1)
-#             f.close()
-#             del f
-# optimize_weights(weights=weights, reports=reports, classifications=classifications)
+def test_GA():
+    weights = {
+        "ACFM": 1/7.0,
+        "PEEM": 1/7.0,
+        "PEIM": 1/7.0,
+        "PSMTFIDF": 1/7.0,
+        "PMM": 1/7.0,
+        "ROM": 1/7.0,
+        "FOM": 1/7.0
+    }
+    reports = []
+    classifications = []
+    import os
+    import json 
+    reports_dir = "C:\\Users\\XXXXX\Downloads\\reports\\Reports"
+    for dirpath, dirnames, filenames in os.walk(reports_dir):
+        for filename in filenames:
+            if filename.endswith(".json"):
+                print(os.path.join(dirpath, filename))
+                f = open(os.path.join(dirpath, filename), 'r')
+                reports.append(json.loads(f.read()))
+                classifications.append(0 if filename[0] == 'B' else 1)
+                f.close()
+                del f
+    optimize_weights(weights=weights, reports=reports, classifications=classifications)
