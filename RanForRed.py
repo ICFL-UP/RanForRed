@@ -1096,7 +1096,6 @@ def remove_seen():
 
 def test():
     global IP
-    IP = "http://" + IP
     requests.get(IP + "/tasks/report/150")
 
 
@@ -1129,7 +1128,7 @@ def securers_store(task_id, entry, filename, meta):
     if "http" not in IPS:
         IPS = "https://" + IPS
     r = requests.post(
-        IPS + "/pde/add/", data=data, headers=headers, files=files, verify=False
+        IPS + "/pde/add/", data=data, headers=headers, files=files,
     )
 
     print(r.text)
